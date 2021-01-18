@@ -13,6 +13,6 @@ class IconLanguage extends StatelessWidget {
           height: 30,
         ),
         onPressed: () =>
-            NavigationManager(context).openScreen(SelectLanguageScreen()));
+            NavigationManager(context).openScreenAsNew(SelectLanguageScreen()));
   }
 }
