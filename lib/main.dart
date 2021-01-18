@@ -22,7 +22,7 @@ void main() async {
 
   var delegate = await LocalizationDelegate.create(
       fallbackLocale: 'en',
-      supportedLocales: ['en', 'fr', 'ar', 'sw'],
+      supportedLocales: ['en', 'es'],
       basePath: 'locale/i18n');
 
   runApp(LocalizedApp(delegate, MyApp()));
