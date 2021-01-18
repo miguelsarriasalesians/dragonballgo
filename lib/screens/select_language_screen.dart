@@ -42,9 +42,7 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
                 ),
               ),
               getButton('language_english', 'en'),
-              getButton('language_french', 'fr'),
-              getButton('language_swahili', 'sw'),
-              getButton('language_arabic', 'ar'),
+              getButton('language_spanish', 'es'),
               Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: AppButton(
@@ -76,18 +74,10 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
           print("changing to english");
           saveLanguage('en');
           selectedLocale = new Locale('en', '');
-        } else if (languageCode == 'fr') {
-          print("changing to french");
-          saveLanguage('fr');
-          selectedLocale = new Locale('fr', '');
-        } else if (languageCode == 'sw') {
-          print("changing to swahali");
-          saveLanguage('sw');
-          selectedLocale = new Locale('sw', '');
-        } else if (languageCode == 'ar') {
-          print("changing to arabic");
-          saveLanguage('ar');
-          selectedLocale = new Locale('ar', '');
+        } else if (languageCode == 'es') {
+          print("changing to spanish");
+          saveLanguage('es');
+          selectedLocale = new Locale('es', '');
         }
         localizationDelegate.changeLocale(selectedLocale);
         Future.delayed(new Duration(seconds: 1), () {
