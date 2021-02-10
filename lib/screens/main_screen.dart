@@ -2,6 +2,7 @@ import 'package:dragonballgo/resources/dimens.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/screens/getting_started_screen.dart';
 import 'package:dragonballgo/screens/information_screen.dart';
+import 'package:dragonballgo/screens/login_screen.dart';
 import 'package:dragonballgo/screens/profile_screen.dart';
 import 'package:dragonballgo/screens/reports_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,6 @@ class _MainScreenState extends State<MainScreen> {
     GettingStartedScreen(),
     ReportsScreen(),
     InformationScreen(),
-    ProfileScreen()
   ];
 
   @override
@@ -40,10 +40,6 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.assignment),
             label: translate("reports"),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info_outline_rounded),
-            label: translate("information"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

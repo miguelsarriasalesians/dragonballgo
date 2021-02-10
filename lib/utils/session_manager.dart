@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:dragonballgo/resources/shared_preferences_consts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dragonballgo/models/user.dart';
 
 class SessionManager {
   Future<String> getCountry() async {
@@ -11,5 +14,11 @@ class SessionManager {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(SharedPreferencesConsts.COUNTRY, country);
     print('Country saved succesfully');
+  }
+
+  setUser(User user) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(SharedPreferencesConsts.USER, jsonEncode(user));
+    print('User saved');
   }
 }

@@ -1,3 +1,4 @@
+import 'package:dragonballgo/screens/login_screen.dart';
 import 'package:dragonballgo/screens/main_screen.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,6 +44,11 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
+        initialRoute: '/',
+        routes: {
+          '/': (context) => LoginScreen(),
+          '/home': (context) => MainScreen()
+        },
         localizationsDelegates: [
           localizationDelegate,
           GlobalMaterialLocalizations.delegate,
@@ -54,9 +60,8 @@ class MyApp extends StatelessWidget {
             : new Locale(prefLanguageCode, ''),
         theme: ThemeData(
             appBarTheme: AppBarTheme(brightness: Brightness.light),
-            // primaryColor: Colors.white,
-            // accentColor: Colors.blue,
-            accentColorBrightness: Brightness.light),
-        home: MainScreen());
+            primaryColor: Colors.white,
+            accentColor: Colors.blue,
+            accentColorBrightness: Brightness.light));
   }
 }
