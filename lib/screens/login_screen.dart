@@ -30,14 +30,16 @@ class LoginScreen extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Image(image: AssetImage('assets/images/logo.png')),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                    child: Image(image: AssetImage('assets/images/logo.png'))),
                 Padding(
                   child: Text(
                     translate('login_screen_title'),
                     style: TextStyle(
                         fontFamily: "Rozanova",
                         color: mainColor,
-                        fontSize: 40,
+                        fontSize: 30,
                         fontWeight: FontWeight.bold),
                     textAlign: TextAlign.left,
                   ),
@@ -57,7 +59,7 @@ class LoginScreen extends StatelessWidget {
                       TextInputType.visiblePassword),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 ),
-                FlatButton(),
+                SizedBox(height: 20,),
                 Padding(
                   child: SizedBox(
                     width: double.infinity,
@@ -95,11 +97,15 @@ class LoginScreen extends StatelessWidget {
   Widget _buildInput(BuildContext context, String label, FocusNode node,
           TextEditingController controller, TextInputType type) =>
       TextFormField(
+        textAlign: TextAlign.center,
         focusNode: node,
         controller: controller,
         obscureText: type == TextInputType.visiblePassword ? true : false,
         decoration: InputDecoration(
-          labelText: label,
+          hintStyle: TextStyle(
+            letterSpacing: 1.5,
+          ),
+          hintText: label,
           focusColor: Colors.black,
           fillColor: Colors.black,
           border: OutlineInputBorder(
