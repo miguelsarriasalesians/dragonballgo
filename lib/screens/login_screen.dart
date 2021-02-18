@@ -1,11 +1,8 @@
 import 'package:dragonballgo/models/user.dart';
-import 'package:dragonballgo/resources/palette_colors.dart';
+import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:dragonballgo/provider/api.dart';
-import 'package:http/http.dart' as http;
-import 'package:dragonballgo/utils/navigation_manager.dart';
 
 class LoginScreen extends StatelessWidget {
   final emailController = TextEditingController();
@@ -29,60 +26,69 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: Column(
-          children: [
-            Image(image: AssetImage('assets/images/logo.png')),
-            Padding(
-              child: Text(
-                translate('login_screen_title'),
-                style: TextStyle(
-                    fontFamily: "Rozanova",
-                    color: mainColor,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left,
-              ),
-              padding: EdgeInsets.all(10),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Image(image: AssetImage('assets/images/logo.png')),
+                Padding(
+                  child: Text(
+                    translate('login_screen_title'),
+                    style: TextStyle(
+                        fontFamily: "Rozanova",
+                        color: mainColor,
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.left,
+                  ),
+                  padding: EdgeInsets.all(10),
+                ),
+                Padding(
+                  child: _buildInput(context, translate("email"), emailNode,
+                      emailController, TextInputType.emailAddress),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                ),
+                Padding(
+                  child: _buildInput(
+                      context,
+                      translate("password"),
+                      passwordNode,
+                      passwordController,
+                      TextInputType.visiblePassword),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                ),
+                FlatButton(),
+                Padding(
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(primary: mainColor),
+                        onPressed: () {
+                          print("lol");
+                          login(context);
+                        },
+                        child: Text(translate("login_screen_title"))),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                ),
+                Padding(
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Color(0x00000000)),
+                        onPressed: () {},
+                        child: Text(translate("register"))),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                ),
+              ],
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
             ),
-            Padding(
-              child: _buildInput(context, translate("email"), emailNode,
-                  emailController, TextInputType.emailAddress),
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            ),
-            Padding(
-              child: _buildInput(context, translate("password"), passwordNode,
-                  passwordController, TextInputType.visiblePassword),
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            ),
-            FlatButton(),
-            Padding(
-              child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: mainColor),
-                    onPressed: () {
-                      print("lol");
-                      login(context);
-                    },
-                    child: Text(translate("login_screen_title"))),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            ),
-            Padding(
-              child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Color(0x00000000)),
-                    onPressed: () {},
-                    child: Text(translate("register"))),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            ),
-          ],
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          ),
         ),
       );
 
