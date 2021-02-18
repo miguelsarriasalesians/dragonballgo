@@ -5,10 +5,13 @@ class User {
 
   User(this.email, this.name, this.birthdate);
 
-  User.fromJson(Map<String, dynamic> json)
-      : name = json['name'],
-        email = json['email'],
-        birthdate = json['birthdate'];
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      json['email'],
+      json['name'],
+      json['birthdate'],
+    );
+  }
 
   Map<String, dynamic> toJson() =>
       {'email': email, 'name': name, 'birthdate': birthdate};

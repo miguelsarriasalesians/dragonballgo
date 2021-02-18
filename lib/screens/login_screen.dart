@@ -1,97 +1,113 @@
+import 'package:dragonballgo/models/user.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
+import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:dragonballgo/provider/api.dart';
 import 'package:http/http.dart' as http;
+import 'package:dragonballgo/utils/navigation_manager.dart';
 
 class LoginScreen extends StatelessWidget {
   final emailController = TextEditingController();
+  final emailNode = FocusNode();
   final passwordController = TextEditingController();
-
-  final ApiCalls _api = new ApiCalls();
+  final passwordNode = FocusNode();
 
   final mainColor = Color.fromARGB(255, 227, 0, 45);
 
+  final SessionManager _sm = new SessionManager();
+
+  void login(BuildContext context) {
+    print("hoola");
+    FetchLogin(emailController.text, passwordController.text).then((val) {
+      if (val is User) {
+        _sm.setUser(val);
+        Navigator.pushNamed(context, '/home');
+      }
+    });
+  }
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      /* appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          translate('login_screen_title'),
-          style: TextStyle(
-            color: PaletteColors.TEXT_BUTTON,
+  Widget build(BuildContext context) => Scaffold(
+        body: Column(
+          children: [
+            Image(image: AssetImage('assets/images/logo.png')),
+            Padding(
+              child: Text(
+                translate('login_screen_title'),
+                style: TextStyle(
+                    fontFamily: "Rozanova",
+                    color: mainColor,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold),
+                textAlign: TextAlign.left,
+              ),
+              padding: EdgeInsets.all(10),
+            ),
+            Padding(
+              child: _buildInput(context, translate("email"), emailNode,
+                  emailController, TextInputType.emailAddress),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            ),
+            Padding(
+              child: _buildInput(context, translate("password"), passwordNode,
+                  passwordController, TextInputType.visiblePassword),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            ),
+            FlatButton(),
+            Padding(
+              child: SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: mainColor),
+                    onPressed: () {
+                      print("lol");
+                      login(context);
+                    },
+                    child: Text(translate("login_screen_title"))),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            ),
+            Padding(
+              child: SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: Color(0x00000000)),
+                    onPressed: () {},
+                    child: Text(translate("register"))),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            ),
+          ],
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+        ),
+      );
+
+  Widget _buildInput(BuildContext context, String label, FocusNode node,
+          TextEditingController controller, TextInputType type) =>
+      TextFormField(
+        focusNode: node,
+        controller: controller,
+        obscureText: type == TextInputType.visiblePassword ? true : false,
+        decoration: InputDecoration(
+          labelText: label,
+          focusColor: Colors.black,
+          fillColor: Colors.black,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: BorderSide(),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.blueAccent, width: 2.0),
+            borderRadius: BorderRadius.circular(25.0),
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      ), */
-      body: Column(
-        children: [
-          Image(image: AssetImage('assets/images/logo.png')),
-          Padding(
-            child: Text(
-              translate('login_screen_title'),
-              style: TextStyle(
-                  fontFamily: "Rozanova",
-                  color: mainColor,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold),
-              textAlign: TextAlign.left,
-            ),
-            padding: EdgeInsets.all(10),
-          ),
-          Padding(
-            child: TextField(
-              controller: emailController,
-              obscureText: false,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: translate('email'),
-              ),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          ),
-          Padding(
-            child: TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: translate('password'),
-              ),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          ),
-          Padding(
-            child: SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: mainColor),
-                  onPressed: () async {
-                    final response = await http.post(
-                        'http://ec2-13-36-28-3.eu-west-3.compute.amazonaws.com:4000/auth/login/');
-                    print(response.statusCode);
-                  },
-                  child: Text(translate("login_screen_title"))),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          ),
-          Padding(
-            child: SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: Color(0x00000000)),
-                  onPressed: () {},
-                  child: Text(translate("register"))),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          ),
-        ],
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-      ),
-    );
-  }
+        keyboardType: type,
+        style: new TextStyle(
+            fontFamily: "Poppins",
+            color: node.hasFocus ? Colors.blueAccent : Colors.grey),
+      );
 }

@@ -16,6 +16,11 @@ class SessionManager {
     print('Country saved succesfully');
   }
 
+  Future<User> getUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return jsonDecode(prefs.getString(SharedPreferencesConsts.USER));
+  }
+
   setUser(User user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(SharedPreferencesConsts.USER, jsonEncode(user));
