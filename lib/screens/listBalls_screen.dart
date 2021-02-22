@@ -18,7 +18,6 @@ class ListBallsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(child: BallsBar()),
-      //BallContainer(Colors.grey),
     );
   }
 }
