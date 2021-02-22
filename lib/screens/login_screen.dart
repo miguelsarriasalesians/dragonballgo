@@ -3,28 +3,41 @@ import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:dragonballgo/provider/api.dart';
-import 'package:http/http.dart' as http;
-import 'package:dragonballgo/utils/navigation_manager.dart';
+import 'package:dragonballgo/provider/service.dart';
+import 'package:dragonballgo/screens/main_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   final emailController = TextEditingController();
   final emailNode = FocusNode();
   final passwordController = TextEditingController();
   final passwordNode = FocusNode();
+  final provider = new ApiProvider();
 
   final mainColor = Color.fromARGB(255, 227, 0, 45);
 
   final SessionManager _sm = new SessionManager();
 
-  void login(BuildContext context) {
-    print("hoola");
-    FetchLogin(emailController.text, passwordController.text).then((val) {
-      if (val is User) {
-        _sm.setUser(val);
-        Navigator.pushNamed(context, '/home');
-      }
-    });
+  String errMessage;
+
+  void login(BuildContext context) async {
+    final res =
+        await provider.postLogin(emailController.text, passwordController.text);
+    switch (res.statusCode) {
+      case 200:
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MainScreen()));
+        break;
+      case 401:
+        showSnackBar(context, "Subnormal no tienes cuenta");
+        break;
+      default:
+        showSnackBar(context, 'Unknown error. Code ${res.statusCode}');
+        break;
+    }
+  }
+
+  void showSnackBar(BuildContext context, String content) {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(content)));
   }
 
   @override
@@ -54,7 +67,6 @@ class LoginScreen extends StatelessWidget {
                   passwordController, TextInputType.visiblePassword),
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             ),
-            FlatButton(),
             Padding(
               child: SizedBox(
                 width: double.infinity,
@@ -62,7 +74,6 @@ class LoginScreen extends StatelessWidget {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(primary: mainColor),
                     onPressed: () {
-                      print("lol");
                       login(context);
                     },
                     child: Text(translate("login_screen_title"))),
@@ -75,7 +86,6 @@ class LoginScreen extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(primary: Color(0x00000000)),
-                    onPressed: () {},
                     child: Text(translate("register"))),
               ),
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
