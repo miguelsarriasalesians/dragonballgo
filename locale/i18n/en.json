@@ -13,6 +13,8 @@
   "information": "Information",
   "profile": "Profile",
   "login_screen_title": "Login",
+  "register_screen_title": "Register",
+
   "register": "Register",
   "email": "Enter your email",
   "password": "Enter your Password",
