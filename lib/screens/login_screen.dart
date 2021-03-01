@@ -46,20 +46,28 @@ class LoginScreen extends StatelessWidget {
                   padding: EdgeInsets.all(10),
                 ),
                 Padding(
-                  child: _buildInput(context, translate("email"), emailNode,
-                      emailController, TextInputType.emailAddress),
+                  child: CustomTextField(
+                    context: context,
+                    label: translate("email"),
+                    node: emailNode,
+                    controller: emailController,
+                    type: TextInputType.emailAddress,
+                  ),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 ),
                 Padding(
-                  child: _buildInput(
-                      context,
-                      translate("password"),
-                      passwordNode,
-                      passwordController,
-                      TextInputType.visiblePassword),
+                  child: CustomTextField(
+                    context: context,
+                    label: translate("password"),
+                    node: passwordNode,
+                    controller: passwordController,
+                    type: TextInputType.visiblePassword,
+                  ),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 Padding(
                   child: SizedBox(
                     width: double.infinity,
@@ -96,30 +104,51 @@ class LoginScreen extends StatelessWidget {
 
   Widget _buildInput(BuildContext context, String label, FocusNode node,
           TextEditingController controller, TextInputType type) =>
-      TextFormField(
-        textAlign: TextAlign.center,
-        focusNode: node,
-        controller: controller,
-        obscureText: type == TextInputType.visiblePassword ? true : false,
-        decoration: InputDecoration(
-          hintStyle: TextStyle(
-            letterSpacing: 1.5,
-          ),
-          hintText: label,
-          focusColor: Colors.black,
-          fillColor: Colors.black,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25.0),
-            borderSide: BorderSide(),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.blueAccent, width: 2.0),
-            borderRadius: BorderRadius.circular(25.0),
-          ),
+      CustomTextField();
+}
+
+class CustomTextField extends StatefulWidget {
+  BuildContext context;
+  String label;
+  FocusNode node;
+  TextEditingController controller;
+  TextInputType type;
+
+  CustomTextField(
+      {this.context, this.label, this.node, this.controller, this.type});
+
+  @override
+  _CustomTextFieldState createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      textAlign: TextAlign.center,
+      focusNode: widget.node,
+      controller: widget.controller,
+      obscureText: widget.type == TextInputType.visiblePassword ? true : false,
+      decoration: InputDecoration(
+        hintStyle: TextStyle(
+          letterSpacing: 1.5,
         ),
-        keyboardType: type,
-        style: new TextStyle(
-            fontFamily: "Poppins",
-            color: node.hasFocus ? Colors.blueAccent : Colors.grey),
-      );
+        hintText: widget.label,
+        focusColor: Colors.black,
+        fillColor: Colors.black,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: BorderSide(),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.blueAccent, width: 2.0),
+          borderRadius: BorderRadius.circular(25.0),
+        ),
+      ),
+      keyboardType: widget.type,
+      style: new TextStyle(
+          fontFamily: "Poppins",
+          color: widget.node.hasFocus ? Colors.blueAccent : Colors.grey),
+    );
+  }
 }
