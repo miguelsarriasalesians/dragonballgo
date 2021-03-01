@@ -16,11 +16,25 @@ class LoginScreen extends StatelessWidget {
   final SessionManager _sm = new SessionManager();
 
   void login(BuildContext context) {
-    print("hoola");
     FetchLogin(emailController.text, passwordController.text).then((val) {
-      if (val is User) {
-        _sm.setUser(val);
+      if (val == 200)
         Navigator.pushNamed(context, '/home');
+      else {
+        var text;
+        switch (val) {
+          case 400:
+            text = "Falten dades a la petició";
+            break;
+          case 401:
+            text = "Usuari/contrasenya incorrecte";
+            break;
+          case 500:
+            text = "Error intern";
+            break;
+          default:
+            text = "Error";
+        }
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
       }
     });
   }
@@ -76,7 +90,6 @@ class LoginScreen extends StatelessWidget {
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(primary: mainColor),
                         onPressed: () {
-                          print("lol");
                           login(context);
                         },
                         child: Text(translate("login_screen_title"))),
