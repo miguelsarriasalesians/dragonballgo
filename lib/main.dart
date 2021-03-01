@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
-        initialRoute: '/',
+        initialRoute: '/home',
         routes: {
           '/': (context) => LoginScreen(),
           '/home': (context) => MainScreen()
