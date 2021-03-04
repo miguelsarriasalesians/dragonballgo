@@ -1,7 +1,5 @@
-import 'dart:async';
-
-import 'package:dragonballgo/screens/login_screen.dart';
 import 'package:dragonballgo/screens/splash_screen.dart';
+import 'package:dragonballgo/screens/statistics_screen.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,10 +51,10 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
-        initialRoute: "/",
+        initialRoute: "/home",
         routes: {
           '/': (context) => LoadScreen(),
-          '/home': (context) => LoginScreen(),
+          '/home': (context) => StatisticsScreen(),
         },
         localizationsDelegates: [
           localizationDelegate,
