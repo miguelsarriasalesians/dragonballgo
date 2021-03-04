@@ -2,8 +2,6 @@ import 'package:dragonballgo/resources/dimens.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/screens/getting_started_screen.dart';
 import 'package:dragonballgo/screens/information_screen.dart';
-import 'package:dragonballgo/screens/login_screen.dart';
-import 'package:dragonballgo/screens/profile_screen.dart';
 import 'package:dragonballgo/screens/reports_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';

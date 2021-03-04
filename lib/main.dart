@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:dragonballgo/resources/shared_preferences_consts.dart';
 import 'package:dragonballgo/screens/login_screen.dart';
-import 'package:dragonballgo/screens/main_screen.dart';
 import 'package:dragonballgo/screens/splash_screen.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,8 +10,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localized_app.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:splashscreen/splashscreen.dart';
 
 var prefLanguageCode;
 

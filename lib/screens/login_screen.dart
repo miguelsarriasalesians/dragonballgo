@@ -1,5 +1,4 @@
 import 'package:dragonballgo/provider/api.dart';
-import 'package:dragonballgo/resources/shared_preferences_consts.dart';
 import 'package:dragonballgo/screens/listBalls_screen.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:dragonballgo/widgets/custom_textfield.dart';
