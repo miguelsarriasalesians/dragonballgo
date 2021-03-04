@@ -1,5 +1,6 @@
 import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/shared_preferences_consts.dart';
+import 'package:dragonballgo/screens/listBalls_screen.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:dragonballgo/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class LoginScreen extends StatelessWidget {
   void login(BuildContext context) {
     FetchLogin(emailController.text, passwordController.text).then((val) {
       if (val == 200)
-        Navigator.pushNamed(context, '/home');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ListBallsScreen()));
       else {
         String text;
         switch (val) {
