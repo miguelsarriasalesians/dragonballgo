@@ -1,5 +1,5 @@
-import 'package:dragonballgo/models/user.dart';
 import 'package:dragonballgo/provider/api.dart';
+import 'package:dragonballgo/resources/shared_preferences_consts.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:dragonballgo/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
       if (val == 200)
         Navigator.pushNamed(context, '/home');
       else {
-        var text;
+        String text;
         switch (val) {
           case 400:
             text = "Falten dades a la petició";
