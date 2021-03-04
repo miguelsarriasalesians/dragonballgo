@@ -1,11 +1,13 @@
 import 'package:dragonballgo/resources/shared_preferences_consts.dart';
+import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:http/http.dart' as http;
-import 'package:dragonballgo/models/user.dart';
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
 final String url = '34.78.134.219';
+
+final _sm = new SessionManager();
 
 Future<int> FetchLogin(String email, String password) async {
   final res = await http.post(
@@ -18,10 +20,7 @@ Future<int> FetchLogin(String email, String password) async {
 
   print(res.body);
 
-  if (res.statusCode == 200) {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(SharedPreferencesConsts.TOKEN, res.body);
-  }
+  if (res.statusCode == 200) _sm.setToken(res.body);
 
   return res.statusCode;
 }
