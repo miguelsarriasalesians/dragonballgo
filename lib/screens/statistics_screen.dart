@@ -29,7 +29,7 @@ class StatisticsScreen extends StatelessWidget {
                 },
               ),
               SizedBox(
-                height: 30,
+                height: 40,
               ),
               CustomButton(
                 color: Colors.green,
@@ -40,7 +40,7 @@ class StatisticsScreen extends StatelessWidget {
                 },
               ),
               SizedBox(
-                height: 30,
+                height: 40,
               ),
               CustomButton(
                 color: Colors.red,
@@ -49,9 +49,6 @@ class StatisticsScreen extends StatelessWidget {
                 function: () {
                   print("funciona");
                 },
-              ),
-              SizedBox(
-                height: 30,
               ),
             ],
           ),
