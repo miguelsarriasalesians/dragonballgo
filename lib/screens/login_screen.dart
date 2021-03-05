@@ -41,75 +41,73 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                    child: Image(image: AssetImage('assets/images/logo.png'))),
-                Padding(
-                  child: Text(
-                    translate('login_screen_title'),
-                    style: TextStyle(
-                        fontFamily: "Rozanova",
-                        color: PaletteColors.MAINCOLOR,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.left,
-                  ),
-                  padding: EdgeInsets.all(10),
+        body: Center(
+          child: Column(
+            children: [
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  child: Image(image: AssetImage('assets/images/logo.png'))),
+              Padding(
+                child: Text(
+                  translate('login_screen_title'),
+                  style: TextStyle(
+                      fontFamily: "Rozanova",
+                      color: PaletteColors.MAINCOLOR,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
                 ),
-                Padding(
-                  child: CustomTextField(
-                    context: context,
-                    label: translate("email"),
-                    type: TextInputType.emailAddress,
-                    controller: emailController,
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: EdgeInsets.all(10),
+              ),
+              Padding(
+                child: CustomTextField(
+                  context: context,
+                  label: translate("email"),
+                  type: TextInputType.emailAddress,
+                  controller: emailController,
                 ),
-                Padding(
-                  child: CustomTextField(
-                    context: context,
-                    label: translate("password"),
-                    type: TextInputType.visiblePassword,
-                    controller: passwordController,
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              ),
+              Padding(
+                child: CustomTextField(
+                  context: context,
+                  label: translate("password"),
+                  type: TextInputType.visiblePassword,
+                  controller: passwordController,
                 ),
-                SizedBox(
-                  height: 20,
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: PaletteColors.MAINCOLOR),
+                      onPressed: () => login(context),
+                      child: Text(translate("login_screen_title"))),
                 ),
-                Padding(
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: PaletteColors.MAINCOLOR),
-                        onPressed: () => login(context),
-                        child: Text(translate("login_screen_title"))),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              ),
+              Padding(
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(primary: Color(0x00000000)),
+                      onPressed: () =>
+                          Navigator.pushNamed(context, ScreenRoutes.REGISTER),
+                      child: Text(translate("register"))),
                 ),
-                Padding(
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Color(0x00000000)),
-                        onPressed: () =>
-                            Navigator.pushNamed(context, ScreenRoutes.REGISTER),
-                        child: Text(translate("register"))),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                ),
-              ],
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-            ),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              ),
+            ],
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
           ),
         ),
       );
