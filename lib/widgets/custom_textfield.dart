@@ -35,6 +35,7 @@ class CustomTextField extends StatelessWidget {
       textAlign: TextAlign.center,
       focusNode: FocusNode(),
       controller: controller,
+      readOnly: this.type == TextInputType.datetime,
       obscureText: this.type == TextInputType.visiblePassword ? true : false,
       decoration: InputDecoration(
         hintStyle: TextStyle(
