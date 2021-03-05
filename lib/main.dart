@@ -1,6 +1,7 @@
 import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/screens/listBalls_screen.dart';
 import 'package:dragonballgo/screens/login_screen.dart';
+import 'package:dragonballgo/screens/options_screen.dart';
 import 'package:dragonballgo/screens/register_screen.dart';
 import 'package:dragonballgo/screens/splash_screen.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
@@ -58,6 +59,9 @@ class _MyAppState extends State<MyApp> {
           ScreenRoutes.BALLSLIST: (context) => ListBallsScreen(),
           ScreenRoutes.LOGIN: (context) => LoginScreen(),
           ScreenRoutes.REGISTER: (context) => RegisterScreen(),
+          ScreenRoutes.HOME: (context) => OptionsScreen(
+                text: "Options",
+              ),
         },
         localizationsDelegates: [
           localizationDelegate,

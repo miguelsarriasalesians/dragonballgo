@@ -1,8 +1,9 @@
 import 'package:dragonballgo/resources/palette_colors.dart';
-import 'package:dragonballgo/screens/login_screen.dart';
 import 'package:dragonballgo/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:dragonballgo/screens/google_maps_screen.dart';
 
 class ListBallsScreen extends StatelessWidget {
   ListBallsScreen({this.title});
@@ -14,8 +15,8 @@ class ListBallsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        body: SafeArea(child: BallsBar()),
       backgroundColor: PaletteColors.APP_BACKGROUND,
-      body: SafeArea(child: BallsBar()),
     );
   }
 }
@@ -44,8 +45,8 @@ class BallsBar extends StatelessWidget {
             ),
             InkWell(
               child: Icon(
-                Icons.account_circle,
-                size: 50,
+                Icons.settings_system_daydream,
+                size: 30,
               ),
               onTap: () {
                 //TODO LLEVA A LA CONFIGURACION DE TODA LA APP
@@ -84,10 +85,7 @@ class BallsBar extends StatelessWidget {
               ),
               onTap: () {
                 //TODO NAVEGAR AL MAPA
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
-                );
+                Navigator.of(context).push(_createRoute());
               },
             ),
           ],
@@ -95,6 +93,15 @@ class BallsBar extends StatelessWidget {
       ],
     ));
   }
+}
+
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => GoogleMapScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return child;
+    },
+  );
 }
 
 class BallContainer extends StatefulWidget {

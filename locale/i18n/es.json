@@ -27,5 +27,7 @@
   "invalid_form_data": "Datos incorrectos",
   "user_not_exists": "Usuario no existe o contraseña incorrecta",
   "internal_error": "Error interno",
-  "user_already_exists": "El usuario ya existe"
+  "user_already_exists": "El usuario ya existe",
+  "information_ball": "ESTA BOLA ES LA MOLA",
+  "select_lenguage_tittle": "ELIGE IDIOMA"
 }

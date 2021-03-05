@@ -27,5 +27,7 @@
   "invalid_form_data": "Incorrect data",
   "user_not_exists": "User doesn't exist or password is wrong",
   "internal_error": "Internal Error",
-  "user_already_exists": "The user already exists"
+  "user_already_exists": "The user already exists",
+  "information_ball": "THIS BALL IS MALL",
+  "select_lenguage_tittle": "SELECT LENGUAGE"
 }
