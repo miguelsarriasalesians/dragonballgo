@@ -11,4 +11,6 @@ class PaletteColors {
   static const Color TEXT = Colors.black;
   static const Color LINK = Colors.blueAccent;
   static final Color TEXT_BUTTON = Colors.white;
+
+  static final Color MAINCOLOR = Color.fromARGB(255, 227, 0, 45);
 }

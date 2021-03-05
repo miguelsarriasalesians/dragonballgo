@@ -24,7 +24,8 @@ class ListBallsScreen extends StatelessWidget {
 class BallsBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return SafeArea(
+        child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Row(
@@ -90,7 +91,7 @@ class BallsBar extends StatelessWidget {
           ],
         ),
       ],
-    );
+    ));
   }
 }
 
