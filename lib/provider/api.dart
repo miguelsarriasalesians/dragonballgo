@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:http/http.dart' as http;
 
-final String url = '34.78.134.219';
+final String url = '34.78.80.85';
 
 final _sm = new SessionManager();
 

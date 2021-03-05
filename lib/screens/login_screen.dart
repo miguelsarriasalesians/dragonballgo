@@ -1,6 +1,6 @@
 import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
-import 'package:dragonballgo/resources/routes.dart';
+import 'package:dragonballgo/screens/register_screen.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:dragonballgo/widgets/custom_textfield.dart';
@@ -92,7 +92,9 @@ class LoginScreen extends StatelessWidget {
                   height: 50,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: PaletteColors.MAINCOLOR),
+                          primary: PaletteColors.MAINCOLOR,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25))),
                       onPressed: () => login(context),
                       child: Text(translate("login_screen_title"))),
                 ),
@@ -100,15 +102,28 @@ class LoginScreen extends StatelessWidget {
               ),
               Padding(
                 child: SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(primary: Color(0x00000000)),
-                      onPressed: () =>
-                          Navigator.pushNamed(context, ScreenRoutes.REGISTER),
-                      child: Text(translate("register"))),
-                ),
+                    width: double.infinity,
+                    height: 50,
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("No tienes cuenta?"),
+                          TextButton(
+                            child: Text("Regístrate"),
+                            onPressed: () {
+                              NavigationManager(context)
+                                  .openScreenAsNew(WillPopScope(
+                                onWillPop: () async => false,
+                                child: RegisterScreen(),
+                              ));
+                            },
+                            style: TextButton.styleFrom(
+                                primary: PaletteColors.MAINCOLOR),
+                          )
+                        ],
+                      ),
+                    )),
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               ),
             ],
