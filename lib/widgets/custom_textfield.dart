@@ -1,32 +1,46 @@
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatefulWidget {
+class CustomTextField extends StatelessWidget {
   BuildContext context;
   String label;
-  FocusNode node;
-  TextEditingController controller;
   TextInputType type;
+  final node = FocusNode();
+  TextEditingController controller;
 
-  CustomTextField(
-      {this.context, this.label, this.node, this.controller, this.type});
+  CustomTextField({this.context, this.label, this.type, this.controller});
 
-  @override
-  _CustomTextFieldState createState() => _CustomTextFieldState();
-}
-
-class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: () {
+        if (this.type == TextInputType.datetime)
+          showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1900),
+                  lastDate: DateTime.now())
+              .then((value) {
+            if (value != null) {
+              final str = value.toIso8601String();
+              final newVal = str.substring(0, str.indexOf("T"));
+              print(newVal);
+              controller.value = TextEditingValue(
+                  text: newVal,
+                  selection: TextSelection.fromPosition(
+                    TextPosition(offset: newVal.length),
+                  ));
+            }
+          });
+      },
       textAlign: TextAlign.center,
-      focusNode: widget.node,
-      controller: widget.controller,
-      obscureText: widget.type == TextInputType.visiblePassword ? true : false,
+      focusNode: FocusNode(),
+      controller: controller,
+      obscureText: this.type == TextInputType.visiblePassword ? true : false,
       decoration: InputDecoration(
         hintStyle: TextStyle(
           letterSpacing: 1.5,
         ),
-        hintText: widget.label,
+        hintText: this.label,
         focusColor: Colors.black,
         fillColor: Colors.black,
         border: OutlineInputBorder(
@@ -38,10 +52,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
           borderRadius: BorderRadius.circular(25.0),
         ),
       ),
-      keyboardType: widget.type,
+      keyboardType: this.type,
       style: new TextStyle(
           fontFamily: "Poppins",
-          color: widget.node.hasFocus ? Colors.blueAccent : Colors.grey),
+          color: this.node.hasFocus ? Colors.blueAccent : Colors.grey),
     );
   }
 }

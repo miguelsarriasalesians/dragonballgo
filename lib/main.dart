@@ -1,6 +1,7 @@
-import 'dart:async';
-
+import 'package:dragonballgo/resources/routes.dart';
+import 'package:dragonballgo/screens/listBalls_screen.dart';
 import 'package:dragonballgo/screens/login_screen.dart';
+import 'package:dragonballgo/screens/register_screen.dart';
 import 'package:dragonballgo/screens/splash_screen.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,8 +38,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _sm = new SessionManager();
-
   @override
   Widget build(BuildContext context) {
     var localizationDelegate = LocalizedApp.of(context).delegate;
@@ -53,10 +52,12 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
-        initialRoute: "/",
+        initialRoute: ScreenRoutes.LOGIN,
         routes: {
-          '/': (context) => LoadScreen(),
-          '/home': (context) => LoginScreen(),
+          ScreenRoutes.SPLASH: (context) => LoadScreen(),
+          ScreenRoutes.BALLSLIST: (context) => ListBallsScreen(),
+          ScreenRoutes.LOGIN: (context) => LoginScreen(),
+          ScreenRoutes.REGISTER: (context) => RegisterScreen(),
         },
         localizationsDelegates: [
           localizationDelegate,

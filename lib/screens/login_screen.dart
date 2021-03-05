@@ -1,40 +1,40 @@
 import 'package:dragonballgo/provider/api.dart';
-import 'package:dragonballgo/screens/listBalls_screen.dart';
+import 'package:dragonballgo/resources/palette_colors.dart';
+import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:dragonballgo/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
 class LoginScreen extends StatelessWidget {
-  final emailController = TextEditingController();
-  final emailNode = FocusNode();
-  final passwordController = TextEditingController();
-  final passwordNode = FocusNode();
-
-  final mainColor = Color.fromARGB(255, 227, 0, 45);
+  final emailController = new TextEditingController();
+  final passwordController = new TextEditingController();
 
   final SessionManager _sm = new SessionManager();
 
   void login(BuildContext context) {
     FetchLogin(emailController.text, passwordController.text).then((val) {
       if (val == 200)
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ListBallsScreen()));
+        Navigator.pushNamed(context, ScreenRoutes.BALLSLIST);
       else {
         String text;
         switch (val) {
           case 400:
-            text = "Falten dades a la petició";
+            text = "invalid_form_data";
             break;
           case 401:
-            text = "Usuari/contrasenya incorrecte";
+            text = "user_not_exists";
             break;
           case 500:
-            text = "Error intern";
+            text = "internal_error";
             break;
           default:
             text = "Error";
         }
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(translate(text)),
+          duration: Duration(seconds: 5),
+        ));
       }
     });
   }
@@ -53,7 +53,7 @@ class LoginScreen extends StatelessWidget {
                     translate('login_screen_title'),
                     style: TextStyle(
                         fontFamily: "Rozanova",
-                        color: mainColor,
+                        color: PaletteColors.MAINCOLOR,
                         fontSize: 30,
                         fontWeight: FontWeight.bold),
                     textAlign: TextAlign.left,
@@ -64,9 +64,8 @@ class LoginScreen extends StatelessWidget {
                   child: CustomTextField(
                     context: context,
                     label: translate("email"),
-                    node: emailNode,
-                    controller: emailController,
                     type: TextInputType.emailAddress,
+                    controller: emailController,
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 ),
@@ -74,9 +73,8 @@ class LoginScreen extends StatelessWidget {
                   child: CustomTextField(
                     context: context,
                     label: translate("password"),
-                    node: passwordNode,
-                    controller: passwordController,
                     type: TextInputType.visiblePassword,
+                    controller: passwordController,
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 ),
@@ -88,10 +86,9 @@ class LoginScreen extends StatelessWidget {
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: mainColor),
-                        onPressed: () {
-                          login(context);
-                        },
+                        style: ElevatedButton.styleFrom(
+                            primary: PaletteColors.MAINCOLOR),
+                        onPressed: () => login(context),
                         child: Text(translate("login_screen_title"))),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -103,7 +100,8 @@ class LoginScreen extends StatelessWidget {
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             primary: Color(0x00000000)),
-                        onPressed: () {},
+                        onPressed: () =>
+                            Navigator.pushNamed(context, ScreenRoutes.REGISTER),
                         child: Text(translate("register"))),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
