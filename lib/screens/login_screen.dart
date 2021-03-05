@@ -1,10 +1,13 @@
 import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/resources/routes.dart';
+import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:dragonballgo/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+
+import 'listBalls_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   final emailController = new TextEditingController();
@@ -15,7 +18,10 @@ class LoginScreen extends StatelessWidget {
   void login(BuildContext context) {
     FetchLogin(emailController.text, passwordController.text).then((val) {
       if (val == 200)
-        Navigator.pushNamed(context, ScreenRoutes.BALLSLIST);
+        NavigationManager(context).openScreenAsNew(WillPopScope(
+          onWillPop: () async => false,
+          child: ListBallsScreen(),
+        ));
       else {
         String text;
         switch (val) {
