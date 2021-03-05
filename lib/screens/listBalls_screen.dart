@@ -2,6 +2,7 @@ import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/screens/login_screen.dart';
 import 'package:dragonballgo/screens/select_language_screen.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_translate/flutter_translate.dart';
 
 class ListBallsScreen extends StatelessWidget {
@@ -14,7 +15,7 @@ class ListBallsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: BallsBar()),
+        body: SafeArea(child: BallsBar()),
     );
   }
 }
@@ -42,7 +43,7 @@ class BallsBar extends StatelessWidget {
             ),
             InkWell(
               child: Icon(
-                Icons.settings_outlined,
+                Icons.settings_system_daydream,
                 size: 30,
               ),
               onTap: () {
