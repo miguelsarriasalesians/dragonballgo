@@ -1,6 +1,8 @@
+import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class GoogleMapScreen extends StatefulWidget {
   @override
@@ -10,6 +12,8 @@ class GoogleMapScreen extends StatefulWidget {
 class _GoogleMapScreenState extends State<GoogleMapScreen> {
   Set<Marker> _markers = {};
   BitmapDescriptor mapMarker;
+  LatLng _initialcameraposition = LatLng(41.39432620402562, 2.1280503535672906);
+  Location _location = Location();
 
   @override
   void initState() {
@@ -19,20 +23,87 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
   void setCustomMarker() async {
     mapMarker = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(), 'assets/images/unknown_ball_peke.png');
+        ImageConfiguration(), 'assets/images/unknown_ball_pk.png');
   }
 
   void _onMapCreated(GoogleMapController controller) {
     controller.setMapStyle(Utils.mapStyle);
+    _location.onLocationChanged.listen((l) {
+      controller.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(l.latitude, l.longitude), zoom: 15),
+        ),
+      );
+    });
     setState(() {
       _markers.add(
         Marker(
             markerId: MarkerId('id-1'),
-            position: LatLng(22.5448131, 88.3403691),
+            position: LatLng(41.39262194039931, 2.1250778061462774),
             icon: mapMarker,
             infoWindow: InfoWindow(
               title: 'Bola Numero 1',
-              snippet: 'A 54 km de ti',
+              snippet: 'Cerca de Don Bosco',
+            )),
+      );
+      _markers.add(
+        Marker(
+            markerId: MarkerId('id-2'),
+            position: LatLng(41.39751272297607, 2.1315177853781297),
+            icon: mapMarker,
+            infoWindow: InfoWindow(
+              title: 'Bola Numero 2',
+              snippet: 'Cerca de Via Augusta',
+            )),
+      );
+      _markers.add(
+        Marker(
+            markerId: MarkerId('id-3'),
+            position: LatLng(41.397475259744816, 2.123277412360181),
+            icon: mapMarker,
+            infoWindow: InfoWindow(
+              title: 'Bola Numero 3',
+              snippet: 'Cerca de Carrer Gran de Sarrià',
+            )),
+      );
+      _markers.add(
+        Marker(
+            markerId: MarkerId('id-4'),
+            position: LatLng(41.391101826371646, 2.1234163629342926),
+            icon: mapMarker,
+            infoWindow: InfoWindow(
+              title: 'Bola Numero 4',
+              snippet: 'Cerca del Hospital Cima',
+            )),
+      );
+      _markers.add(
+        Marker(
+            markerId: MarkerId('id-5'),
+            position: LatLng(41.39439790578477, 2.1322252026710737),
+            icon: mapMarker,
+            infoWindow: InfoWindow(
+              title: 'Bola Numero 5',
+              snippet: 'Cerca de General Mitre',
+            )),
+      );
+      _markers.add(
+        Marker(
+            markerId: MarkerId('id-6'),
+            position: LatLng(41.39640754861234, 2.127872044618878),
+            icon: mapMarker,
+            infoWindow: InfoWindow(
+              title: 'Bola Numero 6',
+              snippet: 'Cerca de unas pistas de deporte',
+            )),
+      );
+      _markers.add(
+        Marker(
+            markerId: MarkerId('id-7'),
+            position: LatLng(41.39086266121324, 2.1290207026776984),
+            icon: mapMarker,
+            infoWindow: InfoWindow(
+              title: 'Bola Numero 7',
+              snippet: 'Cerca del Hospital de Barcelona',
             )),
       );
     });
@@ -41,15 +112,16 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Google Map'),
-      ),
-      body: GoogleMap(
-        onMapCreated: _onMapCreated,
-        markers: _markers,
-        initialCameraPosition: CameraPosition(
-          target: LatLng(22.5448131, 88.3403691),
-          zoom: 15,
+      body: SafeArea(
+        child: GoogleMap(
+          mapToolbarEnabled: false,
+          onMapCreated: _onMapCreated,
+          markers: _markers,
+          initialCameraPosition: CameraPosition(
+            target: _initialcameraposition,
+            zoom: 15,
+          ),
+          myLocationEnabled: true,
         ),
       ),
     );

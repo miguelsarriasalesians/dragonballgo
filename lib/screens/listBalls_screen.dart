@@ -72,7 +72,7 @@ class BallsBar extends StatelessWidget {
             ],
           ),
         ),
-        Row (
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             InkWell(
@@ -83,10 +83,7 @@ class BallsBar extends StatelessWidget {
               ),
               onTap: () {
                 //TODO NAVEGAR AL MAPA
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => GoogleMapScreen()),
-                );
+                Navigator.of(context).push(_createRoute());
               },
             ),
           ],
@@ -94,6 +91,15 @@ class BallsBar extends StatelessWidget {
       ],
     );
   }
+}
+
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => GoogleMapScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return child;
+    },
+  );
 }
 
 class BallContainer extends StatefulWidget {
