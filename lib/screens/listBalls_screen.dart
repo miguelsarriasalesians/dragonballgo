@@ -1,8 +1,8 @@
 import 'package:dragonballgo/resources/palette_colors.dart';
-import 'package:dragonballgo/screens/login_screen.dart';
 import 'package:dragonballgo/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:dragonballgo/screens/google_maps_screen.dart';
 
 class ListBallsScreen extends StatelessWidget {
   ListBallsScreen({this.title});
@@ -85,7 +85,7 @@ class BallsBar extends StatelessWidget {
                 //TODO NAVEGAR AL MAPA
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                  MaterialPageRoute(builder: (context) => GoogleMapScreen()),
                 );
               },
             ),
