@@ -9,6 +9,7 @@ class InformationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: PaletteColors.APP_BACKGROUND,
       appBar: AppBar(
         centerTitle: true,
         title: Text(

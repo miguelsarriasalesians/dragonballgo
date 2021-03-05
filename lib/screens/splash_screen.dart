@@ -62,10 +62,33 @@ class LinearProgressIndicatorAppState extends State<LinearProgressIndicatorApp> 
                 ],
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 20.0),
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Image(image: AssetImage('assets/images/splashAnimation.gif')),
+                  ),
+                  //Image(image: AssetImage('assets/images/mcball.png')),
+                  /*Container(
+                    margin: const EdgeInsets.only(top: 20.0, bottom: 10.0),
+                    child : Text(
+                      translate('splash_message'),
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),*/
+
+                ],
+              ),
+              Row(
                 children: [
                   Container(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.04,
+                      height: MediaQuery.of(context).size.height * 0.01,
                       child:
                       LinearProgressIndicator(
                         backgroundColor: Colors.yellow[300],
