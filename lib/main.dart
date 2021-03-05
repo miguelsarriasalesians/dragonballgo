@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
-        initialRoute: ScreenRoutes.LOGIN,
+        initialRoute: ScreenRoutes.SPLASH,
         routes: {
           ScreenRoutes.SPLASH: (context) => LoadScreen(),
           ScreenRoutes.BALLSLIST: (context) => ListBallsScreen(),
