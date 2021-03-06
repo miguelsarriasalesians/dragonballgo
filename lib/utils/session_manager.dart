@@ -16,7 +16,7 @@ class SessionManager {
   }
 
   Future<dynamic> getToken() async =>
-      await (await getPrefs()).getString(SharedPreferencesConsts.TOKEN);
+      (await (await getPrefs()).getString(SharedPreferencesConsts.TOKEN)).replaceAll("\"", "");
 
   setToken(String token) async {
     (await getPrefs())

@@ -29,5 +29,6 @@
   "internal_error": "Error interno",
   "user_already_exists": "El usuario ya existe",
   "information_ball": "ESTA BOLA ES LA MOLA",
-  "select_lenguage_tittle": "ELIGE IDIOMA"
+  "select_lenguage_tittle": "ELIGE IDIOMA",
+  "no_conn": "No se ha podido conectar al servidor"
 }

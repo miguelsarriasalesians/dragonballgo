@@ -47,10 +47,13 @@ class LoginScreen extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(10),
               child: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
                 spacing: 10,
                 runSpacing: 10,
                 children: [
-                  Image(image: AssetImage('assets/images/logo.png')),
+                  Center(
+                    child: Image(image: AssetImage('assets/images/logo.png')),
+                  ),
                   Center(
                     child: Text(
                       translate('login_screen_title'),

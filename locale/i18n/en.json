@@ -29,5 +29,6 @@
   "internal_error": "Internal Error",
   "user_already_exists": "The user already exists",
   "information_ball": "THIS BALL IS MALL",
-  "select_lenguage_tittle": "SELECT LENGUAGE"
+  "select_lenguage_tittle": "SELECT LENGUAGE",
+  "no_conn": "Couldn't connect to server"
 }

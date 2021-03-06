@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/utils/router.dart';
+import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 
@@ -25,6 +27,8 @@ class LinearProgressIndicatorAppState
     extends State<LinearProgressIndicatorApp> {
   bool _loading;
   double _progressValue;
+
+  final _sm = SessionManager();
 
   @override
   void initState() {
@@ -126,8 +130,10 @@ class LinearProgressIndicatorAppState
   }
 
   // this function updates the progress value
-  void _updateProgress() {
+  _updateProgress() async {
     const oneSec = const Duration(seconds: 1);
+    final token = await this._sm.getToken();
+    final result = token != null ? await FetchValidation(token) : false;
     new Timer.periodic(oneSec, (Timer t) {
       setState(() {
         _progressValue += 0.2;
@@ -135,7 +141,8 @@ class LinearProgressIndicatorAppState
         if (_progressValue.toStringAsFixed(1) == '1.0') {
           _loading = false;
           t.cancel();
-          return AppRouter.router.navigateTo(context, ScreenRoutes.LOGIN);
+          return AppRouter.router.navigateTo(
+              context, result ? ScreenRoutes.BALLSLIST : ScreenRoutes.LOGIN);
         }
       });
     });
