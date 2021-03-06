@@ -1,27 +1,20 @@
 import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
-import 'package:dragonballgo/screens/register_screen.dart';
-import 'package:dragonballgo/utils/navigation_manager.dart';
-import 'package:dragonballgo/utils/session_manager.dart';
+import 'package:dragonballgo/resources/routes.dart';
+import 'package:dragonballgo/utils/router.dart';
 import 'package:dragonballgo/widgets/custom_textfield.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-
-import 'listBalls_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   final emailController = new TextEditingController();
   final passwordController = new TextEditingController();
 
-  final SessionManager _sm = new SessionManager();
-
-  void login(BuildContext context) {
+  void login(BuildContext ctx) {
     FetchLogin(emailController.text, passwordController.text).then((val) {
       if (val == 200)
-        NavigationManager(context).openScreenAsNew(WillPopScope(
-          onWillPop: () async => false,
-          child: ListBallsScreen(),
-        ));
+        AppRouter.router.navigateTo(ctx, ScreenRoutes.BALLSLIST);
       else {
         String text;
         switch (val) {
@@ -37,71 +30,62 @@ class LoginScreen extends StatelessWidget {
           default:
             text = "Error";
         }
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
           content: Text(translate(text)),
-          duration: Duration(seconds: 5),
+          duration: Duration(seconds: 3),
         ));
       }
     });
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Center(
-          child: Column(
-            children: [
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                  child: Image(image: AssetImage('assets/images/logo.png'))),
-              Padding(
-                child: Text(
-                  translate('login_screen_title'),
-                  style: TextStyle(
-                      fontFamily: "Rozanova",
-                      color: PaletteColors.MAINCOLOR,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.left,
-                ),
-                padding: EdgeInsets.all(10),
-              ),
-              Padding(
-                child: CustomTextField(
-                  context: context,
-                  label: translate("email"),
-                  type: TextInputType.emailAddress,
-                  controller: emailController,
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              ),
-              Padding(
-                child: CustomTextField(
-                  context: context,
-                  label: translate("password"),
-                  type: TextInputType.visiblePassword,
-                  controller: passwordController,
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: PaletteColors.MAINCOLOR,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25))),
-                      onPressed: () => login(context),
-                      child: Text(translate("login_screen_title"))),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              ),
-              Padding(
-                child: SizedBox(
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  Image(image: AssetImage('assets/images/logo.png')),
+                  Center(
+                    child: Text(
+                      translate('login_screen_title'),
+                      style: TextStyle(
+                          fontFamily: "Rozanova",
+                          color: PaletteColors.MAINCOLOR,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  CustomTextField(
+                    context: context,
+                    label: translate("email"),
+                    type: TextInputType.emailAddress,
+                    controller: emailController,
+                  ),
+                  CustomTextField(
+                    context: context,
+                    label: translate("password"),
+                    type: TextInputType.visiblePassword,
+                    controller: passwordController,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: PaletteColors.MAINCOLOR,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25))),
+                        onPressed: () => login(context),
+                        child: Text(translate("login_screen_title"))),
+                  ),
+                  SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: Center(
@@ -112,24 +96,25 @@ class LoginScreen extends StatelessWidget {
                           TextButton(
                             child: Text("Regístrate"),
                             onPressed: () {
-                              NavigationManager(context)
-                                  .openScreenAsNew(WillPopScope(
-                                onWillPop: () async => false,
-                                child: RegisterScreen(),
-                              ));
+                              AppRouter.router.navigateTo(
+                                  context, ScreenRoutes.REGISTER,
+                                  transition: TransitionType.material,
+                                  transitionDuration:
+                                      Duration(milliseconds: 500));
                             },
                             style: TextButton.styleFrom(
                                 primary: PaletteColors.MAINCOLOR),
                           )
                         ],
                       ),
-                    )),
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    ),
+                  ),
+                ],
               ),
-            ],
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            ),
           ),
         ),
-      );
+      ),
+    );
+  }
 }

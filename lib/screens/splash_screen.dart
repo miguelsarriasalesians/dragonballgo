@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:dragonballgo/screens/login_screen.dart';
-import 'package:dragonballgo/utils/navigation_manager.dart';
+import 'package:dragonballgo/resources/routes.dart';
+import 'package:dragonballgo/utils/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 
@@ -135,12 +135,7 @@ class LinearProgressIndicatorAppState
         if (_progressValue.toStringAsFixed(1) == '1.0') {
           _loading = false;
           t.cancel();
-          return NavigationManager(context).openScreenAsNew(
-            WillPopScope(
-              onWillPop: () async => false,
-              child: LoginScreen(),
-            ),
-          );
+          return AppRouter.router.navigateTo(context, ScreenRoutes.LOGIN);
         }
       });
     });

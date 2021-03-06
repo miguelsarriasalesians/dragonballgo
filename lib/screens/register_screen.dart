@@ -1,6 +1,7 @@
 import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/resources/routes.dart';
+import 'package:dragonballgo/utils/router.dart';
 import 'package:dragonballgo/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -11,7 +12,7 @@ class RegisterScreen extends StatelessWidget {
   final nameController = new TextEditingController();
   final birthdateController = new TextEditingController();
 
-  void register(BuildContext context) {
+  void register(BuildContext ctx) {
     FetchRegister(
             email: emailController.text,
             password: passwordController.text,
@@ -19,7 +20,7 @@ class RegisterScreen extends StatelessWidget {
             birthdate: birthdateController.text)
         .then((val) {
       if (val == 200)
-        Navigator.pushNamed(context, ScreenRoutes.BALLSLIST);
+        AppRouter.router.navigateTo(ctx, ScreenRoutes.BALLSLIST);
       else {
         String text;
         switch (val) {
@@ -35,9 +36,9 @@ class RegisterScreen extends StatelessWidget {
           default:
             text = "Error";
         }
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
           content: Text(translate(text)),
-          duration: Duration(seconds: 5),
+          duration: Duration(seconds: 3),
         ));
       }
     });
@@ -45,73 +46,67 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext ctx) {
-    return SafeArea(
-        child: Scaffold(
-            body: Center(
-                child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          child: Text(
-            translate('signin_screen_title'),
-            style: TextStyle(
-                fontFamily: "Rozanova",
-                color: PaletteColors.MAINCOLOR,
-                fontSize: 30,
-                fontWeight: FontWeight.bold),
-            textAlign: TextAlign.left,
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  Center(
+                    child: Text(
+                      translate('signin_screen_title'),
+                      style: TextStyle(
+                          fontFamily: "Rozanova",
+                          color: PaletteColors.MAINCOLOR,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  CustomTextField(
+                    context: ctx,
+                    label: translate("email"),
+                    type: TextInputType.emailAddress,
+                    controller: emailController,
+                  ),
+                  CustomTextField(
+                    context: ctx,
+                    label: translate("password"),
+                    type: TextInputType.visiblePassword,
+                    controller: passwordController,
+                  ),
+                  CustomTextField(
+                    context: ctx,
+                    label: translate("name"),
+                    type: TextInputType.name,
+                    controller: nameController,
+                  ),
+                  CustomTextField(
+                    context: ctx,
+                    label: translate("birthdate"),
+                    type: TextInputType.datetime,
+                    controller: birthdateController,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: PaletteColors.MAINCOLOR,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25))),
+                        onPressed: () => register(ctx),
+                        child: Text(translate("register"))),
+                  ),
+                ],
+              ),
+            ),
           ),
-          padding: EdgeInsets.all(10),
         ),
-        Padding(
-          child: CustomTextField(
-            context: ctx,
-            label: translate("email"),
-            type: TextInputType.emailAddress,
-            controller: emailController,
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        ),
-        Padding(
-          child: CustomTextField(
-            context: ctx,
-            label: translate("password"),
-            type: TextInputType.visiblePassword,
-            controller: passwordController,
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        ),
-        Padding(
-          child: CustomTextField(
-            context: ctx,
-            label: translate("name"),
-            type: TextInputType.name,
-            controller: nameController,
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        ),
-        Padding(
-          child: CustomTextField(
-            context: ctx,
-            label: translate("birthdate"),
-            type: TextInputType.datetime,
-            controller: birthdateController,
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        ),
-        Padding(
-          child: SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: ElevatedButton(
-                style:
-                    ElevatedButton.styleFrom(primary: PaletteColors.MAINCOLOR),
-                onPressed: () => register(ctx),
-                child: Text(translate("register"))),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        ),
-      ],
-    ))));
+      ),
+    );
   }
 }

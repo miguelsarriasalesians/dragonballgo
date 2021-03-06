@@ -1,12 +1,11 @@
-import 'package:dragonballgo/resources/palette_colors.dart';
-import 'package:dragonballgo/screens/select_language_screen.dart';
-import 'package:dragonballgo/utils/navigation_manager.dart';
-import 'package:dragonballgo/views/icon_language.dart';
+import 'package:dragonballgo/resources/routes.dart';
+import 'package:dragonballgo/utils/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
 class OptionsScreen extends StatelessWidget {
   final String text;
+
   OptionsScreen({this.text = "Defecto"});
 
   @override
@@ -39,9 +38,8 @@ class OptionsScreen extends StatelessWidget {
                 buttoncolor: Colors.blueAccent,
                 fontsize: 24,
                 ontap: () {
-                  NavigationManager(context).openScreen(
-                    SelectLanguageScreen(),
-                  );
+                  AppRouter.router
+                      .navigateTo(context, ScreenRoutes.SELECTLANGUAGE);
                 },
               ),
             ),
@@ -80,6 +78,7 @@ class OptionsButton extends StatelessWidget {
   final double width;
   final double height;
   final Function ontap;
+
   OptionsButton({
     this.text,
     this.textcolor,
@@ -89,6 +88,7 @@ class OptionsButton extends StatelessWidget {
     this.fontsize,
     this.ontap,
   });
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
