@@ -4,6 +4,7 @@ import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/utils/router.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 
@@ -134,17 +135,18 @@ class LinearProgressIndicatorAppState
     const oneSec = const Duration(seconds: 1);
     final token = await this._sm.getToken();
     final result = token != null ? await FetchValidation(token) : false;
-    new Timer.periodic(oneSec, (Timer t) {
+    new Timer.periodic(oneSec, (Timer t) async {
       setState(() {
         _progressValue += 0.2;
-        // we "finish" downloading here
-        if (_progressValue.toStringAsFixed(1) == '1.0') {
-          _loading = false;
-          t.cancel();
-          return AppRouter.router.navigateTo(
-              context, result ? ScreenRoutes.BALLSLIST : ScreenRoutes.LOGIN);
-        }
       });
+      if (_progressValue.toStringAsFixed(1) == '1.0') {
+        _loading = false;
+        t.cancel();
+        return await AppRouter.router.navigateTo(
+            context, result ? ScreenRoutes.BALLSLIST : ScreenRoutes.LOGIN,
+            transition: TransitionType.material,
+            transitionDuration: Duration(milliseconds: 500));
+      }
     });
   }
 }
