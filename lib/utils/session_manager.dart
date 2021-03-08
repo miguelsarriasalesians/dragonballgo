@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dragonballgo/resources/shared_preferences_consts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,12 +13,14 @@ class SessionManager {
     print('Country saved succesfully');
   }
 
-  Future<dynamic> getToken() async =>
-      (await (await getPrefs()).getString(SharedPreferencesConsts.TOKEN)).replaceAll("\"", "");
+  Future<dynamic> getToken() async {
+    String token =
+        await (await getPrefs()).getString(SharedPreferencesConsts.TOKEN);
+    return token != null ? token.replaceAll("\"", "") : null;
+  }
 
   setToken(String token) async {
-    (await getPrefs())
-        .setString(SharedPreferencesConsts.TOKEN, jsonEncode(token));
+    (await getPrefs()).setString(SharedPreferencesConsts.TOKEN, token);
     print('Auth token saved');
   }
 
