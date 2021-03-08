@@ -1,6 +1,8 @@
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/screens/google_maps_screen.dart';
+import 'package:dragonballgo/screens/profile_screen.dart';
+import 'package:dragonballgo/utils/reveal_route.dart';
 import 'package:dragonballgo/utils/router.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -46,11 +48,11 @@ class BallsBar extends StatelessWidget {
               ),
               InkWell(
                 child: Icon(
-                  Icons.settings_system_daydream,
+                  Icons.settings_outlined,
                   size: 30,
                 ),
                 onTap: () {
-                  AppRouter.router.navigateTo(context, ScreenRoutes.PROFILE,
+                  AppRouter.router.navigateTo(context, ScreenRoutes.OPTIONS,
                       transition: TransitionType.fadeIn,
                       transitionDuration: Duration(milliseconds: 800));
                 },
@@ -84,10 +86,9 @@ class BallsBar extends StatelessWidget {
                       Image(image: AssetImage('assets/images/world_map.png')),
                 ),
                 onTap: () {
-                  Navigator.of(context).push(_createRoute());
-                  /*AppRouter.router.navigateTo(context, ScreenRoutes.GOOGLEMAPS,
+                  AppRouter.router.navigateTo(context, ScreenRoutes.GOOGLEMAPS,
                       transition: TransitionType.inFromBottom,
-                      transitionDuration: Duration(milliseconds: 800));*/
+                      transitionDuration: Duration(milliseconds: 600));
                 },
               ),
             ],
