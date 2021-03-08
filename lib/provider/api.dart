@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:dragonballgo/models/ball.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 final String url = '34.78.80.85';
 
@@ -54,8 +56,23 @@ Future<bool> FetchValidation(String token) async {
       'Authorization': token
     },
   );
-  
+
   print(res.body);
 
   return res.statusCode == 200;
+}
+
+Future<Response> FetchBalls() async {
+  final res = await http.get(
+    Uri.http(url, "/api/balls"),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': await _sm.getToken()
+    },
+  );
+
+  print(res.statusCode);
+  print(jsonToBalls(res.body));
+
+  return res;
 }

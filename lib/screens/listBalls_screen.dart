@@ -5,94 +5,134 @@ import 'package:dragonballgo/utils/router.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:dragonballgo/models/ball.dart';
+import 'package:dragonballgo/provider/api.dart';
 
-class ListBallsScreen extends StatelessWidget {
+class ListBallsScreen extends StatefulWidget {
   ListBallsScreen({this.title});
-
-  // Fields in a Widget subclass are always marked "final".
 
   final Widget title;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(child: BallsBar()),
-      backgroundColor: PaletteColors.APP_BACKGROUND,
-    );
-  }
+  _ListBallsScreenState createState() => _ListBallsScreenState();
 }
 
-class BallsBar extends StatelessWidget {
+class _ListBallsScreenState extends State<ListBallsScreen> {
+
+  /*@override
+  void initState() {
+    loading = false;
+  }
+
+  bool loading;
+  List<BallModel> balls;*/
+
+  Future<List<BallModel>> getBalls(BuildContext ctx) async {
+    print("fetcheando");
+    final result = await FetchBalls();
+    /*print(result);
+    if (result is List<BallModel>)
+      return result;
+    else {
+      String msg;
+      switch (result) {
+        case 401:
+          msg = "No autorizado";
+          break;
+        case 404:
+          msg = "No hay bolas :(";
+          break;
+        default:
+          msg = "No se que error";
+          break;
+      }
+      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+        content: Text(msg),
+        duration: Duration(seconds: 3),
+      ));
+    }*/
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                height: 80,
-                width: 80,
-                child: Image(image: AssetImage('assets/images/mcball.png')),
-              ),
-              Text(
-                translate('listBalls_screen_title'),
-                style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.black,
-                ),
-              ),
-              InkWell(
-                child: Icon(
-                  Icons.settings_system_daydream,
-                  size: 30,
-                ),
-                onTap: () {
-                  AppRouter.router.navigateTo(context, ScreenRoutes.PROFILE,
-                      transition: TransitionType.fadeIn,
-                      transitionDuration: Duration(milliseconds: 800));
-                },
-              ),
-            ],
-          ),
-          Container(
-            color: Colors.white,
-            height: MediaQuery.of(context).size.height * 0.7,
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: Column(
+    return Scaffold(
+      backgroundColor: PaletteColors.APP_BACKGROUND,
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                RowBall(),
-                RowBall(),
-                RowBall(),
-                RowBall(),
-                RowBall(),
-                RowBall(),
-                RowBall(),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              InkWell(
-                child: Container(
+                Container(
                   height: 80,
                   width: 80,
-                  child:
-                      Image(image: AssetImage('assets/images/world_map.png')),
+                  child: Image(image: AssetImage('assets/images/mcball.png')),
                 ),
-                onTap: () {
-                  Navigator.of(context).push(_createRoute());
-                  /*AppRouter.router.navigateTo(context, ScreenRoutes.GOOGLEMAPS,
-                      transition: TransitionType.inFromBottom,
-                      transitionDuration: Duration(milliseconds: 800));*/
+                Text(
+                  translate('listBalls_screen_title'),
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.black,
+                  ),
+                ),
+                InkWell(
+                  child: Icon(
+                    Icons.settings_system_daydream,
+                    size: 30,
+                  ),
+                  onTap: () {
+                    AppRouter.router.navigateTo(context, ScreenRoutes.PROFILE,
+                        transition: TransitionType.material,
+                        transitionDuration: Duration(milliseconds: 500));
+                  },
+                ),
+              ],
+            ),
+            Container(
+              color: Colors.white,
+              height: MediaQuery.of(context).size.height * 0.7,
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: FutureBuilder(
+                future: this.getBalls(context),
+                builder: (BuildContext ctx, AsyncSnapshot snapshot) {
+                  return Column(
+                    children: snapshot.hasData
+                        ? snapshot.data.map((BallModel x) => RowBall())
+                        : [
+                            RowBall(),
+                            RowBall(),
+                            RowBall(),
+                            RowBall(),
+                            RowBall(),
+                            RowBall(),
+                            RowBall(),
+                          ],
+                  );
                 },
               ),
-            ],
-          ),
-        ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                InkWell(
+                  child: Container(
+                    height: 80,
+                    width: 80,
+                    child:
+                        Image(image: AssetImage('assets/images/world_map.png')),
+                  ),
+                  onTap: () {
+                    AppRouter.router.navigateTo(
+                        context, ScreenRoutes.GOOGLEMAPS,
+                        transition: TransitionType.inFromBottom,
+                        transitionDuration: Duration(milliseconds: 800));
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
