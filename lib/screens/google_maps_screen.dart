@@ -1,8 +1,10 @@
 import 'package:dragonballgo/resources/palette_colors.dart';
+import 'package:dragonballgo/screens/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class GoogleMapScreen extends StatefulWidget {
   @override
@@ -113,16 +115,56 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: GoogleMap(
-          mapToolbarEnabled: false,
-          onMapCreated: _onMapCreated,
-          markers: _markers,
-          initialCameraPosition: CameraPosition(
-            target: _initialcameraposition,
-            zoom: 15,
+        child: Stack(children: [
+          GoogleMap(
+            mapToolbarEnabled: false,
+            onMapCreated: _onMapCreated,
+            markers: _markers,
+            initialCameraPosition: CameraPosition(
+              target: _initialcameraposition,
+              zoom: 15,
+            ),
+            myLocationEnabled: true,
           ),
-          myLocationEnabled: true,
-        ),
+          Positioned(
+            bottom: 10,
+            right: 0,
+            child: ModalSheet(
+              child: Container(
+                height: 50,
+                width: 100,
+                color: Colors.yellow,
+              ),
+              screenToNavigate: LoginScreen(),
+            ),
+          )
+        ]),
+      ),
+    );
+  }
+}
+
+class ModalSheet extends StatefulWidget {
+  @override
+  _ModalSheetState createState() => _ModalSheetState();
+  final Widget child;
+  final Widget screenToNavigate;
+
+  ModalSheet({@required this.child, @required this.screenToNavigate});
+}
+
+class _ModalSheetState extends State<ModalSheet> {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: InkWell(
+        child: widget.child,
+        onTap: () {
+          showModalBottomSheet<void>(
+              context: context,
+              barrierColor: Colors.transparent,
+              builder: (BuildContext context) => widget.screenToNavigate);
+        },
       ),
     );
   }

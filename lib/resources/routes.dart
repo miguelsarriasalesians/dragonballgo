@@ -1,6 +1,7 @@
 import 'package:dragonballgo/screens/google_maps_screen.dart';
 import 'package:dragonballgo/screens/listBalls_screen.dart';
 import 'package:dragonballgo/screens/login_screen.dart';
+import 'package:dragonballgo/screens/options_screen.dart';
 import 'package:dragonballgo/screens/profile_screen.dart';
 import 'package:dragonballgo/screens/register_screen.dart';
 import 'package:dragonballgo/screens/select_language_screen.dart';
@@ -16,6 +17,7 @@ class ScreenRoutes {
   static final String SELECTLANGUAGE = "/selectlang";
   static final String PROFILE = "/profile";
   static final String GOOGLEMAPS = "/gmaps";
+  static final String OPTIONS = "/options";
 
   static final _SPLASH = AppRoute(
       SPLASH, Handler(handlerFunc: (context, parameters) => LoadScreen()));
@@ -38,6 +40,9 @@ class ScreenRoutes {
   static final _PROFILE = AppRoute(
       PROFILE, Handler(handlerFunc: (context, parameters) => ProfileScreen()));
 
+  static final _OPTIONS = AppRoute(
+      OPTIONS, Handler(handlerFunc: (context, parameters) => OptionsScreen()));
+
   static final List<AppRoute> routes = [
     _SPLASH,
     _LOGIN,
@@ -45,6 +50,7 @@ class ScreenRoutes {
     _BALLSLIST,
     _SELECTLANGUAGE,
     _PROFILE,
-    _GOOGLEMAPS
+    _GOOGLEMAPS,
+    _OPTIONS
   ];
 }
