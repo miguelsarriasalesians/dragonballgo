@@ -1,6 +1,7 @@
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/screens/google_maps_screen.dart';
+import 'package:dragonballgo/utils/reveal_route.dart';
 import 'package:dragonballgo/utils/router.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -84,10 +85,14 @@ class BallsBar extends StatelessWidget {
                       Image(image: AssetImage('assets/images/world_map.png')),
                 ),
                 onTap: () {
-                  Navigator.of(context).push(_createRoute());
-                  /*AppRouter.router.navigateTo(context, ScreenRoutes.GOOGLEMAPS,
-                      transition: TransitionType.inFromBottom,
-                      transitionDuration: Duration(milliseconds: 800));*/
+                  Navigator.push(
+                    context,
+                    RevealRoute(
+                      page: GoogleMapScreen(),
+                      maxRadius: 800,
+                      centerAlignment: Alignment.center,
+                    ),
+                  );
                 },
               ),
             ],
