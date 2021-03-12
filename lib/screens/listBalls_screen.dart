@@ -1,8 +1,6 @@
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/screens/google_maps_screen.dart';
-import 'package:dragonballgo/screens/profile_screen.dart';
-import 'package:dragonballgo/utils/reveal_route.dart';
 import 'package:dragonballgo/utils/router.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
