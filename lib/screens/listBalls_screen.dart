@@ -1,9 +1,12 @@
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/screens/google_maps_screen.dart';
+import 'package:dragonballgo/screens/qrReader_screen.dart';
 import 'package:dragonballgo/utils/router.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
 class ListBallsScreen extends StatelessWidget {
@@ -23,6 +26,7 @@ class ListBallsScreen extends StatelessWidget {
 }
 
 class BallsBar extends StatelessWidget {
+  String qrCode = 'Unknown';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -74,21 +78,40 @@ class BallsBar extends StatelessWidget {
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               InkWell(
                 child: Container(
-                  height: 80,
-                  width: 80,
-                  child:
-                      Image(image: AssetImage('assets/images/world_map.png')),
+                  width: 120,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.orange,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.map_outlined,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Mapa',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                        )
+                      ]),
                 ),
                 onTap: () {
                   AppRouter.router.navigateTo(context, ScreenRoutes.GOOGLEMAPS,
-                      transition: TransitionType.inFromBottom,
+                      transition: TransitionType.fadeIn,
                       transitionDuration: Duration(milliseconds: 600));
                 },
               ),
+              QrScan(),
             ],
           ),
         ],
