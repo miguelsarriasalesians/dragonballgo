@@ -143,7 +143,8 @@ class ListBallsScreen extends StatelessWidget {
                     title: Text(translate("statistics_lbl")),
                     onTap: () {
                       AppRouter.router.pop(context);
-                      AppRouter.router.navigateTo(context, ScreenRoutes.OPTIONS,
+                      AppRouter.router.navigateTo(
+                          context, ScreenRoutes.STATISTICS,
                           transition: TransitionType.fadeIn,
                           transitionDuration: Duration(milliseconds: 600));
                     }),
