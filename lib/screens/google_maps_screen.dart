@@ -1,5 +1,9 @@
 import 'package:dragonballgo/resources/palette_colors.dart';
+import 'package:dragonballgo/resources/routes.dart';
+import 'package:dragonballgo/screens/close_balls_screen.dart';
 import 'package:dragonballgo/screens/login_screen.dart';
+import 'package:dragonballgo/utils/router.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -118,6 +122,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         child: Stack(children: [
           GoogleMap(
             mapToolbarEnabled: false,
+            compassEnabled: false,
             onMapCreated: _onMapCreated,
             markers: _markers,
             initialCameraPosition: CameraPosition(
@@ -127,15 +132,49 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
             myLocationEnabled: true,
           ),
           Positioned(
+            top: 10,
+            right: 10,
+            child: Container(
+              height: 60,
+              child: Image(image: AssetImage('assets/images/logo.png')),
+            ),
+          ),
+          Positioned(
             bottom: 10,
-            right: 0,
+            left: 20,
+            child: InkWell(
+              child: Container(
+                  height: 90,
+                  width: 90,
+                  decoration: BoxDecoration(
+                    color: Colors.orange.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child:
+                      Image(image: AssetImage('assets/images/allBalls.png'))),
+              onTap: () {
+                AppRouter.router.navigateTo(context, ScreenRoutes.BALLSLIST,
+                    transition: TransitionType.fadeIn,
+                    transitionDuration: Duration(milliseconds: 600));
+              },
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            right: 10,
             child: ModalSheet(
               child: Container(
-                height: 50,
-                width: 100,
-                color: Colors.yellow,
+                height: 90,
+                width: 90,
+                decoration: BoxDecoration(
+                  color: Colors.orange,
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Image(
+                    height: 70,
+                    image: AssetImage('assets/images/radarControl.png')),
               ),
-              screenToNavigate: LoginScreen(),
+              screenToNavigate: CloseBallsScreen(),
             ),
           )
         ]),

@@ -14,7 +14,9 @@ class LoginScreen extends StatelessWidget {
   void login(BuildContext ctx) {
     FetchLogin(emailController.text, passwordController.text).then((val) {
       if (val == 200)
-        AppRouter.router.navigateTo(ctx, ScreenRoutes.BALLSLIST);
+        AppRouter.router.navigateTo(ctx, ScreenRoutes.BALLSLIST,
+            transition: TransitionType.fadeIn,
+            transitionDuration: Duration(milliseconds: 600));
       else {
         String text;
         switch (val) {

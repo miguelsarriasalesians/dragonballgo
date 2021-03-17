@@ -29,7 +29,7 @@ class _QrPageState extends State<QrScan> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'Añadir',
+              qrCode,
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
           )

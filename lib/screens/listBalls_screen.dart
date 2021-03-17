@@ -34,24 +34,23 @@ class BallsBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 80,
-                width: 80,
+                height: 70,
+                width: 70,
                 child: Image(image: AssetImage('assets/images/mcball.png')),
               ),
-              Text(
-                translate('listBalls_screen_title'),
-                style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.black,
-                ),
+              Container(
+                height: 80,
+                width: 220,
+                child: Image(
+                    image: AssetImage(translate('listBalls_screen_title'))),
               ),
               InkWell(
                 child: Icon(
-                  Icons.settings_outlined,
-                  size: 30,
+                  Icons.menu_sharp,
+                  size: 50,
                 ),
                 onTap: () {
                   AppRouter.router.navigateTo(context, ScreenRoutes.OPTIONS,
