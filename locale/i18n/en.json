@@ -28,11 +28,12 @@
   "user_not_exists": "User doesn't exist or password is wrong",
   "internal_error": "Internal Error",
   "user_already_exists": "The user already exists",
-  "information_ball": "THIS BALL IS MALL",
   "select_lenguage_tittle": "SELECT LENGUAGE",
   "no_conn": "Couldn't connect to server",
-  "options_lbl": "Options",
+  "media_lbl": "Media",
+  "language_lbl": "Language",
   "profile_lbl": "Profile",
   "logout_lbl": "Log out",
-  "back_lbl": "Return Menu"
+  "back_lbl": "Return Menu",
+  "statistics_lbl": "Statistics"
 }

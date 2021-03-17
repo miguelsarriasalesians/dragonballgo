@@ -64,7 +64,6 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
     return MaterialApp(
         onGenerateRoute: AppRouter.router.generator,
         localizationsDelegates: [

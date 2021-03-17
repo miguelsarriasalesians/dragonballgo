@@ -27,7 +27,7 @@ class ListBallsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     height: 80,
@@ -36,7 +36,9 @@ class ListBallsScreen extends StatelessWidget {
                         image: AssetImage(translate('listBalls_screen_title'))),
                   ),
                   InkWell(
-                    child: Icon(Icons.menu_sharp, size: 50),
+                    child: Image(
+                        width: 80,
+                        image: AssetImage('assets/images/mcball.png')),
                     onTap: () => _scaffoldKey.currentState.openEndDrawer(),
                   ),
                   SizedBox(
@@ -137,16 +139,35 @@ class ListBallsScreen extends StatelessWidget {
                           transitionDuration: Duration(milliseconds: 600));
                     }),
                 ListTile(
-                    leading: Icon(Icons.settings),
-                    title: Text(translate("options_lbl")),
+                    leading: Icon(Icons.menu_book),
+                    title: Text(translate("statistics_lbl")),
                     onTap: () {
                       AppRouter.router.pop(context);
                       AppRouter.router.navigateTo(context, ScreenRoutes.OPTIONS,
                           transition: TransitionType.fadeIn,
                           transitionDuration: Duration(milliseconds: 600));
                     }),
+                ListTile(
+                    leading: Icon(Icons.perm_media),
+                    title: Text(translate("media_lbl")),
+                    onTap: () {
+                      AppRouter.router.pop(context);
+                      AppRouter.router.navigateTo(context, ScreenRoutes.OPTIONS,
+                          transition: TransitionType.fadeIn,
+                          transitionDuration: Duration(milliseconds: 600));
+                    }),
+                ListTile(
+                    leading: Icon(Icons.language),
+                    title: Text(translate("language_lbl")),
+                    onTap: () {
+                      AppRouter.router.pop(context);
+                      AppRouter.router.navigateTo(
+                          context, ScreenRoutes.SELECTLANGUAGE,
+                          transition: TransitionType.fadeIn,
+                          transitionDuration: Duration(milliseconds: 600));
+                    }),
                 SizedBox(
-                  height: 260,
+                  height: 120,
                 ),
                 ListTile(
                     trailing: Icon(Icons.logout),
@@ -164,7 +185,7 @@ class ListBallsScreen extends StatelessWidget {
                     fontSize: 12,
                     color: Colors.grey,
                   ),
-                ),
+                )
               ],
             ),
           ),
