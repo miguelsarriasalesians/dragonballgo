@@ -153,6 +153,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                   child:
                       Image(image: AssetImage('assets/images/allBalls.png'))),
               onTap: () {
+                AppRouter.router.pop(context);
                 AppRouter.router.navigateTo(context, ScreenRoutes.BALLSLIST,
                     transition: TransitionType.fadeIn,
                     transitionDuration: Duration(milliseconds: 600));

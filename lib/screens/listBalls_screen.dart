@@ -12,6 +12,8 @@ import 'package:flutter_translate/flutter_translate.dart';
 class ListBallsScreen extends StatelessWidget {
   ListBallsScreen({this.title});
 
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   // Fields in a Widget subclass are always marked "final".
 
   final Widget title;
@@ -19,113 +21,155 @@ class ListBallsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: BallsBar()),
-      backgroundColor: PaletteColors.APP_BACKGROUND,
-    );
-  }
-}
-
-class BallsBar extends StatelessWidget {
-  String qrCode = 'Unknown';
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+        key: _scaffoldKey,
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Container(
-                height: 70,
-                width: 70,
-                child: Image(image: AssetImage('assets/images/mcball.png')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    height: 80,
+                    width: 260,
+                    child: Image(
+                        image: AssetImage(translate('listBalls_screen_title'))),
+                  ),
+                  InkWell(
+                    child: Icon(Icons.menu_sharp, size: 50),
+                    onTap: () => _scaffoldKey.currentState.openEndDrawer(),
+                  ),
+                  SizedBox(
+                    width: 0,
+                  )
+                ],
               ),
               Container(
-                height: 80,
-                width: 220,
-                child: Image(
-                    image: AssetImage(translate('listBalls_screen_title'))),
-              ),
-              InkWell(
-                child: Icon(
-                  Icons.menu_sharp,
-                  size: 50,
+                color: Colors.white,
+                height: MediaQuery.of(context).size.height * 0.7,
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Column(
+                  children: [
+                    RowBall(),
+                    RowBall(),
+                    RowBall(),
+                    RowBall(),
+                    RowBall(),
+                    RowBall(),
+                    RowBall(),
+                  ],
                 ),
-                onTap: () {
-                  AppRouter.router.navigateTo(context, ScreenRoutes.OPTIONS,
-                      transition: TransitionType.fadeIn,
-                      transitionDuration: Duration(milliseconds: 800));
-                },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  InkWell(
+                    child: Container(
+                      width: 120,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.orange,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.map_outlined,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Mapa',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            )
+                          ]),
+                    ),
+                    onTap: () {
+                      AppRouter.router.navigateTo(
+                          context, ScreenRoutes.GOOGLEMAPS,
+                          transition: TransitionType.fadeIn,
+                          transitionDuration: Duration(milliseconds: 600));
+                    },
+                  ),
+                  QrScanScreen(),
+                ],
               ),
             ],
           ),
-          Container(
-            color: Colors.white,
-            height: MediaQuery.of(context).size.height * 0.7,
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: Column(
+        ),
+        backgroundColor: PaletteColors.APP_BACKGROUND,
+        endDrawer: Container(
+          width: 200,
+          child: Drawer(
+            child: ListView(
+              // Important: Remove any padding from the ListView.
+              padding: EdgeInsets.zero,
               children: [
-                RowBall(),
-                RowBall(),
-                RowBall(),
-                RowBall(),
-                RowBall(),
-                RowBall(),
-                RowBall(),
+                DrawerHeader(
+                    child: Container(
+                  height: 100,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Image(
+                          width: 80,
+                          image: AssetImage('assets/images/mcball.png')),
+                      Text(
+                        'Guti Jedi',
+                        style: TextStyle(fontSize: 20),
+                      )
+                    ],
+                  ),
+                )),
+                ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text(translate("profile_lbl")),
+                    onTap: () {
+                      AppRouter.router.pop(context);
+                      AppRouter.router.navigateTo(context, ScreenRoutes.PROFILE,
+                          transition: TransitionType.fadeIn,
+                          transitionDuration: Duration(milliseconds: 600));
+                    }),
+                ListTile(
+                    leading: Icon(Icons.settings),
+                    title: Text(translate("options_lbl")),
+                    onTap: () {
+                      AppRouter.router.pop(context);
+                      AppRouter.router.navigateTo(context, ScreenRoutes.OPTIONS,
+                          transition: TransitionType.fadeIn,
+                          transitionDuration: Duration(milliseconds: 600));
+                    }),
+                SizedBox(
+                  height: 260,
+                ),
+                ListTile(
+                    trailing: Icon(Icons.logout),
+                    title: Text(translate("logout_lbl")),
+                    onTap: () {
+                      AppRouter.router.pop(context);
+                      AppRouter.router.navigateTo(context, ScreenRoutes.LOGIN,
+                          transition: TransitionType.fadeIn,
+                          transitionDuration: Duration(milliseconds: 600));
+                    }),
+                Text(
+                  'Developed by MuchoCodigoIT\n © 2021 MuchoCodigo TM',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey,
+                  ),
+                ),
               ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              InkWell(
-                child: Container(
-                  width: 120,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: Colors.orange,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.map_outlined,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Mapa',
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                        )
-                      ]),
-                ),
-                onTap: () {
-                  AppRouter.router.navigateTo(context, ScreenRoutes.GOOGLEMAPS,
-                      transition: TransitionType.fadeIn,
-                      transitionDuration: Duration(milliseconds: 600));
-                },
-              ),
-              QrScan(),
-            ],
-          ),
-        ],
-      ),
-    );
+        ));
   }
-}
-
-Route _createRoute() {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => GoogleMapScreen(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return child;
-    },
-  );
 }
 
 class BallContainer extends StatefulWidget {

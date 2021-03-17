@@ -142,6 +142,7 @@ class LinearProgressIndicatorAppState
       if (_progressValue.toStringAsFixed(1) == '1.0') {
         _loading = false;
         t.cancel();
+        AppRouter.router.pop(context);
         return await AppRouter.router.navigateTo(
             context, result ? ScreenRoutes.BALLSLIST : ScreenRoutes.LOGIN,
             transition: TransitionType.material,

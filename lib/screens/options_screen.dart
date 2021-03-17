@@ -1,12 +1,11 @@
 import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/utils/router.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
 class OptionsScreen extends StatelessWidget {
-  final String text;
-
-  OptionsScreen({this.text = "Defecto"});
+  final String text = translate('options_lbl');
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +37,7 @@ class OptionsScreen extends StatelessWidget {
                 buttoncolor: Colors.blueAccent,
                 fontsize: 24,
                 ontap: () {
+                  AppRouter.router.pop(context);
                   AppRouter.router
                       .navigateTo(context, ScreenRoutes.SELECTLANGUAGE);
                 },
@@ -56,13 +56,36 @@ class OptionsScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
               child: OptionsButton(
-                  text: "LOGOUT",
-                  textcolor: Colors.white,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  height: 75,
-                  buttoncolor: Colors.red,
-                  fontsize: 24),
+                text: translate("back_lbl"),
+                textcolor: Colors.white,
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: 75,
+                buttoncolor: Colors.red,
+                fontsize: 24,
+                ontap: () {
+                  AppRouter.router.pop(context);
+                  AppRouter.router.navigateTo(context, ScreenRoutes.BALLSLIST,
+                      transition: TransitionType.fadeIn,
+                      transitionDuration: Duration(milliseconds: 600));
+                },
+              ),
             ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: 40,
+              ),
+              child: Container(
+                child: Text(
+                  translate(
+                      'Developed by MuchoCodigoIT\n © 2021 MuchoCodigo TM'),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey[20],
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),

@@ -30,5 +30,9 @@
   "user_already_exists": "The user already exists",
   "information_ball": "THIS BALL IS MALL",
   "select_lenguage_tittle": "SELECT LENGUAGE",
-  "no_conn": "Couldn't connect to server"
+  "no_conn": "Couldn't connect to server",
+  "options_lbl": "Options",
+  "profile_lbl": "Profile",
+  "logout_lbl": "Log out",
+  "back_lbl": "Return Menu"
 }

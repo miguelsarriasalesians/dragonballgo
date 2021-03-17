@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
-class QrScan extends StatefulWidget {
+class QrScanScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _QrPageState();
 }
 
-class _QrPageState extends State<QrScan> {
-  String qrCode = 'Unknown';
+class _QrPageState extends State<QrScanScreen> {
+  String qrCode = '0';
   @override
   Widget build(BuildContext context) => InkWell(
       child: Container(

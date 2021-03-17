@@ -20,8 +20,6 @@ class ScreenRoutes {
   static final String PROFILE = "/profile";
   static final String GOOGLEMAPS = "/gmaps";
   static final String OPTIONS = "/options";
-  static final String QRREADER = "/qrreader";
-  static final String CLOSEBALL = "/closeball";
 
   static final _SPLASH = AppRoute(
       SPLASH, Handler(handlerFunc: (context, parameters) => LoadScreen()));
@@ -47,12 +45,6 @@ class ScreenRoutes {
   static final _OPTIONS = AppRoute(
       OPTIONS, Handler(handlerFunc: (context, parameters) => OptionsScreen()));
 
-  static final _QRREADER = AppRoute(
-      QRREADER, Handler(handlerFunc: (context, parameters) => QrScan()));
-
-  static final _CLOSEBALL = AppRoute(QRREADER,
-      Handler(handlerFunc: (context, parameters) => CloseBallsScreen()));
-
   static final List<AppRoute> routes = [
     _SPLASH,
     _LOGIN,
@@ -61,8 +53,6 @@ class ScreenRoutes {
     _SELECTLANGUAGE,
     _PROFILE,
     _GOOGLEMAPS,
-    _OPTIONS,
-    _QRREADER,
-    _CLOSEBALL
+    _OPTIONS
   ];
 }
