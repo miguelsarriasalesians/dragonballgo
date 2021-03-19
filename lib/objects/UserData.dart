@@ -14,10 +14,10 @@ class UserData {
 
   factory UserData.fromJson(Map<String, dynamic> json) {
     return UserData(
-      userName: json['userName'],
-      email: json['email'],
-      password: json['password'],
-      birthday: json['birthday'],
+      userName: "Guti",
+      email: "guti@gmail.com",
+      password: "gutinomola",
+      birthday: "26/08/2001",
     );
   }
 }

@@ -2,6 +2,9 @@
   "select_language": "Select language",
   "language_english": "English",
   "language_spanish": "Spanish",
+  "language_french": "French",
+  "language_italian": "Italian",
+  "language_german": "German",
   "next_button": "Next",
   "main_screen_title": "Main Screen",
   "information_screen_title": "Information Screen",
@@ -34,8 +37,11 @@
   "language_lbl": "Language",
   "profile_lbl": "Profile",
   "logout_lbl": "Log out",
-  "back_lbl": "Return Menu",
+  "back_lbl": "Return to Menu",
   "statistics_lbl": "Statistics",
-  "select_lang_desc": "Change the display language of the app. By default, use the language of your device. The language will finish changing when you restart DragonBallGo",
-  "select_lang_title": "APP LANGUAGE"
+  "select_lang_desc": "Change the display language of the app. By default, use the language of your device. The language will finish changing when you restart DragonBallGo.",
+  "select_lang_title": "APP LANGUAGE",
+  "statistics_title": "STATISTICS",
+  "statistics_desc" : "We save all your data from the game process so that you can review your process over time, here you can view your day-to-day data as a Ball Finder.",
+  "profile_title": "PROFILE"
 }

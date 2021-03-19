@@ -115,7 +115,7 @@ class ListBallsScreen extends StatelessWidget {
               children: [
                 DrawerHeader(
                     child: Container(
-                  height: 100,
+                  height: MediaQuery.of(context).size.height * 0.1,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -169,7 +169,7 @@ class ListBallsScreen extends StatelessWidget {
                           transitionDuration: Duration(milliseconds: 600));
                     }),
                 SizedBox(
-                  height: 120,
+                  height: MediaQuery.of(context).size.height * 0.25,
                 ),
                 ListTile(
                     trailing: Icon(Icons.logout),

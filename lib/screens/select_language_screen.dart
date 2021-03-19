@@ -50,14 +50,26 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
                 ),
                 getButton('language_spanish', 'es'),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.01,
+                ),
+                getButton('language_french', 'fr'),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.01,
+                ),
+                getButton('language_italian', 'it'),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.01,
+                ),
+                getButton('language_german', 'gr'),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.2,
                 ),
                 InkWell(
                   child: Container(
                     height: 30,
-                    width: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(5),
                         color: Colors.orange),
                     child: Align(
                       alignment: Alignment.center,
@@ -73,13 +85,7 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
                         transition: TransitionType.fadeIn,
                         transitionDuration: Duration(milliseconds: 600));
                   },
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.03,
-                ),
-                Image(
-                    width: MediaQuery.of(context).size.height * 0.4,
-                    image: AssetImage('assets/images/logo.png'))
+                )
               ],
             ),
           ),
@@ -103,6 +109,9 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
           saveLanguage('en');
           selectedLocale = new Locale('en', '');
         } else if (languageCode == 'es') {
+          saveLanguage('es');
+          selectedLocale = new Locale('es', '');
+        } else {
           saveLanguage('es');
           selectedLocale = new Locale('es', '');
         }
