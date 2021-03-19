@@ -2,6 +2,7 @@ import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/utils/router.dart';
+import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:dragonballgo/widgets/custom_textfield.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 class LoginScreen extends StatelessWidget {
   final emailController = new TextEditingController();
   final passwordController = new TextEditingController();
+  final SessionManager manager = new SessionManager();
 
   void login(BuildContext ctx) {
     FetchLogin(emailController.text, passwordController.text).then((val) {

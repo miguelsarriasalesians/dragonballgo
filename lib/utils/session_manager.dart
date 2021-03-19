@@ -26,4 +26,15 @@ class SessionManager {
 
   Future<bool> removeKey(String constant) async =>
       await (await getPrefs()).remove(constant);
+
+  Future<dynamic> getUserData() async {
+    String userData =
+        await (await getPrefs()).getString(SharedPreferencesConsts.USER);
+    return userData != null ? userData.replaceAll("\"", "") : null;
+  }
+
+  setUserData(String userData) async {
+    (await getPrefs()).setString(SharedPreferencesConsts.USER, userData);
+    print('Auth token saved');
+  }
 }

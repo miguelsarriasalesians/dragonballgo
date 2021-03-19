@@ -35,5 +35,7 @@
   "profile_lbl": "Perfil",
   "logout_lbl": "Cerrar Sesión",
   "back_lbl": "Volver al Menú",
-  "statistics_lbl": "Estadísticas"
+  "statistics_lbl": "Estadísticas",
+  "select_lang_desc": "Cambia el idioma de visualización de la app. Por omisión, utiliza el idioma de tu dispositivo. El idioma acabará de cambiarse cuando reinicies DragonBallGo",
+  "select_lang_title": "IDIOMA DE LA APP"
 }

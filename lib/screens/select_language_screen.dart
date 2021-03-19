@@ -30,14 +30,14 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
                 Text(
-                  'IDIOMA DE LA APP',
+                  translate('select_lang_title'),
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
                 Text(
-                  'Cambia el idioma de visualización de la app. Por omisión, utiliza el idioma de tu dispositivo. El idioma acabará de cambiarse cuando reinicies DragonBallGo',
+                  translate('select_lang_desc'),
                   style: TextStyle(),
                   textAlign: TextAlign.center,
                 ),

@@ -41,7 +41,7 @@ class ProfileScreen extends StatelessWidget {
                 TextField(decoration: InputDecoration(hintText: 'Nombre')),
                 TextField(decoration: InputDecoration(hintText: 'Contraseña')),
                 TextField(decoration: InputDecoration(hintText: 'Correo')),
-                TextField(decoration: InputDecoration(hintText: 'Localidad')),
+                TextField(decoration: InputDecoration(hintText: 'Cumpleaños')),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.02,
                 ),

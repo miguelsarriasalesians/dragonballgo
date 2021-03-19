@@ -3,6 +3,7 @@ import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/screens/google_maps_screen.dart';
 import 'package:dragonballgo/screens/qrReader_screen.dart';
 import 'package:dragonballgo/utils/router.dart';
+import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +12,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 
 class ListBallsScreen extends StatelessWidget {
   ListBallsScreen({this.title});
-
+  SessionManager manager = new SessionManager();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // Fields in a Widget subclass are always marked "final".
@@ -174,6 +175,7 @@ class ListBallsScreen extends StatelessWidget {
                     trailing: Icon(Icons.logout),
                     title: Text(translate("logout_lbl")),
                     onTap: () {
+                      manager.setToken(null);
                       AppRouter.router.pop(context);
                       AppRouter.router.navigateTo(context, ScreenRoutes.LOGIN,
                           transition: TransitionType.fadeIn,
