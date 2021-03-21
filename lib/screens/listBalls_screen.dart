@@ -1,13 +1,10 @@
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/resources/routes.dart';
-import 'package:dragonballgo/screens/google_maps_screen.dart';
 import 'package:dragonballgo/screens/qrReader_screen.dart';
 import 'package:dragonballgo/utils/router.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
 class ListBallsScreen extends StatelessWidget {
@@ -53,13 +50,20 @@ class ListBallsScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: Column(
                   children: [
-                    RowBall(),
-                    RowBall(),
-                    RowBall(),
-                    RowBall(),
-                    RowBall(),
-                    RowBall(),
-                    RowBall(),
+                    RowBall(Colors.grey, 'assets/images/unknown_ball.png',
+                        translate('information_ball')),
+                    RowBall(Colors.orange, 'assets/images/ball_2.png',
+                        'Has conseguido la bola 2!\nEl dia 21/03/2021'),
+                    RowBall(Colors.grey, 'assets/images/unknown_ball.png',
+                        translate('information_ball')),
+                    RowBall(Colors.grey, 'assets/images/unknown_ball.png',
+                        translate('information_ball')),
+                    RowBall(Colors.grey, 'assets/images/unknown_ball.png',
+                        translate('information_ball')),
+                    RowBall(Colors.orange, 'assets/images/ball_6.png',
+                        'Has conseguido la bola 6!\nEl dia 17/03/2021'),
+                    RowBall(Colors.grey, 'assets/images/unknown_ball.png',
+                        translate('information_ball')),
                   ],
                 ),
               ),
@@ -223,8 +227,9 @@ class _BallContainerState extends State<BallContainer> {
 
 class TextContainer extends StatefulWidget {
   final Color ContainerColor;
+  final String message;
 
-  TextContainer(this.ContainerColor);
+  TextContainer(this.ContainerColor, this.message);
 
   @override
   _TextContainerState createState() => _TextContainerState();
@@ -241,9 +246,10 @@ class _TextContainerState extends State<TextContainer> {
         color: widget.ContainerColor,
       ),
       child: Align(
-        alignment: Alignment.centerLeft,
+        alignment: Alignment.center,
         child: new Text(
-          translate('information_ball'),
+          widget.message,
+          textAlign: TextAlign.center,
           style: TextStyle(
             color: PaletteColors.TEXT_BUTTON,
           ),
@@ -254,13 +260,19 @@ class _TextContainerState extends State<TextContainer> {
 }
 
 class RowBall extends StatelessWidget {
+  final Color containerColor;
+  final String ballImg;
+  final String message;
+
+  RowBall(this.containerColor, this.ballImg, this.message);
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        BallContainer(Colors.grey, 'assets/images/unknown_ball.png'),
-        TextContainer(Colors.grey)
+        BallContainer(containerColor, ballImg),
+        TextContainer(containerColor, message)
       ],
     );
   }
