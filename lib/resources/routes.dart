@@ -1,6 +1,7 @@
 import 'package:dragonballgo/screens/google_maps_screen.dart';
 import 'package:dragonballgo/screens/listBalls_screen.dart';
 import 'package:dragonballgo/screens/login_screen.dart';
+import 'package:dragonballgo/screens/media_screen.dart';
 import 'package:dragonballgo/screens/options_screen.dart';
 import 'package:dragonballgo/screens/profile_screen.dart';
 import 'package:dragonballgo/screens/register_screen.dart';
@@ -20,6 +21,7 @@ class ScreenRoutes {
   static final String GOOGLEMAPS = "/gmaps";
   static final String OPTIONS = "/options";
   static final String STATISTICS = "/statistics";
+  static final String MEDIA = "/media";
 
   static final _SPLASH = AppRoute(
       SPLASH, Handler(handlerFunc: (context, parameters) => LoadScreen()));
@@ -48,6 +50,9 @@ class ScreenRoutes {
   static final _STATISTICS = AppRoute(STATISTICS,
       Handler(handlerFunc: (context, parameters) => StatisticsScreen()));
 
+  static final _MEDIA = AppRoute(
+      MEDIA, Handler(handlerFunc: (context, parameters) => MediaScreen()));
+
   static final List<AppRoute> routes = [
     _SPLASH,
     _LOGIN,
@@ -57,6 +62,7 @@ class ScreenRoutes {
     _PROFILE,
     _GOOGLEMAPS,
     _OPTIONS,
-    _STATISTICS
+    _STATISTICS,
+    _MEDIA
   ];
 }
