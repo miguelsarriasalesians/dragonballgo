@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:dragonballgo/objects/UserData.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:http/http.dart' as http;
@@ -60,6 +61,27 @@ Future<bool> FetchValidation(String token) async {
   return res.statusCode == 200;
 }
 
+Future<Map<String, dynamic>> FetchBalls(
+    {String token, double latitude, double longitude}) async {
+  final resp = await http.get(
+    Uri.http(url, "/api/balls?latitude=$latitude&longitude=$longitude"),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': token
+    },
+  );
+  Map decodeResp = json.decode(resp.body);
+
+  if (resp.statusCode == 200) {
+    return {ResponseKeys.OK: true, ResponseKeys.BODY: decodeResp};
+  } else {
+    return {
+      ResponseKeys.OK: false,
+      ResponseKeys.ERROR_MESSAGE: ResponseKeys.ERROR_MESSAGE
+    };
+  }
+}
+
 Future<UserData> getUserData() async {
   final response = await http.get(Uri.https(url, ''));
 
@@ -94,4 +116,11 @@ Future<int> FetchUserData(
   if (res.statusCode == 200) _sm.setToken(res.body);
 
   return res.statusCode;
+}
+
+class ResponseKeys {
+  static const String OK = 'ok';
+  static const String BODY = 'body';
+  static const String ERROR_MESSAGE = 'message';
+  static const String NOTIFICATION_DATA = 'data';
 }
