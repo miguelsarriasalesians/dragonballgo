@@ -67,7 +67,7 @@ Future<Map<String, dynamic>> FetchBalls(
     Uri.http(url, "/api/balls?latitude=$latitude&longitude=$longitude"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': token
+      'Authorization': 'Bearer ' + token.toString()
     },
   );
   Map decodeResp = json.decode(resp.body);
