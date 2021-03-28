@@ -1,3 +1,5 @@
+import 'package:dragonballgo/objects/ball_model.dart';
+import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/screens/qrReader_screen.dart';
@@ -7,17 +9,41 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
-class ListBallsScreen extends StatelessWidget {
+class ListBallsScreen extends StatefulWidget {
   ListBallsScreen({this.title});
-  SessionManager manager = new SessionManager();
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  // Fields in a Widget subclass are always marked "final".
-
   final Widget title;
 
   @override
+  _ListBallsScreenState createState() => _ListBallsScreenState();
+}
+
+class _ListBallsScreenState extends State<ListBallsScreen> {
+  SessionManager manager = new SessionManager();
+  Map<String, dynamic> balls;
+  List<BallModel> ballsList;
+
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<Map<String, dynamic>> getBalls() async {
+    Future<dynamic> token = await manager.getToken().then((token) async {
+      balls = await FetchBalls(
+              latitude: 6.17790967, longitude: 16.17790967, token: token)
+          .then((balls) {
+        ballsList = List<BallModel>.generate(
+            balls.length, (int index) => BallModel(id: 1, date: '02/02/2022'));
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    getBalls();
+
     return Scaffold(
         key: _scaffoldKey,
         body: SafeArea(
