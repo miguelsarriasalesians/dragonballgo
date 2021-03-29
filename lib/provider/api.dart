@@ -63,14 +63,21 @@ Future<bool> FetchValidation(String token) async {
 
 Future<Map<String, dynamic>> FetchBalls(
     {String token, double latitude, double longitude}) async {
+  Map<String, String> queryParameters = {
+    'latitude': latitude.toString(),
+    'longitude': longitude.toString()
+  };
+  print(token);
+
+  Uri uri = Uri.http(url, "/api/balls", queryParameters);
   final resp = await http.get(
-    Uri.http(url, "/api/balls?latitude=$latitude&longitude=$longitude"),
+    uri,
     headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': 'Bearer ' + token.toString()
+      'Content-Type': 'application/json',
+      'Authorization': token
     },
   );
-  Map decodeResp = json.decode(resp.body);
+  List<dynamic> decodeResp = json.decode(resp.body);
 
   if (resp.statusCode == 200) {
     return {ResponseKeys.OK: true, ResponseKeys.BODY: decodeResp};

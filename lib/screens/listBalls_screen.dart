@@ -34,8 +34,19 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
       balls = await FetchBalls(
               latitude: 6.17790967, longitude: 16.17790967, token: token)
           .then((balls) {
-        ballsList = List<BallModel>.generate(
-            balls.length, (int index) => BallModel(id: 1, date: '02/02/2022'));
+        List<dynamic> list = balls.values.toList();
+        ballsList = List<BallModel>.generate(balls["body"].length, (int index) {
+          Map currentBall = balls["body"][index];
+          return BallModel(
+              id: currentBall["num"],
+              latitude: currentBall["latitude"],
+              longitude: currentBall["longitude"],
+              date:
+                  currentBall.containsKey("date") ? currentBall["date"] : null,
+              image: currentBall.containsKey("image")
+                  ? currentBall["image"]
+                  : null);
+        });
       });
     });
   }
