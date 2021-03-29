@@ -53,7 +53,7 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    getBalls();
+    // getBalls();
 
     return Scaffold(
         key: _scaffoldKey,

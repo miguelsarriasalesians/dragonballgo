@@ -1,14 +1,14 @@
-import 'package:dragonballgo/resources/palette_colors.dart';
+import 'package:dragonballgo/objects/ball_model.dart';
+import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/screens/close_balls_screen.dart';
-import 'package:dragonballgo/screens/login_screen.dart';
 import 'package:dragonballgo/utils/router.dart';
+import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class GoogleMapScreen extends StatefulWidget {
   @override
@@ -20,11 +20,17 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   BitmapDescriptor mapMarker;
   LatLng _initialcameraposition = LatLng(41.39432620402562, 2.1280503535672906);
   Location _location = Location();
+  SessionManager manager = new SessionManager();
+  Map<String, dynamic> balls;
+  List<BallModel> ballsList;
 
   @override
   void initState() {
     super.initState();
     setCustomMarker();
+    // setState(() {
+    //   getBalls().then((ballsList) => generateMarkers(ballsList));
+    // });
   }
 
   void setCustomMarker() async {
@@ -32,7 +38,8 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         ImageConfiguration(), 'assets/images/unknown_ball_pk.png');
   }
 
-  void _onMapCreated(GoogleMapController controller) {
+  void _onMapCreated(GoogleMapController controller) async {
+    ballsList = await getBalls();
     controller.setMapStyle(Utils.mapStyle);
     _location.onLocationChanged.listen((l) {
       controller.animateCamera(
@@ -42,6 +49,19 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
       );
     });
     setState(() {
+      // for (int i = 0; i < ballsList.length; i++) {
+      //   BallModel currentBallModel = ballsList[i];
+      //   Marker marker = Marker(
+      //       markerId: MarkerId("id-${currentBallModel.id.toString()}"),
+      //       position:
+      //           LatLng(currentBallModel.latitude, currentBallModel.longitude),
+      //       icon: mapMarker,
+      //       infoWindow: InfoWindow(
+      //           title: "Bola Numero ${currentBallModel.id.toString()}",
+      //           snippet: "Cerca de "));
+      //   _markers.add(marker);
+      // }
+
       _markers.add(
         Marker(
             markerId: MarkerId('id-1'),
@@ -181,6 +201,41 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         ]),
       ),
     );
+  }
+
+  Future<List<BallModel>> getBalls() async {
+    String token = await manager.getToken();
+    Map<String, dynamic> balls = await FetchBalls(
+        latitude: 6.17790967, longitude: 16.17790967, token: token);
+
+    // List<dynamic> list = balls.values.toList();
+    List<BallModel> ballsList =
+        List<BallModel>.generate(balls["body"].length, (int index) {
+      Map currentBall = balls["body"][index];
+      return BallModel(
+          id: currentBall["num"],
+          latitude: currentBall["latitude"],
+          longitude: currentBall["longitude"],
+          date: currentBall.containsKey("date") ? currentBall["date"] : null,
+          image:
+              currentBall.containsKey("image") ? currentBall["image"] : null);
+    });
+    return ballsList;
+  }
+
+  void generateMarkers(List<BallModel> ballsList) {
+    for (int i = 0; i < ballsList.length; i++) {
+      BallModel currentBallModel = ballsList[i];
+      Marker marker = Marker(
+          markerId: MarkerId("id-${currentBallModel.id}"),
+          position:
+              LatLng(currentBallModel.latitude, currentBallModel.longitude),
+          icon: mapMarker,
+          infoWindow: InfoWindow(
+              title: "Bola Numero ${currentBallModel.id}",
+              snippet: "Cerca de "));
+      _markers.add(marker);
+    }
   }
 }
 
