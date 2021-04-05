@@ -1,16 +1,19 @@
 import 'package:dragonballgo/objects/ball_model.dart';
 import 'package:dragonballgo/provider/api.dart';
-import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/screens/close_balls_screen.dart';
-import 'package:dragonballgo/utils/router.dart';
+import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
-import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
+import 'listBalls_screen.dart';
+
 class GoogleMapScreen extends StatefulWidget {
+  final List<BallModel> listOfBalls;
+
+  GoogleMapScreen({this.listOfBalls});
   @override
   _GoogleMapScreenState createState() => _GoogleMapScreenState();
 }
@@ -28,6 +31,11 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   void initState() {
     super.initState();
     setCustomMarker();
+    ballsList = widget.listOfBalls;
+    _markers = generateMarkers(ballsList);
+    //Generate markers from this ballsList
+    // generateMarkers(ballsList);
+
     // setState(() {
     //   getBalls().then((ballsList) => generateMarkers(ballsList));
     // });
@@ -39,7 +47,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   }
 
   void _onMapCreated(GoogleMapController controller) async {
-    ballsList = await getBalls();
+    // ballsList = await getBalls();
     controller.setMapStyle(Utils.mapStyle);
     _location.onLocationChanged.listen((l) {
       controller.animateCamera(
@@ -48,91 +56,94 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         ),
       );
     });
-    setState(() {
-      // for (int i = 0; i < ballsList.length; i++) {
-      //   BallModel currentBallModel = ballsList[i];
-      //   Marker marker = Marker(
-      //       markerId: MarkerId("id-${currentBallModel.id.toString()}"),
-      //       position:
-      //           LatLng(currentBallModel.latitude, currentBallModel.longitude),
-      //       icon: mapMarker,
-      //       infoWindow: InfoWindow(
-      //           title: "Bola Numero ${currentBallModel.id.toString()}",
-      //           snippet: "Cerca de "));
-      //   _markers.add(marker);
-      // }
 
-      _markers.add(
-        Marker(
-            markerId: MarkerId('id-1'),
-            position: LatLng(41.39262194039931, 2.1250778061462774),
-            icon: mapMarker,
-            infoWindow: InfoWindow(
-              title: 'Bola Numero 1',
-              snippet: 'Cerca de Don Bosco',
-            )),
-      );
-      _markers.add(
-        Marker(
-            markerId: MarkerId('id-2'),
-            position: LatLng(41.39751272297607, 2.1315177853781297),
-            icon: mapMarker,
-            infoWindow: InfoWindow(
-              title: 'Bola Numero 2',
-              snippet: 'Cerca de Via Augusta',
-            )),
-      );
-      _markers.add(
-        Marker(
-            markerId: MarkerId('id-3'),
-            position: LatLng(41.397475259744816, 2.123277412360181),
-            icon: mapMarker,
-            infoWindow: InfoWindow(
-              title: 'Bola Numero 3',
-              snippet: 'Cerca de Carrer Gran de Sarrià',
-            )),
-      );
-      _markers.add(
-        Marker(
-            markerId: MarkerId('id-4'),
-            position: LatLng(41.391101826371646, 2.1234163629342926),
-            icon: mapMarker,
-            infoWindow: InfoWindow(
-              title: 'Bola Numero 4',
-              snippet: 'Cerca del Hospital Cima',
-            )),
-      );
-      _markers.add(
-        Marker(
-            markerId: MarkerId('id-5'),
-            position: LatLng(41.39439790578477, 2.1322252026710737),
-            icon: mapMarker,
-            infoWindow: InfoWindow(
-              title: 'Bola Numero 5',
-              snippet: 'Cerca de General Mitre',
-            )),
-      );
-      _markers.add(
-        Marker(
-            markerId: MarkerId('id-6'),
-            position: LatLng(41.39640754861234, 2.127872044618878),
-            icon: mapMarker,
-            infoWindow: InfoWindow(
-              title: 'Bola Numero 6',
-              snippet: 'Cerca de unas pistas de deporte',
-            )),
-      );
-      _markers.add(
-        Marker(
-            markerId: MarkerId('id-7'),
-            position: LatLng(41.39086266121324, 2.1290207026776984),
-            icon: mapMarker,
-            infoWindow: InfoWindow(
-              title: 'Bola Numero 7',
-              snippet: 'Cerca del Hospital de Barcelona',
-            )),
-      );
-    });
+    // setState(() {
+    for (int i = 0; i < ballsList.length; i++) {
+      BallModel currentBallModel = ballsList[i];
+      Marker marker = Marker(
+          markerId: MarkerId("id-${currentBallModel.id.toString()}"),
+          position:
+              LatLng(currentBallModel.latitude, currentBallModel.longitude),
+          icon: mapMarker,
+          infoWindow: InfoWindow(
+              title: "Bola Numero ${currentBallModel.id.toString()}",
+              snippet: "Cerca de "));
+      setState(() {
+        _markers.add(marker);
+      });
+    }
+    //
+    //   _markers.add(
+    //     Marker(
+    //         markerId: MarkerId('id-1'),
+    //         position: LatLng(41.39262194039931, 2.1250778061462774),
+    //         icon: mapMarker,
+    //         infoWindow: InfoWindow(
+    //           title: 'Bola Numero 1',
+    //           snippet: 'Cerca de Don Bosco',
+    //         )),
+    //   );
+    //   _markers.add(
+    //     Marker(
+    //         markerId: MarkerId('id-2'),
+    //         position: LatLng(41.39751272297607, 2.1315177853781297),
+    //         icon: mapMarker,
+    //         infoWindow: InfoWindow(
+    //           title: 'Bola Numero 2',
+    //           snippet: 'Cerca de Via Augusta',
+    //         )),
+    //   );
+    //   _markers.add(
+    //     Marker(
+    //         markerId: MarkerId('id-3'),
+    //         position: LatLng(41.397475259744816, 2.123277412360181),
+    //         icon: mapMarker,
+    //         infoWindow: InfoWindow(
+    //           title: 'Bola Numero 3',
+    //           snippet: 'Cerca de Carrer Gran de Sarrià',
+    //         )),
+    //   );
+    //   _markers.add(
+    //     Marker(
+    //         markerId: MarkerId('id-4'),
+    //         position: LatLng(41.391101826371646, 2.1234163629342926),
+    //         icon: mapMarker,
+    //         infoWindow: InfoWindow(
+    //           title: 'Bola Numero 4',
+    //           snippet: 'Cerca del Hospital Cima',
+    //         )),
+    //   );
+    //   _markers.add(
+    //     Marker(
+    //         markerId: MarkerId('id-5'),
+    //         position: LatLng(41.39439790578477, 2.1322252026710737),
+    //         icon: mapMarker,
+    //         infoWindow: InfoWindow(
+    //           title: 'Bola Numero 5',
+    //           snippet: 'Cerca de General Mitre',
+    //         )),
+    //   );
+    //   _markers.add(
+    //     Marker(
+    //         markerId: MarkerId('id-6'),
+    //         position: LatLng(41.39640754861234, 2.127872044618878),
+    //         icon: mapMarker,
+    //         infoWindow: InfoWindow(
+    //           title: 'Bola Numero 6',
+    //           snippet: 'Cerca de unas pistas de deporte',
+    //         )),
+    //   );
+    //   _markers.add(
+    //     Marker(
+    //         markerId: MarkerId('id-7'),
+    //         position: LatLng(41.39086266121324, 2.1290207026776984),
+    //         icon: mapMarker,
+    //         infoWindow: InfoWindow(
+    //           title: 'Bola Numero 7',
+    //           snippet: 'Cerca del Hospital de Barcelona',
+    //         )),
+    //   );
+    // });
   }
 
   @override
@@ -141,6 +152,18 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
       body: SafeArea(
         child: Stack(children: [
           GoogleMap(
+            onTap: (argument) {
+              Marker marker = Marker(
+                  markerId: MarkerId("id-66"),
+                  position: LatLng(41.397475259744816, 2.123277412360181),
+                  icon: mapMarker,
+                  infoWindow: InfoWindow(
+                      title: "Bola Numero 66", snippet: "Cerca de "));
+
+              setState(() {
+                _markers.add(marker);
+              });
+            },
             mapToolbarEnabled: false,
             compassEnabled: false,
             onMapCreated: _onMapCreated,
@@ -173,10 +196,13 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                   child:
                       Image(image: AssetImage('assets/images/allBalls.png'))),
               onTap: () {
-                AppRouter.router.pop(context);
-                AppRouter.router.navigateTo(context, ScreenRoutes.BALLSLIST,
-                    transition: TransitionType.fadeIn,
-                    transitionDuration: Duration(milliseconds: 600));
+                NavigationManager(context).openScreenAsNew(ListBallsScreen(
+                  listOfBalls: this.ballsList,
+                ));
+                // AppRouter.router.pop(context);
+                // AppRouter.router.navigateTo(context, ScreenRoutes.BALLSLIST,
+                //     transition: TransitionType.fadeIn,
+                //     transitionDuration: Duration(milliseconds: 600));
               },
             ),
           ),
@@ -216,14 +242,16 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
           id: currentBall["num"],
           latitude: currentBall["latitude"],
           longitude: currentBall["longitude"],
-          date: currentBall.containsKey("date") ? currentBall["date"] : null,
+          pickedDate:
+              currentBall.containsKey("date") ? currentBall["date"] : null,
           image:
               currentBall.containsKey("image") ? currentBall["image"] : null);
     });
     return ballsList;
   }
 
-  void generateMarkers(List<BallModel> ballsList) {
+  Set<Marker> generateMarkers(List<BallModel> ballsList) {
+    Set<Marker> markers = {};
     for (int i = 0; i < ballsList.length; i++) {
       BallModel currentBallModel = ballsList[i];
       Marker marker = Marker(
@@ -235,7 +263,11 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
               title: "Bola Numero ${currentBallModel.id}",
               snippet: "Cerca de "));
       _markers.add(marker);
+      bool added = markers.add(marker);
+
+      print("Marker $i - Added: $added");
     }
+    return markers;
   }
 }
 
