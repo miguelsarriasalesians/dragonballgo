@@ -7,6 +7,7 @@ import 'package:dragonballgo/screens/qrReader_screen.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:dragonballgo/utils/router.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
+import 'package:dragonballgo/widgets/row_ball.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -243,83 +244,5 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
         ));
 
     // }
-  }
-}
-
-class BallContainer extends StatefulWidget {
-  final Color ContainerColorBall;
-  final String ballImg;
-
-  BallContainer(this.ContainerColorBall, this.ballImg);
-
-  @override
-  _BallContainerState createState() => _BallContainerState();
-}
-
-class _BallContainerState extends State<BallContainer> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: (MediaQuery.of(context).size.height * 0.7) * 0.1425,
-      width: (MediaQuery.of(context).size.width * 0.9) * 0.3,
-      decoration: BoxDecoration(
-        border: Border.all(width: 1, color: Colors.black),
-        color: widget.ContainerColorBall,
-      ),
-      child: Image(image: AssetImage(widget.ballImg)),
-    );
-  }
-}
-
-class TextContainer extends StatefulWidget {
-  final Color ContainerColor;
-  final String message;
-
-  TextContainer(this.ContainerColor, this.message);
-
-  @override
-  _TextContainerState createState() => _TextContainerState();
-}
-
-class _TextContainerState extends State<TextContainer> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: (MediaQuery.of(context).size.height * 0.7) * 0.1426,
-      width: (MediaQuery.of(context).size.width * 0.9) * 0.65,
-      decoration: BoxDecoration(
-        border: Border.all(width: 1, color: Colors.black),
-        color: widget.ContainerColor,
-      ),
-      child: Align(
-        alignment: Alignment.center,
-        child: new Text(
-          widget.message,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: PaletteColors.TEXT_BUTTON,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class RowBall extends StatelessWidget {
-  final Color containerColor;
-  final String ballImg;
-  final String message;
-
-  RowBall(this.containerColor, this.ballImg, this.message);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        BallContainer(containerColor, ballImg),
-        TextContainer(containerColor, message)
-      ],
-    );
   }
 }
