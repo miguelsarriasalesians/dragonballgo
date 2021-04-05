@@ -32,7 +32,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     super.initState();
     setCustomMarker();
     ballsList = widget.listOfBalls;
-    _markers = generateMarkers(ballsList);
+    // _markers = generateMarkers(ballsList);
     //Generate markers from this ballsList
     // generateMarkers(ballsList);
 
@@ -68,6 +68,18 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
           infoWindow: InfoWindow(
               title: "Bola Numero ${currentBallModel.id.toString()}",
               snippet: "Cerca de "));
+      setState(() {
+        _markers.add(marker);
+      });
+    }
+    //TODO: Delete, Prueba
+    for (int i = 0; i < 1; i++) {
+      Marker marker = Marker(
+          markerId: MarkerId("id-prueba"),
+          position: LatLng(41.39262194039931, 2.1250778061462774),
+          icon: mapMarker,
+          infoWindow: InfoWindow(
+              title: "Bola Numero prueba", snippet: "Cerca de PRUEBA"));
       setState(() {
         _markers.add(marker);
       });
@@ -152,18 +164,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
       body: SafeArea(
         child: Stack(children: [
           GoogleMap(
-            onTap: (argument) {
-              Marker marker = Marker(
-                  markerId: MarkerId("id-66"),
-                  position: LatLng(41.397475259744816, 2.123277412360181),
-                  icon: mapMarker,
-                  infoWindow: InfoWindow(
-                      title: "Bola Numero 66", snippet: "Cerca de "));
-
-              setState(() {
-                _markers.add(marker);
-              });
-            },
             mapToolbarEnabled: false,
             compassEnabled: false,
             onMapCreated: _onMapCreated,
