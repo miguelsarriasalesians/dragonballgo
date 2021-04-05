@@ -2,7 +2,9 @@ import 'package:dragonballgo/objects/ball_model.dart';
 import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/resources/routes.dart';
+import 'package:dragonballgo/screens/google_maps_screen.dart';
 import 'package:dragonballgo/screens/qrReader_screen.dart';
+import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:dragonballgo/utils/router.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:fluro/fluro.dart';
@@ -10,8 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
 class ListBallsScreen extends StatefulWidget {
-  ListBallsScreen({this.title});
+  ListBallsScreen({this.title, this.listOfBalls});
   final Widget title;
+  final List<BallModel> listOfBalls;
 
   @override
   _ListBallsScreenState createState() => _ListBallsScreenState();
@@ -20,41 +23,100 @@ class ListBallsScreen extends StatefulWidget {
 class _ListBallsScreenState extends State<ListBallsScreen> {
   SessionManager manager = new SessionManager();
   Map<String, dynamic> balls;
+  bool isLoading = true;
   List<BallModel> ballsList;
-
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<RowBall> rowBalls;
 
   @override
   void initState() {
-    super.initState();
+    setState(() {});
+    ballsList = widget.listOfBalls;
+    rowBalls = List.generate(ballsList.length, (index) {
+      BallModel currentBall = ballsList[index];
+      int ballId = currentBall.id;
+      String imageRoute = currentBall.id != null
+          ? "assets/images/ball_$ballId.png"
+          : "assets/images/unknown_ball.png";
+      Color rowColor = currentBall.picked == true ? Colors.orange : Colors.grey;
+      String message = currentBall.picked == true
+          ? "Has conseguido la bola $ballId!\nEl dia ${currentBall.pickedDate}"
+          : translate('information_ball');
+
+      return RowBall(
+        rowColor,
+        imageRoute,
+        message,
+      );
+    });
   }
 
-  Future<Map<String, dynamic>> getBalls() async {
-    Future<dynamic> token = await manager.getToken().then((token) async {
-      balls = await FetchBalls(
-              latitude: 6.17790967, longitude: 16.17790967, token: token)
-          .then((balls) {
-        List<dynamic> list = balls.values.toList();
-        ballsList = List<BallModel>.generate(balls["body"].length, (int index) {
-          Map currentBall = balls["body"][index];
-          return BallModel(
-              id: currentBall["num"],
-              latitude: currentBall["latitude"],
-              longitude: currentBall["longitude"],
-              date:
-                  currentBall.containsKey("date") ? currentBall["date"] : null,
-              image: currentBall.containsKey("image")
-                  ? currentBall["image"]
-                  : null);
-        });
-      });
+  // Future<Map<String, dynamic>> getBalls() async {
+  //   Future<dynamic> token = await manager.getToken().then((token) async {
+  //     balls = await FetchBalls(
+  //             latitude: 6.17790967, longitude: 16.17790967, token: token)
+  //         .then((balls) {
+  //       List<dynamic> list = balls.values.toList();
+  //       ballsList = List<BallModel>.generate(balls["body"].length, (int index) {
+  //         Map currentBall = balls["body"][index];
+  //         return BallModel(
+  //             id: currentBall["num"],
+  //             latitude: currentBall["latitude"],
+  //             longitude: currentBall["longitude"],
+  //             date:
+  //                 currentBall.containsKey("date") ? currentBall["date"] : null,
+  //             image: currentBall.containsKey("image")
+  //                 ? currentBall["image"]
+  //                 : null);
+  //       });
+  //     });
+  //   });
+  // }
+
+  Future<List<BallModel>> getBalls() async {
+    String token = await manager.getToken();
+    Map<String, dynamic> balls = await FetchBalls(
+        latitude: 6.17790967, longitude: 16.17790967, token: token);
+
+    // List<dynamic> list = balls.values.toList();
+    List<BallModel> theBalls =
+        List<BallModel>.generate(balls["body"].length, (int index) {
+      Map currentBall = balls["body"][index];
+      return BallModel(
+          id: currentBall["num"],
+          latitude: currentBall["latitude"],
+          longitude: currentBall["longitude"],
+          pickedDate:
+              currentBall.containsKey("date") ? currentBall["date"] : null,
+          image:
+              currentBall.containsKey("image") ? currentBall["image"] : null);
     });
+    ballsList = theBalls;
+
+    isLoading = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    // getBalls();
-
+    // if (isLoading) {
+    //   return Scaffold(
+    //     key: _scaffoldKey,
+    //     body: SafeArea(
+    //       child: Column(
+    //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+    //         children: [
+    //           Container(
+    //             color: Colors.red,
+    //             width: 30,
+    //             height: 30,
+    //           )
+    //         ],
+    //       ),
+    //     ),
+    //     backgroundColor: PaletteColors.APP_BACKGROUND,
+    //   );
+    // }
+    // else {
     return Scaffold(
         key: _scaffoldKey,
         body: SafeArea(
@@ -81,27 +143,46 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
                   )
                 ],
               ),
-              Container(
-                color: Colors.white,
-                height: MediaQuery.of(context).size.height * 0.7,
-                width: MediaQuery.of(context).size.width * 0.9,
+              SingleChildScrollView(
                 child: Column(
-                  children: [
-                    RowBall(Colors.grey, 'assets/images/unknown_ball.png',
-                        translate('information_ball')),
-                    RowBall(Colors.orange, 'assets/images/ball_2.png',
-                        'Has conseguido la bola 2!\nEl dia 21/03/2021'),
-                    RowBall(Colors.grey, 'assets/images/unknown_ball.png',
-                        translate('information_ball')),
-                    RowBall(Colors.grey, 'assets/images/unknown_ball.png',
-                        translate('information_ball')),
-                    RowBall(Colors.grey, 'assets/images/unknown_ball.png',
-                        translate('information_ball')),
-                    RowBall(Colors.orange, 'assets/images/ball_6.png',
-                        'Has conseguido la bola 6!\nEl dia 17/03/2021'),
-                    RowBall(Colors.grey, 'assets/images/unknown_ball.png',
-                        translate('information_ball')),
-                  ],
+                  children: rowBalls,
+                  // children: [
+                  //   ListView.builder(
+                  //     itemCount: ballsList.length,
+                  //     itemBuilder: (context, index) {
+                  //       BallModel currentBall = ballsList[index];
+                  //       int ballId = currentBall.id;
+                  //       String imageRoute = currentBall.id != null
+                  //           ? "assets/images/ball_$ballId.png"
+                  //           : "assets/images/unknown_ball.png";
+                  //       Color rowColor =
+                  //           currentBall.picked ? Colors.orange : Colors.grey;
+                  //       String message = currentBall.picked
+                  //           ? "Has conseguido la bola $ballId!\nEl dia ${currentBall.pickedDate}"
+                  //           : translate('information_ball');
+                  //
+                  //       return RowBall(
+                  //         rowColor,
+                  //         imageRoute,
+                  //         message,
+                  //       );
+                  //     },
+                  //   ),
+                  //   RowBall(Colors.grey, 'assets/images/unknown_ball.png',
+                  //       translate('information_ball')),
+                  //   RowBall(Colors.orange, 'assets/images/ball_2.png',
+                  //       'Has conseguido la bola 2!\nEl dia 21/03/2021'),
+                  //   RowBall(Colors.grey, 'assets/images/unknown_ball.png',
+                  //       translate('information_ball')),
+                  //   RowBall(Colors.grey, 'assets/images/unknown_ball.png',
+                  //       translate('information_ball')),
+                  //   RowBall(Colors.grey, 'assets/images/unknown_ball.png',
+                  //       translate('information_ball')),
+                  //   RowBall(Colors.orange, 'assets/images/ball_6.png',
+                  //       'Has conseguido la bola 6!\nEl dia 17/03/2021'),
+                  //   RowBall(Colors.grey, 'assets/images/unknown_ball.png',
+                  //       translate('information_ball')),
+                  // ],
                 ),
               ),
               Row(
@@ -134,10 +215,14 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
                           ]),
                     ),
                     onTap: () {
-                      AppRouter.router.navigateTo(
-                          context, ScreenRoutes.GOOGLEMAPS,
-                          transition: TransitionType.fadeIn,
-                          transitionDuration: Duration(milliseconds: 600));
+                      NavigationManager(context)
+                          .openScreenAsNew(GoogleMapScreen(
+                        listOfBalls: this.ballsList,
+                      ));
+                      // AppRouter.router.navigateTo(
+                      //     context, ScreenRoutes.GOOGLEMAPS,
+                      //     transition: TransitionType.fadeIn,
+                      //     transitionDuration: Duration(milliseconds: 600));
                     },
                   ),
                   QrScanScreen(),
@@ -234,6 +319,8 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
             ),
           ),
         ));
+
+    // }
   }
 }
 
