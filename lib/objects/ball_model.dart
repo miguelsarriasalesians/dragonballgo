@@ -2,13 +2,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class BallModel {
   final int id;
-  final String date;
+  final String pickedDate;
   final String image;
-  final MarkerId markerId;
   final double latitude;
   final double longitude;
   final BitmapDescriptor bitmapDescriptor;
+  final MarkerId markerId;
   final InfoWindow infoWindow;
+  final bool picked;
 
   BallModel(
       {this.bitmapDescriptor,
@@ -18,5 +19,6 @@ class BallModel {
       this.latitude,
       this.longitude,
       this.id,
-      this.date});
+      this.pickedDate,
+      this.picked});
 }
