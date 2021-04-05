@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:dragonballgo/objects/ball_model.dart';
 import 'package:dragonballgo/provider/api.dart';
-import 'package:dragonballgo/resources/routes.dart';
+import 'package:dragonballgo/screens/listBalls_screen.dart';
+import 'package:dragonballgo/screens/login_screen.dart';
+import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:dragonballgo/utils/router.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 
@@ -130,6 +132,27 @@ class LinearProgressIndicatorAppState
     );
   }
 
+  Future<List<BallModel>> getBalls() async {
+    String token = await _sm.getToken();
+    Map<String, dynamic> balls = await FetchBalls(
+        latitude: 6.17790967, longitude: 16.17790967, token: token);
+
+    // List<dynamic> list = balls.values.toList();
+    List<BallModel> theBalls =
+        List<BallModel>.generate(balls["body"].length, (int index) {
+      Map currentBall = balls["body"][index];
+      return BallModel(
+          id: currentBall["num"],
+          latitude: currentBall["latitude"],
+          longitude: currentBall["longitude"],
+          pickedDate:
+              currentBall.containsKey("date") ? currentBall["date"] : null,
+          image:
+              currentBall.containsKey("image") ? currentBall["image"] : null);
+    });
+    return theBalls;
+  }
+
   // this function updates the progress value
   _updateProgress() async {
     const oneSec = const Duration(seconds: 1);
@@ -143,10 +166,21 @@ class LinearProgressIndicatorAppState
         _loading = false;
         t.cancel();
         AppRouter.router.pop(context);
-        return await AppRouter.router.navigateTo(
-            context, result ? ScreenRoutes.BALLSLIST : ScreenRoutes.LOGIN,
-            transition: TransitionType.material,
-            transitionDuration: Duration(milliseconds: 500));
+
+        //Get balls
+        if (result) {
+          List<BallModel> balls = await getBalls();
+
+          NavigationManager(context).openScreenAsNew(ListBallsScreen(
+            listOfBalls: balls,
+          ));
+        } else {
+          NavigationManager(context).openScreenAsNew(LoginScreen());
+        }
+        // return await AppRouter.router.navigateTo(
+        //     context, result ? ScreenRoutes.BALLSLIST : ScreenRoutes.LOGIN,
+        //     transition: TransitionType.material,
+        //     transitionDuration: Duration(milliseconds: 500));
       }
     });
   }
