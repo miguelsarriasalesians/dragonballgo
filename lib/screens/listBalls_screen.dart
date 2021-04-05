@@ -51,28 +51,6 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
     });
   }
 
-  // Future<Map<String, dynamic>> getBalls() async {
-  //   Future<dynamic> token = await manager.getToken().then((token) async {
-  //     balls = await FetchBalls(
-  //             latitude: 6.17790967, longitude: 16.17790967, token: token)
-  //         .then((balls) {
-  //       List<dynamic> list = balls.values.toList();
-  //       ballsList = List<BallModel>.generate(balls["body"].length, (int index) {
-  //         Map currentBall = balls["body"][index];
-  //         return BallModel(
-  //             id: currentBall["num"],
-  //             latitude: currentBall["latitude"],
-  //             longitude: currentBall["longitude"],
-  //             date:
-  //                 currentBall.containsKey("date") ? currentBall["date"] : null,
-  //             image: currentBall.containsKey("image")
-  //                 ? currentBall["image"]
-  //                 : null);
-  //       });
-  //     });
-  //   });
-  // }
-
   Future<List<BallModel>> getBalls() async {
     String token = await manager.getToken();
     Map<String, dynamic> balls = await FetchBalls(
@@ -98,25 +76,6 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // if (isLoading) {
-    //   return Scaffold(
-    //     key: _scaffoldKey,
-    //     body: SafeArea(
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //         children: [
-    //           Container(
-    //             color: Colors.red,
-    //             width: 30,
-    //             height: 30,
-    //           )
-    //         ],
-    //       ),
-    //     ),
-    //     backgroundColor: PaletteColors.APP_BACKGROUND,
-    //   );
-    // }
-    // else {
     return Scaffold(
         key: _scaffoldKey,
         body: SafeArea(
@@ -146,43 +105,6 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
               SingleChildScrollView(
                 child: Column(
                   children: rowBalls,
-                  // children: [
-                  //   ListView.builder(
-                  //     itemCount: ballsList.length,
-                  //     itemBuilder: (context, index) {
-                  //       BallModel currentBall = ballsList[index];
-                  //       int ballId = currentBall.id;
-                  //       String imageRoute = currentBall.id != null
-                  //           ? "assets/images/ball_$ballId.png"
-                  //           : "assets/images/unknown_ball.png";
-                  //       Color rowColor =
-                  //           currentBall.picked ? Colors.orange : Colors.grey;
-                  //       String message = currentBall.picked
-                  //           ? "Has conseguido la bola $ballId!\nEl dia ${currentBall.pickedDate}"
-                  //           : translate('information_ball');
-                  //
-                  //       return RowBall(
-                  //         rowColor,
-                  //         imageRoute,
-                  //         message,
-                  //       );
-                  //     },
-                  //   ),
-                  //   RowBall(Colors.grey, 'assets/images/unknown_ball.png',
-                  //       translate('information_ball')),
-                  //   RowBall(Colors.orange, 'assets/images/ball_2.png',
-                  //       'Has conseguido la bola 2!\nEl dia 21/03/2021'),
-                  //   RowBall(Colors.grey, 'assets/images/unknown_ball.png',
-                  //       translate('information_ball')),
-                  //   RowBall(Colors.grey, 'assets/images/unknown_ball.png',
-                  //       translate('information_ball')),
-                  //   RowBall(Colors.grey, 'assets/images/unknown_ball.png',
-                  //       translate('information_ball')),
-                  //   RowBall(Colors.orange, 'assets/images/ball_6.png',
-                  //       'Has conseguido la bola 6!\nEl dia 17/03/2021'),
-                  //   RowBall(Colors.grey, 'assets/images/unknown_ball.png',
-                  //       translate('information_ball')),
-                  // ],
                 ),
               ),
               Row(

@@ -72,18 +72,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         _markers.add(marker);
       });
     }
-    //TODO: Delete, Prueba
-    for (int i = 0; i < 1; i++) {
-      Marker marker = Marker(
-          markerId: MarkerId("id-prueba"),
-          position: LatLng(41.39262194039931, 2.1250778061462774),
-          icon: mapMarker,
-          infoWindow: InfoWindow(
-              title: "Bola Numero prueba", snippet: "Cerca de PRUEBA"));
-      setState(() {
-        _markers.add(marker);
-      });
-    }
+
     //
     //   _markers.add(
     //     Marker(
