@@ -1,9 +1,7 @@
 import 'package:dragonballgo/resources/palette_colors.dart';
-import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/texts/texts.dart';
-import 'package:dragonballgo/utils/router.dart';
+import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:flutter_translate/localized_app.dart';
@@ -80,10 +78,7 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
                     ),
                   ),
                   onTap: () {
-                    AppRouter.router.pop(context);
-                    AppRouter.router.navigateTo(context, ScreenRoutes.BALLSLIST,
-                        transition: TransitionType.fadeIn,
-                        transitionDuration: Duration(milliseconds: 600));
+                    NavigationManager(context).back();
                   },
                 )
               ],

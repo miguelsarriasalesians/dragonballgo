@@ -1,7 +1,5 @@
 import 'package:dragonballgo/resources/palette_colors.dart';
-import 'package:dragonballgo/resources/routes.dart';
-import 'package:dragonballgo/utils/router.dart';
-import 'package:fluro/fluro.dart';
+import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
@@ -89,10 +87,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    AppRouter.router.pop(context);
-                    AppRouter.router.navigateTo(context, ScreenRoutes.BALLSLIST,
-                        transition: TransitionType.fadeIn,
-                        transitionDuration: Duration(milliseconds: 600));
+                    NavigationManager(context).back();
                   },
                 )
               ],
