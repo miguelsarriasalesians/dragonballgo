@@ -7,7 +7,6 @@ import 'package:dragonballgo/screens/profile_screen.dart';
 import 'package:dragonballgo/screens/register_screen.dart';
 import 'package:dragonballgo/screens/select_language_screen.dart';
 import 'package:dragonballgo/screens/splash_screen.dart';
-import 'package:dragonballgo/screens/statistics_screen.dart';
 import 'package:fluro/fluro.dart';
 
 class ScreenRoutes {
@@ -46,9 +45,6 @@ class ScreenRoutes {
 
   static final _OPTIONS = AppRoute(
       OPTIONS, Handler(handlerFunc: (context, parameters) => OptionsScreen()));
-
-  static final _STATISTICS = AppRoute(STATISTICS,
-      Handler(handlerFunc: (context, parameters) => StatisticsScreen()));
 
   static final _MEDIA = AppRoute(
       MEDIA, Handler(handlerFunc: (context, parameters) => MediaScreen()));
