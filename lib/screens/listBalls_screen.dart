@@ -189,16 +189,6 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
                           transitionDuration: Duration(milliseconds: 600));
                     }),
                 ListTile(
-                    leading: Icon(Icons.menu_book),
-                    title: Text(translate("statistics_lbl")),
-                    onTap: () {
-                      AppRouter.router.pop(context);
-                      AppRouter.router.navigateTo(
-                          context, ScreenRoutes.STATISTICS,
-                          transition: TransitionType.fadeIn,
-                          transitionDuration: Duration(milliseconds: 600));
-                    }),
-                ListTile(
                     leading: Icon(Icons.perm_media),
                     title: Text(translate("media_lbl")),
                     onTap: () {
