@@ -58,7 +58,6 @@ class ScreenRoutes {
     _PROFILE,
     _GOOGLEMAPS,
     _OPTIONS,
-    _STATISTICS,
     _MEDIA
   ];
 }
