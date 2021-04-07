@@ -6,10 +6,40 @@ import 'package:flutter_translate/flutter_translate.dart';
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    TextEditingController usernameController,
+        emailController,
+        passwordController,
+        birthdayController;
+
     String name = 'Guti el Jedi';
     String email = 'guti@gmail.com';
     String password = 'gutinomola';
     String birthday = '26/08/2001';
+    void updateName(String newName) {
+      name = newName;
+      print(name);
+    }
+
+    void updateEmail(String newEmail) {
+      email = newEmail;
+      print(email);
+    }
+
+    void updatePassword(String newPassword) {
+      password = newPassword;
+      print(password);
+    }
+
+    void updateBirthday(String newBirthday) {
+      birthday = newBirthday;
+      print(birthday);
+    }
+
+    void updateUserData(
+        {String username, String email, String password, String birthday}) {
+      //TODO: Falta que este hecho el put para pasarle estos datos y actualizarlos
+    }
+
     return Scaffold(
       backgroundColor: PaletteColors.APP_BACKGROUND,
       body: SafeArea(
@@ -47,48 +77,85 @@ class ProfileScreen extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Text('Username'),
                     ),
-                    userDataRow(name),
+                    UserDataRow(
+                      text: name,
+                      function: updateName,
+                    ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text('Email'),
                     ),
-                    userDataRow(email),
+                    UserDataRow(
+                      function: updateEmail,
+                      text: email,
+                    ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text('Password'),
                     ),
-                    userDataRow(password),
+                    UserDataRow(
+                      function: updatePassword,
+                      text: password,
+                      obscureText: true,
+                    ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text('Birthday'),
                     ),
-                    userDataRow(birthday),
+                    UserDataRow(
+                      text: birthday,
+                      function: updateBirthday,
+                    ),
                   ],
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.02,
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.06,
+                  height: MediaQuery.of(context).size.height * 0.01,
                 ),
-                InkWell(
-                  child: Container(
-                    height: 30,
-                    width: MediaQuery.of(context).size.height * 0.3,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.orange),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        translate('back_lbl'),
-                        style: TextStyle(fontSize: 17),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      InkWell(
+                        child: Container(
+                          height: 30,
+                          width: MediaQuery.of(context).size.height * 0.3,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.orange),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              translate('back_lbl'),
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          NavigationManager(context).back();
+                        },
                       ),
-                    ),
+                      InkWell(
+                        onTap: () {
+                          updateUserData(
+                              username: name,
+                              email: email,
+                              password: password,
+                              birthday: birthday);
+                        },
+                        child: Container(
+                          child: Icon(
+                            Icons.save,
+                            color: Colors.orange,
+                            size: 50,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  onTap: () {
-                    NavigationManager(context).back();
-                  },
                 )
               ],
             ),
@@ -99,44 +166,58 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-class userDataRow extends StatefulWidget {
-  final String param;
+class UserDataRow extends StatefulWidget {
+  final String text;
+  final bool obscureText;
+  final Function function;
+  // final TextEditingController controller;
 
-  userDataRow(this.param);
+  UserDataRow({
+    this.text,
+    this.obscureText = false,
+    this.function,
+  });
 
   @override
-  _userDataRowState createState() => _userDataRowState();
+  _UserDataRowState createState() => _UserDataRowState();
 }
 
-class _userDataRowState extends State<userDataRow> {
+class _UserDataRowState extends State<UserDataRow> {
+  TextEditingController controller = new TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.text = widget.text;
+  }
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = new TextEditingController();
-    String string = widget.param;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          width: 200,
-          height: 50,
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.height * 0.075,
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(
-              string,
-              style: TextStyle(fontSize: 25),
+            child: TextFormField(
+              onChanged: (value) {
+                setState(() {
+                  widget.function(value);
+                });
+                // setState(() {
+                //   controller.text = value;
+                //   controller.
+                // });
+              },
+              obscureText: widget.obscureText,
+              controller: controller,
+              decoration: InputDecoration(border: OutlineInputBorder()),
             ),
           ),
         ),
-        InkWell(
-          child: Container(
-            width: 50,
-            height: 50,
-            child: Icon(Icons.edit),
-          ),
-          onTap: () {
-            string = _showEditDialog(context, emailController, string);
-          },
-        )
       ],
     );
   }
