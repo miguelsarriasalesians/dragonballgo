@@ -32,7 +32,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     super.initState();
     setCustomMarker();
     ballsList = widget.listOfBalls;
-
     // _markers = generateMarkers(ballsList);
     //Generate markers from this ballsList
     // generateMarkers(ballsList);
@@ -58,51 +57,13 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
       );
     });
 
-    Location location = new Location();
-
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    LocationData _locationData;
-
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
-    }
-
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-
-    _locationData = await location.getLocation();
-
-    print(_locationData.latitude);
-    // 41.395225
-    // 2.126455
-    print(_locationData.longitude);
-
-    List<Map<String, double>> map = [
-      {"latitude": -0.002287, "longitude": -0.005062},
-      {"latitude": -0.002287, "longitude": -0.004287},
-      {"latitude": -0.006287, "longitude": 0.005062},
-      {"latitude": -0.003287, "longitude": 0.002062},
-      {"latitude": 0.006287, "longitude": 0.003062},
-      {"latitude": 0.004287, "longitude": 0.004062},
-      {"latitude": 0.007287, "longitude": -0.005062},
-    ];
     // setState(() {
     for (int i = 0; i < ballsList.length; i++) {
       BallModel currentBallModel = ballsList[i];
       Marker marker = Marker(
           markerId: MarkerId("id-${currentBallModel.id.toString()}"),
-          position: LatLng(_locationData.latitude + map[i]["latitude"],
-              currentBallModel.longitude + map[i]["longitude"]),
+          position:
+              LatLng(currentBallModel.latitude, currentBallModel.longitude),
           icon: mapMarker,
           infoWindow: InfoWindow(
               title: "Bola Numero ${currentBallModel.id.toString()}",
