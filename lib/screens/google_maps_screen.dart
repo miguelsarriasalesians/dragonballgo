@@ -1,6 +1,5 @@
 import 'package:dragonballgo/objects/ball_model.dart';
 import 'package:dragonballgo/provider/api.dart';
-import 'package:dragonballgo/screens/close_balls_screen.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:flutter/cupertino.dart';
@@ -173,7 +172,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
           ),
           Positioned(
             bottom: 10,
-            left: 20,
+            right: 10,
             child: InkWell(
               child: Container(
                   height: 90,
@@ -188,31 +187,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                 NavigationManager(context).openScreenAsNew(ListBallsScreen(
                   listOfBalls: this.ballsList,
                 ));
-                // AppRouter.router.pop(context);
-                // AppRouter.router.navigateTo(context, ScreenRoutes.BALLSLIST,
-                //     transition: TransitionType.fadeIn,
-                //     transitionDuration: Duration(milliseconds: 600));
               },
             ),
           ),
-          Positioned(
-            bottom: 10,
-            right: 10,
-            child: ModalSheet(
-              child: Container(
-                height: 90,
-                width: 90,
-                decoration: BoxDecoration(
-                  color: Colors.orange,
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: Image(
-                    height: 70,
-                    image: AssetImage('assets/images/radarControl.png')),
-              ),
-              screenToNavigate: CloseBallsScreen(),
-            ),
-          )
         ]),
       ),
     );
