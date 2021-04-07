@@ -43,5 +43,6 @@
   "select_lang_title": "IDIOMA DE LA APP",
   "statistics_title": "ESTADÍSTICAS",
   "statistics_desc" : "Guardamos todos tus datos del proceso del juego para que puedas revisar tu proceso al paso del tiempo, aquí podras visualizar tus datos de tu día a día como Buscador de Bolas.",
-  "profile_title": "PERFIL"
+  "profile_title": "PERFIL",
+  "add_button":"Añadir"
 }

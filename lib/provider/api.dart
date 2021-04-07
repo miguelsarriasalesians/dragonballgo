@@ -4,7 +4,7 @@ import 'package:dragonballgo/objects/UserData.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:http/http.dart' as http;
 
-final String url = '34.78.80.85';
+final String url = '35.205.121.147';
 
 final _sm = new SessionManager();
 
@@ -117,6 +117,16 @@ Future<int> FetchUserData(
       'Content-Type': 'application/json; charset=UTF-8'
     },
   );
+
+  print(res.body);
+
+  if (res.statusCode == 200) _sm.setToken(res.body);
+
+  return res.statusCode;
+}
+
+Future<int> FetchBallData({String json}) async {
+  final res = await http.post(Uri.http(url, "/api/balls/picked/"+json));
 
   print(res.body);
 

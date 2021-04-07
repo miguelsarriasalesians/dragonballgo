@@ -145,6 +145,7 @@ class LinearProgressIndicatorAppState
           id: currentBall["num"],
           latitude: currentBall["latitude"],
           longitude: currentBall["longitude"],
+          picked: currentBall["picked"],
           pickedDate:
               currentBall.containsKey("date") ? currentBall["date"] : null,
           image:

@@ -1,8 +1,14 @@
 import 'dart:async';
 
+import 'package:dragonballgo/objects/ball_model.dart';
+import 'package:dragonballgo/provider/api.dart';
+import 'package:dragonballgo/screens/listBalls_screen.dart';
+import 'package:dragonballgo/utils/navigation_manager.dart';
+import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_translate/global.dart';
 
 class QrScanScreen extends StatefulWidget {
   @override
@@ -10,7 +16,7 @@ class QrScanScreen extends StatefulWidget {
 }
 
 class _QrPageState extends State<QrScanScreen> {
-  String qrCode = '0';
+  SessionManager _sm = SessionManager();
   @override
   Widget build(BuildContext context) => InkWell(
       child: Container(
@@ -29,7 +35,7 @@ class _QrPageState extends State<QrScanScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              qrCode,
+              translate('add_button'),
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
           )
@@ -47,12 +53,38 @@ class _QrPageState extends State<QrScanScreen> {
       );
 
       if (!mounted) return;
+      
+        FetchBallData(json: qrCode);
+        print(qrCode);
+        List<BallModel> balls = await getBalls();
+        print(balls);
+        NavigationManager(context).openScreenAsNew(ListBallsScreen(listOfBalls: balls,));
 
-      setState(() {
-        this.qrCode = qrCode;
-      });
     } on PlatformException {
-      qrCode = 'Failed to get platform version.';
+      
     }
+
+    
+  }
+  Future<List<BallModel>> getBalls() async {
+    String token = await _sm.getToken();
+    Map<String, dynamic> balls = await FetchBalls(
+        latitude: 6.17790967, longitude: 16.17790967, token: token);
+
+    // List<dynamic> list = balls.values.toList();
+    List<BallModel> theBalls =
+        List<BallModel>.generate(balls["body"].length, (int index) {
+      Map currentBall = balls["body"][index];
+      return BallModel(
+          id: currentBall["num"],
+          latitude: currentBall["latitude"],
+          longitude: currentBall["longitude"],
+          picked: currentBall["picked"],
+          pickedDate:
+              currentBall.containsKey("date") ? currentBall["date"] : null,
+          image:
+              currentBall.containsKey("image") ? currentBall["image"] : null);
+    });
+    return theBalls;
   }
 }

@@ -43,5 +43,6 @@
   "select_lang_title": "APP LANGUAGE",
   "statistics_title": "STATISTICS",
   "statistics_desc" : "We save all your data from the game process so that you can review your process over time, here you can view your day-to-day data as a Ball Finder.",
-  "profile_title": "PROFILE"
+  "profile_title": "PROFILE",
+  "add_button":"Add"
 }
