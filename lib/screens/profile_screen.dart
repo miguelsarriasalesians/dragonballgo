@@ -86,6 +86,7 @@ class ProfileScreen extends StatelessWidget {
                       child: Text('Email'),
                     ),
                     UserDataRow(
+                      isEnabled: false,
                       function: updateEmail,
                       text: email,
                     ),
@@ -94,6 +95,7 @@ class ProfileScreen extends StatelessWidget {
                       child: Text('Password'),
                     ),
                     UserDataRow(
+                      isEnabled: false,
                       function: updatePassword,
                       text: password,
                       obscureText: true,
@@ -170,12 +172,14 @@ class UserDataRow extends StatefulWidget {
   final String text;
   final bool obscureText;
   final Function function;
+  final bool isEnabled;
   // final TextEditingController controller;
 
   UserDataRow({
     this.text,
     this.obscureText = false,
     this.function,
+    this.isEnabled = true,
   });
 
   @override
@@ -203,6 +207,7 @@ class _UserDataRowState extends State<UserDataRow> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: TextFormField(
+              enabled: widget.isEnabled,
               onChanged: (value) {
                 setState(() {
                   widget.function(value);
