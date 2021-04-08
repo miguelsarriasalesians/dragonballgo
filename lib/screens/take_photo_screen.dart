@@ -1,13 +1,16 @@
 import 'package:camera/camera.dart';
+import 'package:dragonballgo/objects/ball_model.dart';
 import 'package:dragonballgo/screens/display_picture_screen.dart';
 import 'package:flutter/material.dart';
 
 class TakePictureScreen extends StatefulWidget {
   final CameraDescription camera;
+  final List<BallModel> balls;
 
   const TakePictureScreen({
     Key key,
     @required this.camera,
+    this.balls,
   }) : super(key: key);
 
   @override
@@ -72,19 +75,21 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
             // Attempt to take a picture and get the file `image`
             // where it was saved.
-            final image = await _controller.takePicture();
-
-            // If the picture was taken, display it on a new screen.
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen(
-                  // Pass the automatically generated path to
-                  // the DisplayPictureScreen widget.
-                  imagePath: image?.path,
+            print("PRE FOTO\n\n\n");
+            _controller.takePicture().then((image) {
+              // If the picture was taken, display it on a new screen.
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DisplayPictureScreen(
+                    // Pass the automatically generated path to
+                    // the DisplayPictureScreen widget.
+                    imagePath: image?.path,
+                  ),
                 ),
-              ),
-            );
+              );
+            });
+            print("POST FOTO\n\n\n");
           } catch (e) {
             // If an error occurs, log the error to the console.
             print(e);

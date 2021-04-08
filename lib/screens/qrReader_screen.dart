@@ -1,8 +1,9 @@
 import 'dart:async';
 
+import 'package:camera/camera.dart';
 import 'package:dragonballgo/objects/ball_model.dart';
 import 'package:dragonballgo/provider/api.dart';
-import 'package:dragonballgo/screens/listBalls_screen.dart';
+import 'package:dragonballgo/screens/take_photo_screen.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:flutter/material.dart';
@@ -53,19 +54,25 @@ class _QrPageState extends State<QrScanScreen> {
       );
 
       if (!mounted) return;
-      
-        FetchBallData(json: qrCode);
+
+      int status = await FetchBallData(json: qrCode);
+      if (status == 201) {
+        // Obtain a list of the available cameras on the device.
+        final cameras = await availableCameras();
+
+        // Get a specific camera from the list of available cameras.
+        final firstCamera = cameras.first;
         print(qrCode);
         List<BallModel> balls = await getBalls();
         print(balls);
-        NavigationManager(context).openScreenAsNew(ListBallsScreen(listOfBalls: balls,));
-
-    } on PlatformException {
-      
-    }
-
-    
+        NavigationManager(context).openScreenAsNew(TakePictureScreen(
+          camera: firstCamera,
+          balls: balls,
+        ));
+      } else {}
+    } on PlatformException {}
   }
+
   Future<List<BallModel>> getBalls() async {
     String token = await _sm.getToken();
     Map<String, dynamic> balls = await FetchBalls(
