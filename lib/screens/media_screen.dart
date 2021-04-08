@@ -4,13 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
 class MediaScreen extends StatelessWidget {
+  final List<String> imagesList;
+  MediaScreen({this.imagesList});
   @override
   Widget build(BuildContext context) {
-    List<String> imgs = [
-      "assets/images/mcball.png",
-      "assets/images/mcball.png",
-      "assets/images/mcball.png"
-    ];
+    List<String> imgs = imagesList != null
+        ? imagesList
+        : [
+            "assets/images/mcball.png",
+            "assets/images/mcball.png",
+            "assets/images/mcball.png"
+          ];
+
+    List<Image> list = List<Image>.generate(
+        imgs.length, (index) => Image.network(imgs[index]));
     return Scaffold(
       backgroundColor: PaletteColors.APP_BACKGROUND,
       body: SafeArea(
@@ -36,7 +43,7 @@ class MediaScreen extends StatelessWidget {
                     for (var i in imgs)
                       Column(
                         children: [
-                          ImgMedia(i),
+                          Image.network(i),
                           Align(
                               alignment: Alignment.center,
                               child: Text(
