@@ -126,11 +126,16 @@ Future<int> FetchUserData(
 }
 
 Future<int> FetchBallData({String json}) async {
-  final res = await http.post(Uri.http(url, "/api/balls/picked/"+json));
+  final token = await _sm.getToken();
+  final res = await http.get(
+    Uri.http(url, "/api/balls/picked/" + json),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': token.toString()
+    },
+  );
 
   print(res.body);
-
-  if (res.statusCode == 200) _sm.setToken(res.body);
 
   return res.statusCode;
 }
