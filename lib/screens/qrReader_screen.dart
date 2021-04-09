@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:dragonballgo/objects/ball_model.dart';
 import 'package:dragonballgo/provider/api.dart';
-import 'package:dragonballgo/screens/take_photo_screen.dart';
+import 'package:dragonballgo/screens/choose_image_screen.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:flutter/material.dart';
@@ -65,10 +65,11 @@ class _QrPageState extends State<QrScanScreen> {
         print(qrCode);
         List<BallModel> balls = await getBalls();
         print(balls);
-        NavigationManager(context).openScreenAsNew(TakePictureScreen(
-          camera: firstCamera,
-          balls: balls,
-        ));
+        // NavigationManager(context).openScreenAsNew(TakePictureScreen(
+        //   camera: firstCamera,
+        //   balls: balls,
+        // ));
+        NavigationManager(context).openScreenAsNew(ImageUpload());
       } else {}
     } on PlatformException {}
   }
