@@ -27,6 +27,10 @@ class _ImageUploadState extends State<ImageUpload> {
         print('No image selected.');
       }
     });
+
+    setState(() {
+      isloaded = true;
+    });
   }
 
   upload(File imageFile) async {
@@ -72,7 +76,6 @@ class _ImageUploadState extends State<ImageUpload> {
 
   @override
   Widget build(BuildContext context) {
-    fetch();
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -89,9 +92,10 @@ class _ImageUploadState extends State<ImageUpload> {
               onPressed: () => upload(_image),
               icon: Icon(Icons.upload_rounded),
               label: Text("Upload now")),
-          isloaded
-              ? Image.network('http://192.168.0.8:3000/${result[0]['image']}')
-              : CircularProgressIndicator(),
+          // isloaded
+          //     ? Image.network('http://192.168.0.8:3000/${result[0]['image']}')
+          //     : CircularProgressIndicator(),
+          isloaded ? Image.file(_image) : CircularProgressIndicator(),
         ],
       ),
     );
