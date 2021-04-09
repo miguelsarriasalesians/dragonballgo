@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:async/async.dart';
+import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
@@ -63,6 +65,7 @@ class _ImageUploadState extends State<ImageUpload> {
     });
   }
 
+  bool imageSelected = false;
   bool isloaded = false;
   var result;
   fetch() async {
@@ -77,25 +80,64 @@ class _ImageUploadState extends State<ImageUpload> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text("Select an image"),
-          FlatButton.icon(
-              onPressed: () async => await getImage(),
-              icon: Icon(Icons.upload_file),
-              label: Text("Browse")),
-          SizedBox(
-            height: 20,
+          Text(
+            imageSelected
+                ? translate('image_selected')
+                : translate('select_an_image'),
+            style: TextStyle(
+                fontFamily: "Rozanova",
+                color: PaletteColors.MAINCOLOR,
+                fontSize: 30,
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
           ),
-          FlatButton.icon(
-              onPressed: () => upload(_image),
-              icon: Icon(Icons.upload_rounded),
-              label: Text("Upload now")),
           // isloaded
           //     ? Image.network('http://192.168.0.8:3000/${result[0]['image']}')
           //     : CircularProgressIndicator(),
           isloaded ? Image.file(_image) : CircularProgressIndicator(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              TextButton(
+                child: Container(
+                    height: 100,
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: PaletteColors.MAINCOLOR),
+                    child: Center(
+                        child: Text(
+                      translate("text_button_browse"),
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ))),
+                onPressed: () async {
+                  await getImage();
+                  setState(() {
+                    imageSelected = true;
+                  });
+                },
+                style: TextButton.styleFrom(primary: PaletteColors.MAINCOLOR),
+              ),
+              TextButton(
+                child: Container(
+                    height: 100,
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.orange),
+                    child: Center(
+                        child: Text(
+                      translate("text_button_upload"),
+                      style: TextStyle(color: PaletteColors.TEXT, fontSize: 20),
+                    ))),
+                onPressed: () => upload(_image),
+                style: TextButton.styleFrom(primary: PaletteColors.MAINCOLOR),
+              ),
+            ],
+          )
         ],
       ),
     );
