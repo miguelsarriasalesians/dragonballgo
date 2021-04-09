@@ -1,3 +1,8 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:async/async.dart';
 import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/resources/routes.dart';
@@ -5,12 +10,75 @@ import 'package:dragonballgo/utils/router.dart';
 import 'package:dragonballgo/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
+  @override
+  _RegisterScreenState createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final emailController = new TextEditingController();
+
   final passwordController = new TextEditingController();
+
   final nameController = new TextEditingController();
+
   final birthdateController = new TextEditingController();
+
+  File _image;
+  final picker = ImagePicker();
+
+  Future<void> getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+
+    setState(() {
+      isloaded = true;
+    });
+  }
+
+  upload(File imageFile) async {
+    // open a bytestream
+    var stream =
+        new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    // get file length
+    var length = await imageFile.length();
+
+    // string to uri
+    var uri = Uri.parse("http://192.168.0.8:3000/upload");
+
+    // create multipart request
+    var request = new http.MultipartRequest("POST", uri);
+
+    // multipart that takes file
+    var multipartFile = new http.MultipartFile('myFile', stream, length,
+        filename: basename(imageFile.path));
+
+    // add file to multipart
+    request.files.add(multipartFile);
+
+    // send
+    var response = await request.send();
+    print(response.statusCode);
+
+    // listen for response
+    response.stream.transform(utf8.decoder).listen((value) {
+      print(value);
+    });
+  }
+
+  bool imageSelected = false;
+  bool isloaded = false;
 
   void register(BuildContext ctx) {
     FetchRegister(
@@ -56,6 +124,31 @@ class RegisterScreen extends StatelessWidget {
                 spacing: 10,
                 runSpacing: 10,
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () async {
+                          await getImage();
+                          setState(() {
+                            imageSelected = true;
+                          });
+                        },
+                        child: Container(
+                          height: 130,
+                          width: 130,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(70),
+                              color: Colors.transparent),
+                          child: imageSelected
+                              ? Image.file(_image)
+                              : Image(
+                                  image:
+                                      AssetImage('assets/images/mcball.png')),
+                        ),
+                      ),
+                    ],
+                  ),
                   Center(
                     child: Text(
                       translate('signin_screen_title'),
@@ -89,6 +182,9 @@ class RegisterScreen extends StatelessWidget {
                     label: translate("birthdate"),
                     type: TextInputType.datetime,
                     controller: birthdateController,
+                  ),
+                  SizedBox(
+                    height: 30,
                   ),
                   SizedBox(
                     width: double.infinity,
