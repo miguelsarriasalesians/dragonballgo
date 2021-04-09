@@ -8,12 +8,12 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 
-class ChooseImageScreen extends StatefulWidget {
+class ImageUpload extends StatefulWidget {
   @override
-  _ChooseImageScreenState createState() => _ChooseImageScreenState();
+  _ImageUploadState createState() => _ImageUploadState();
 }
 
-class _ChooseImageScreenState extends State<ChooseImageScreen> {
+class _ImageUploadState extends State<ImageUpload> {
   File _image;
   final picker = ImagePicker();
 
