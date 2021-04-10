@@ -48,20 +48,20 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
                 ),
                 getButton('language_spanish', 'es'),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.01,
+                  height: MediaQuery.of(context).size.height * 0.4,
                 ),
-                getButton('language_french', 'fr'),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.01,
-                ),
-                getButton('language_italian', 'it'),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.01,
-                ),
-                getButton('language_german', 'gr'),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.2,
-                ),
+                // getButton('language_french', 'fr'),
+                // SizedBox(
+                //   height: MediaQuery.of(context).size.height * 0.01,
+                // ),
+                // getButton('language_italian', 'it'),
+                // SizedBox(
+                //   height: MediaQuery.of(context).size.height * 0.01,
+                // ),
+                // getButton('language_german', 'gr'),
+                // SizedBox(
+                //   height: MediaQuery.of(context).size.height * 0.2,
+                // ),
                 InkWell(
                   child: Container(
                     height: 30,
