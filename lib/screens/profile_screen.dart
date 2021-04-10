@@ -85,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   width: 130,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(70),
-                      color: Colors.orange),
+                      color: Colors.transparent),
                   child: providedProfilePic
                       ? Image.network(widget.profilePic)
                       : Image(image: AssetImage('assets/images/mcball.png')),
