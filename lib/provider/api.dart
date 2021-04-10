@@ -140,6 +140,30 @@ Future<int> FetchBallData({String json}) async {
   return res.statusCode;
 }
 
+Future<Map<String, dynamic>> FetchUserInfo() async {
+  final token = await _sm.getToken();
+  final resp = await http.get(
+    Uri.http(url, "/api/user/"),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': token.toString()
+    },
+  );
+
+  print(resp.body);
+
+  Map<String, dynamic> decodeResp = json.decode(resp.body);
+
+  if (resp.statusCode == 200) {
+    return {ResponseKeys.OK: true, ResponseKeys.BODY: decodeResp};
+  } else {
+    return {
+      ResponseKeys.OK: false,
+      ResponseKeys.ERROR_MESSAGE: ResponseKeys.ERROR_MESSAGE
+    };
+  }
+}
+
 class ResponseKeys {
   static const String OK = 'ok';
   static const String BODY = 'body';
