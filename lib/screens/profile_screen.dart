@@ -3,36 +3,56 @@ import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
+  String name;
+  String email;
+  String profilePic;
+  String birthday;
+  String password;
+
+  ProfileScreen(
+      {this.name,
+      this.email,
+      this.profilePic,
+      this.birthday,
+      this.password = "*************"});
+
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  bool providedProfilePic = false;
   @override
   Widget build(BuildContext context) {
+    providedProfilePic = widget.profilePic != null;
     TextEditingController usernameController,
         emailController,
         passwordController,
         birthdayController;
 
-    String name = 'Guti el Jedi';
-    String email = 'guti@gmail.com';
-    String password = 'gutinomola';
-    String birthday = '26/08/2001';
+    // String name = 'Guti el Jedi';
+    // String email = 'guti@gmail.com';
+    // String password = 'gutinomola';
+    // String birthday = '26/08/2001';
     void updateName(String newName) {
-      name = newName;
-      print(name);
+      widget.name = newName;
+      print(widget.name);
     }
 
     void updateEmail(String newEmail) {
-      email = newEmail;
-      print(email);
+      widget.email = newEmail;
+      print(widget.email);
     }
 
     void updatePassword(String newPassword) {
-      password = newPassword;
-      print(password);
+      widget.password = newPassword;
+      print(widget.password);
     }
 
     void updateBirthday(String newBirthday) {
-      birthday = newBirthday;
-      print(birthday);
+      widget.birthday = newBirthday;
+      print(widget.birthday);
     }
 
     void updateUserData(
@@ -66,7 +86,9 @@ class ProfileScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(70),
                       color: Colors.orange),
-                  child: Image(image: AssetImage('assets/images/mcball.png')),
+                  child: providedProfilePic
+                      ? Image.network(widget.profilePic)
+                      : Image(image: AssetImage('assets/images/mcball.png')),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
@@ -78,7 +100,7 @@ class ProfileScreen extends StatelessWidget {
                       child: Text('Username'),
                     ),
                     UserDataRow(
-                      text: name,
+                      text: widget.name,
                       function: updateName,
                     ),
                     Align(
@@ -88,7 +110,7 @@ class ProfileScreen extends StatelessWidget {
                     UserDataRow(
                       isEnabled: false,
                       function: updateEmail,
-                      text: email,
+                      text: widget.email,
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
@@ -97,7 +119,7 @@ class ProfileScreen extends StatelessWidget {
                     UserDataRow(
                       isEnabled: false,
                       function: updatePassword,
-                      text: password,
+                      text: widget.password,
                       obscureText: true,
                     ),
                     Align(
@@ -105,7 +127,7 @@ class ProfileScreen extends StatelessWidget {
                       child: Text('Birthday'),
                     ),
                     UserDataRow(
-                      text: birthday,
+                      text: widget.birthday,
                       function: updateBirthday,
                     ),
                   ],
@@ -143,10 +165,10 @@ class ProfileScreen extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           updateUserData(
-                              username: name,
-                              email: email,
-                              password: password,
-                              birthday: birthday);
+                              username: widget.name,
+                              email: widget.email,
+                              password: widget.password,
+                              birthday: widget.birthday);
                         },
                         child: Container(
                           child: Icon(
