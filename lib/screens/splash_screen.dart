@@ -171,9 +171,16 @@ class LinearProgressIndicatorAppState
         //Get balls
         if (result) {
           List<BallModel> balls = await getBalls();
+          Map<String, dynamic> userInfo = await FetchUserInfo();
+          userInfo = userInfo[ResponseKeys.BODY];
+          String name, profilePic;
+          // name = userInfo["name"];
+          // profilePic = userInfo["profilepic"];
 
           NavigationManager(context).openScreenAsNew(ListBallsScreen(
             listOfBalls: balls,
+            // name: name,
+            // profilePic: profilePic,
           ));
         } else {
           NavigationManager(context).openScreenAsNew(LoginScreen());

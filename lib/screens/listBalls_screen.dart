@@ -14,8 +14,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
 class ListBallsScreen extends StatefulWidget {
-  ListBallsScreen({this.title, this.listOfBalls});
+  ListBallsScreen(
+      {this.title, this.listOfBalls, this.name = 'Guti Jedi', this.profilePic});
   final Widget title;
+  final String name, profilePic;
   final List<BallModel> listOfBalls;
 
   @override
@@ -76,8 +78,12 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
     isLoading = false;
   }
 
+  bool providedProfilePic = false;
+
   @override
   Widget build(BuildContext context) {
+    providedProfilePic = widget.profilePic != null;
+
     return Scaffold(
         key: _scaffoldKey,
         body: SafeArea(
@@ -170,11 +176,12 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Image(
-                          width: 80,
-                          image: AssetImage('assets/images/mcball.png')),
+                      providedProfilePic
+                          ? Image.network(widget.profilePic)
+                          : Image(
+                              image: AssetImage('assets/images/mcball.png')),
                       Text(
-                        'Guti Jedi',
+                        widget.name,
                         style: TextStyle(fontSize: 20),
                       )
                     ],
