@@ -192,7 +192,7 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
                       birthday = userInfo["birthdate"];
                       birthday = birthday.substring(0, 10);
                       profilePic = userInfo["profilepic"];
-                      NavigationManager(context).openScreenAsNew(ProfileScreen(
+                      NavigationManager(context).openScreen(ProfileScreen(
                         name: name,
                         email: email,
                         birthday: birthday,
