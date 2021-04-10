@@ -67,12 +67,18 @@ class LoginScreen extends StatelessWidget {
     List<BallModel> theBalls =
         List<BallModel>.generate(balls["body"].length, (int index) {
       Map currentBall = balls["body"][index];
+      dynamic pickedDate = currentBall["pickedDate"];
+      if (pickedDate != null) {
+        String fecha = currentBall["pickedDate"];
+        fecha = fecha.substring(0, 10);
+        pickedDate = fecha;
+      }
       return BallModel(
           id: currentBall["num"],
           latitude: currentBall["latitude"],
           longitude: currentBall["longitude"],
-          pickedDate:
-              currentBall.containsKey("date") ? currentBall["date"] : null,
+          picked: currentBall["picked"],
+          pickedDate: pickedDate,
           image:
               currentBall.containsKey("image") ? currentBall["image"] : null);
     });

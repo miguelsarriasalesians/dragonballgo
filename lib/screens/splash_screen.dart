@@ -5,7 +5,6 @@ import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/screens/listBalls_screen.dart';
 import 'package:dragonballgo/screens/login_screen.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
-import 'package:dragonballgo/utils/router.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
@@ -141,18 +140,49 @@ class LinearProgressIndicatorAppState
     List<BallModel> theBalls =
         List<BallModel>.generate(balls["body"].length, (int index) {
       Map currentBall = balls["body"][index];
+      dynamic pickedDate = currentBall["pickedDate"];
+      if (pickedDate != null) {
+        String fecha = currentBall["pickedDate"];
+        fecha = fecha.substring(0, 10);
+        pickedDate = fecha;
+      }
       return BallModel(
           id: currentBall["num"],
           latitude: currentBall["latitude"],
           longitude: currentBall["longitude"],
           picked: currentBall["picked"],
-          pickedDate:
-              currentBall.containsKey("date") ? currentBall["date"] : null,
+          pickedDate: pickedDate,
           image:
               currentBall.containsKey("image") ? currentBall["image"] : null);
     });
     return theBalls;
   }
+  // Future<List<BallModel>> getBalls() async {
+  //   String token = await _sm.getToken();
+  //   Map<String, dynamic> balls = await FetchBalls(
+  //       latitude: 6.17790967, longitude: 16.17790967, token: token);
+  //
+  //   // List<dynamic> list = balls.values.toList();
+  //   List<BallModel> theBalls =
+  //       List<BallModel>.generate(balls["body"].length, (int index) {
+  //     Map currentBall = balls["body"][index];
+  //     dynamic pickedDate = currentBall["pickedDate"];
+  //     if (pickedDate != null) {
+  //       String fecha = currentBall["pickedDate"];
+  //       fecha = fecha.substring(0, 10);
+  //       pickedDate = fecha;
+  //     }
+  //     return BallModel(
+  //         id: currentBall["num"],
+  //         latitude: currentBall["latitude"],
+  //         longitude: currentBall["longitude"],
+  //         picked: currentBall["picked"],
+  //         pickedDate: pickedDate ?? "",
+  //         image:
+  //             currentBall.containsKey("image") ? currentBall["image"] : null);
+  //   });
+  //   return theBalls;
+  // }
 
   // this function updates the progress value
   _updateProgress() async {
@@ -166,7 +196,7 @@ class LinearProgressIndicatorAppState
       if (_progressValue.toStringAsFixed(1) == '1.0') {
         _loading = false;
         t.cancel();
-        AppRouter.router.pop(context);
+        // AppRouter.router.pop(context);
 
         //Get balls
         if (result) {
