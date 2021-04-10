@@ -24,16 +24,8 @@ class LoginScreen extends StatelessWidget {
 
         List<BallModel> balls = await getBalls();
         if (balls.length != 0 || balls.length != null) {
-          List<BallModel> balls = await getBalls();
-          Map<String, dynamic> userInfo = await FetchUserInfo();
-          userInfo = userInfo[ResponseKeys.BODY];
-          String name, profilePic;
-          name = userInfo["name"];
-          profilePic = userInfo["profilepic"];
           NavigationManager(ctx).openScreenAsNew(ListBallsScreen(
             listOfBalls: balls,
-            name: name,
-            profilePic: profilePic,
           ));
         } else {
           print("EMPTY BODY");
