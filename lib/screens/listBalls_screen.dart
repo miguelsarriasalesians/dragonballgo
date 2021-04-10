@@ -173,10 +173,6 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
                       Image(
                           width: 80,
                           image: AssetImage('assets/images/mcball.png')),
-                      Text(
-                        'Guti Jedi',
-                        style: TextStyle(fontSize: 20),
-                      )
                     ],
                   ),
                 )),
