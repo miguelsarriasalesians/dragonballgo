@@ -99,22 +99,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       alignment: Alignment.centerLeft,
                       child: Text('Username'),
                     ),
+                    SizedBox(
+                      height: 2,
+                    ),
                     UserDataRow(
                       text: widget.name,
                       function: updateName,
                     ),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text('Email'),
+                    ),
+                    SizedBox(
+                      height: 2,
                     ),
                     UserDataRow(
                       isEnabled: false,
                       function: updateEmail,
                       text: widget.email,
                     ),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text('Password'),
+                    ),
+                    SizedBox(
+                      height: 2,
                     ),
                     UserDataRow(
                       isEnabled: false,
@@ -122,11 +137,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       text: widget.password,
                       obscureText: true,
                     ),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text('Birthday'),
                     ),
+                    SizedBox(
+                      height: 2,
+                    ),
                     UserDataRow(
+                      isDate: true,
                       text: widget.birthday,
                       function: updateBirthday,
                     ),
@@ -195,9 +217,13 @@ class UserDataRow extends StatefulWidget {
   final bool obscureText;
   final Function function;
   final bool isEnabled;
+  final bool isDate;
+  final bool readOnly;
   // final TextEditingController controller;
 
   UserDataRow({
+    this.readOnly,
+    this.isDate,
     this.text,
     this.obscureText = false,
     this.function,
@@ -229,7 +255,45 @@ class _UserDataRowState extends State<UserDataRow> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: TextFormField(
+              readOnly: widget.readOnly == true ? true : false,
+              decoration: InputDecoration(
+                hintStyle: TextStyle(
+                  letterSpacing: 1.5,
+                ),
+                hintText: widget.text,
+                focusColor: Colors.black,
+                fillColor: Colors.black,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                  borderSide: BorderSide(),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide:
+                      const BorderSide(color: Colors.blueAccent, width: 2.0),
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+              ),
               enabled: widget.isEnabled,
+              onTap: () {
+                if (widget.isDate)
+                  showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now())
+                      .then((value) {
+                    if (value != null) {
+                      final str = value.toIso8601String();
+                      final newVal = str.substring(0, str.indexOf("T"));
+                      print(newVal);
+                      controller.value = TextEditingValue(
+                          text: newVal,
+                          selection: TextSelection.fromPosition(
+                            TextPosition(offset: newVal.length),
+                          ));
+                    }
+                  });
+              },
               onChanged: (value) {
                 setState(() {
                   widget.function(value);
@@ -241,7 +305,7 @@ class _UserDataRowState extends State<UserDataRow> {
               },
               obscureText: widget.obscureText,
               controller: controller,
-              decoration: InputDecoration(border: OutlineInputBorder()),
+              // decoration: InputDecoration(border: OutlineInputBorder()),
             ),
           ),
         ),
