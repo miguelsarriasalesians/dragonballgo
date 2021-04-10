@@ -1,24 +1,34 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+List<BallModel> listToBalls(List<dynamic> list) {
+  return List<BallModel>.generate(list.length, (int index) {
+    return BallModel.fromJson(list[index]);
+  });
+}
 
 class BallModel {
   final int id;
-  final String pickedDate;
+  final DateTime pickedDate;
   final String image;
   final double latitude;
   final double longitude;
-  final BitmapDescriptor bitmapDescriptor;
-  final MarkerId markerId;
-  final InfoWindow infoWindow;
   final bool picked;
+  final String info;
 
   BallModel(
-      {this.bitmapDescriptor,
-      this.infoWindow,
-      this.image,
-      this.markerId,
+      {this.image,
       this.latitude,
       this.longitude,
       this.id,
       this.pickedDate,
-      this.picked});
+      this.picked,
+      this.info});
+
+  BallModel.fromJson(Map<String, dynamic> json)
+      : id = json["num"],
+        latitude = json["latitude"],
+        longitude = json["longitude"],
+        picked = json["picked"],
+        pickedDate =
+            json.containsKey("date") ? DateTime.parse(json["date"]) : null,
+        image = json.containsKey("image") ? json["image"] : null,
+        info = json["info"];
 }

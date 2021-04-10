@@ -10,7 +10,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localized_app.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 var prefLanguageCode;
 
@@ -29,11 +28,12 @@ Future<void> main() async {
       supportedLocales: ['en', 'es'],
       basePath: 'locale/i18n');
 
-  await SentryFlutter.init(
-    (options) => options.dsn =
-        'https://a39c138a5d9f4145b284ff7e7da8a462@o547290.ingest.sentry.io/5669562',
-    appRunner: () => runApp(LocalizedApp(delegate, MyApp())),
-  );
+  // await SentryFlutter.init(
+  //   (options) => options.dsn =
+  //       'https://a39c138a5d9f4145b284ff7e7da8a462@o547290.ingest.sentry.io/5669562',
+  //   appRunner: () => runApp(LocalizedApp(delegate, MyApp())),
+  // );
+  runApp(LocalizedApp(delegate, MyApp()));
 }
 
 class MyApp extends StatefulWidget {

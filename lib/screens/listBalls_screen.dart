@@ -31,6 +31,7 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
 
   @override
   void initState() {
+    super.initState();
     setState(() {});
     ballsList = widget.listOfBalls;
     rowBalls = List.generate(ballsList.length, (index) {
@@ -50,29 +51,6 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
         message,
       );
     });
-  }
-
-  Future<List<BallModel>> getBalls() async {
-    String token = await manager.getToken();
-    Map<String, dynamic> balls = await FetchBalls(
-        latitude: 6.17790967, longitude: 16.17790967, token: token);
-
-    // List<dynamic> list = balls.values.toList();
-    List<BallModel> theBalls =
-        List<BallModel>.generate(balls["body"].length, (int index) {
-      Map currentBall = balls["body"][index];
-      return BallModel(
-          id: currentBall["num"],
-          latitude: currentBall["latitude"],
-          longitude: currentBall["longitude"],
-          pickedDate:
-              currentBall.containsKey("date") ? currentBall["date"] : null,
-          image:
-              currentBall.containsKey("image") ? currentBall["image"] : null);
-    });
-    ballsList = theBalls;
-
-    isLoading = false;
   }
 
   @override

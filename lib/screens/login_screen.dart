@@ -17,66 +17,48 @@ class LoginScreen extends StatelessWidget {
   final passwordController = new TextEditingController();
   final SessionManager manager = new SessionManager();
 
-  void login(BuildContext ctx) {
-    FetchLogin(emailController.text, passwordController.text).then((val) async {
-      if (val == 200) {
-        //Get List of BallModel and pass it as parameter to ListBallsScreen
+  Future<void> login(BuildContext ctx) async {
+    var val = await Login(
+        email: emailController.text, password: passwordController.text);
 
-        List<BallModel> balls = await getBalls();
-        if (balls.length != 0 || balls.length != null) {
-          NavigationManager(ctx).openScreenAsNew(ListBallsScreen(
-            listOfBalls: balls,
-          ));
-        } else {
-          print("EMPTY BODY");
-        }
+    if (val.statusCode == 200) {
+      await manager.setToken(val.data);
+      changeAuthorizationToken(val.data);
 
-        // AppRouter.router.pop(ctx);
-        // AppRouter.router.navigateTo(ctx, ScreenRoutes.BALLSLIST,
-        //     transition: TransitionType.fadeIn,
-        //     transitionDuration: Duration(milliseconds: 600));
-      } else {
-        String text;
-        switch (val) {
-          case 400:
-            text = "invalid_form_data";
-            break;
-          case 401:
-            text = "user_not_exists";
-            break;
-          case 500:
-            text = "internal_error";
-            break;
-          default:
-            text = "Error";
-        }
-        ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
-          content: Text(translate(text)),
-          duration: Duration(seconds: 3),
+      List<BallModel> balls = await getBalls();
+      if (balls.length != 0 || balls.length != null) {
+        NavigationManager(ctx).openScreenAsNew(ListBallsScreen(
+          listOfBalls: balls,
         ));
+      } else {
+        print("EMPTY BODY");
       }
-    });
+    } else {
+      String text;
+      switch (val.statusCode) {
+        case 400:
+          text = "invalid_form_data";
+          break;
+        case 401:
+          text = "user_not_exists";
+          break;
+        case 500:
+          text = "internal_error";
+          break;
+        default:
+          text = "Error";
+      }
+      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+        content: Text(translate(text)),
+        duration: Duration(seconds: 3),
+      ));
+    }
   }
 
   Future<List<BallModel>> getBalls() async {
-    String token = await manager.getToken();
-    Map<String, dynamic> balls = await FetchBalls(
-        latitude: 6.17790967, longitude: 16.17790967, token: token);
+    var result = await FetchBalls(latitude: 5.123, longitude: 16.12);
 
-    // List<dynamic> list = balls.values.toList();
-    List<BallModel> theBalls =
-        List<BallModel>.generate(balls["body"].length, (int index) {
-      Map currentBall = balls["body"][index];
-      return BallModel(
-          id: currentBall["num"],
-          latitude: currentBall["latitude"],
-          longitude: currentBall["longitude"],
-          pickedDate:
-              currentBall.containsKey("date") ? currentBall["date"] : null,
-          image:
-              currentBall.containsKey("image") ? currentBall["image"] : null);
-    });
-    return theBalls;
+    return listToBalls(result.data);
   }
 
   @override

@@ -23,14 +23,14 @@ dependencies:
   http: ^0.12.2
   fluro: ^2.0.3
   modal_bottom_sheet: ^2.0.0
-  sentry_flutter: ^4.0.6
   barcode_widget: ^1.5.0
   flutter_barcode_scanner: ^1.0.2
   path: ^1.8.0
   path_provider: ^1.0.1
   camera: ^0.6.1
   image_picker: ^0.6.4
-
+  dio: ^3.0.10
+  http_parser: ^3.1.4
 
 dev_dependencies:
   flutter_test:

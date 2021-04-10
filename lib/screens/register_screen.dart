@@ -2,6 +2,7 @@ import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/utils/router.dart';
+import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:dragonballgo/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -12,18 +13,23 @@ class RegisterScreen extends StatelessWidget {
   final nameController = new TextEditingController();
   final birthdateController = new TextEditingController();
 
+  final manager = new SessionManager();
+
   void register(BuildContext ctx) {
-    FetchRegister(
+    Register(
             email: emailController.text,
             password: passwordController.text,
             name: nameController.text,
             birthdate: birthdateController.text)
-        .then((val) {
-      if (val == 200)
+        .then((val) async {
+      if (val.statusCode == 200) {
+        await manager.setToken(val.data);
+        changeAuthorizationToken(val.data);
+
         AppRouter.router.navigateTo(ctx, ScreenRoutes.BALLSLIST);
-      else {
+      } else {
         String text;
-        switch (val) {
+        switch (val.statusCode) {
           case 400:
             text = "invalid_form_data";
             break;

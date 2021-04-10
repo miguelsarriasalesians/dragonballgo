@@ -81,17 +81,6 @@ class LinearProgressIndicatorAppState
                     child: Image(
                         image: AssetImage('assets/images/splashAnimation.gif')),
                   ),
-                  //Image(image: AssetImage('assets/images/mcball.png')),
-                  /*Container(
-                    margin: const EdgeInsets.only(top: 20.0, bottom: 10.0),
-                    child : Text(
-                      translate('splash_message'),
-                      style: TextStyle(
-                        fontSize: 22,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),*/
                 ],
               ),
               Row(
@@ -133,32 +122,22 @@ class LinearProgressIndicatorAppState
   }
 
   Future<List<BallModel>> getBalls() async {
-    String token = await _sm.getToken();
-    Map<String, dynamic> balls = await FetchBalls(
-        latitude: 6.17790967, longitude: 16.17790967, token: token);
+    var result = await FetchBalls(latitude: 5.123, longitude: 16.12);
 
-    // List<dynamic> list = balls.values.toList();
-    List<BallModel> theBalls =
-        List<BallModel>.generate(balls["body"].length, (int index) {
-      Map currentBall = balls["body"][index];
-      return BallModel(
-          id: currentBall["num"],
-          latitude: currentBall["latitude"],
-          longitude: currentBall["longitude"],
-          picked: currentBall["picked"],
-          pickedDate:
-              currentBall.containsKey("date") ? currentBall["date"] : null,
-          image:
-              currentBall.containsKey("image") ? currentBall["image"] : null);
-    });
-    return theBalls;
+    return listToBalls(result.data);
   }
 
   // this function updates the progress value
   _updateProgress() async {
     const oneSec = const Duration(seconds: 1);
     final token = await this._sm.getToken();
-    final result = token != null ? await FetchValidation(token) : false;
+    var result = false;
+
+    if (token != null) {
+      var validation = await ValidateToken(token);
+      if (validation.statusCode == 200) result = true;
+    }
+
     new Timer.periodic(oneSec, (Timer t) async {
       setState(() {
         _progressValue += 0.2;
@@ -178,10 +157,6 @@ class LinearProgressIndicatorAppState
         } else {
           NavigationManager(context).openScreenAsNew(LoginScreen());
         }
-        // return await AppRouter.router.navigateTo(
-        //     context, result ? ScreenRoutes.BALLSLIST : ScreenRoutes.LOGIN,
-        //     transition: TransitionType.material,
-        //     transitionDuration: Duration(milliseconds: 500));
       }
     });
   }

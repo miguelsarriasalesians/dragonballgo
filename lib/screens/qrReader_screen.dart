@@ -55,8 +55,8 @@ class _QrPageState extends State<QrScanScreen> {
 
       if (!mounted) return;
 
-      int status = await FetchBallData(json: qrCode);
-      if (status == 201) {
+      var resp = await PickBall(qrCode);
+      if (resp.statusCode == 201) {
         // Obtain a list of the available cameras on the device.
         final cameras = await availableCameras();
 
@@ -65,34 +65,14 @@ class _QrPageState extends State<QrScanScreen> {
         print(qrCode);
         List<BallModel> balls = await getBalls();
         print(balls);
-        // NavigationManager(context).openScreenAsNew(TakePictureScreen(
-        //   camera: firstCamera,
-        //   balls: balls,
-        // ));
         NavigationManager(context).openScreenAsNew(ImageUpload());
       } else {}
     } on PlatformException {}
   }
 
   Future<List<BallModel>> getBalls() async {
-    String token = await _sm.getToken();
-    Map<String, dynamic> balls = await FetchBalls(
-        latitude: 6.17790967, longitude: 16.17790967, token: token);
+    var result = await FetchBalls(latitude: 5.123, longitude: 16.12);
 
-    // List<dynamic> list = balls.values.toList();
-    List<BallModel> theBalls =
-        List<BallModel>.generate(balls["body"].length, (int index) {
-      Map currentBall = balls["body"][index];
-      return BallModel(
-          id: currentBall["num"],
-          latitude: currentBall["latitude"],
-          longitude: currentBall["longitude"],
-          picked: currentBall["picked"],
-          pickedDate:
-              currentBall.containsKey("date") ? currentBall["date"] : null,
-          image:
-              currentBall.containsKey("image") ? currentBall["image"] : null);
-    });
-    return theBalls;
+    return listToBalls(result.data);
   }
 }

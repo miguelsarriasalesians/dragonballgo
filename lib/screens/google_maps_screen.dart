@@ -13,6 +13,7 @@ class GoogleMapScreen extends StatefulWidget {
   final List<BallModel> listOfBalls;
 
   GoogleMapScreen({this.listOfBalls});
+
   @override
   _GoogleMapScreenState createState() => _GoogleMapScreenState();
 }
@@ -62,7 +63,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
       Marker marker = Marker(
           markerId: MarkerId("id-${currentBallModel.id.toString()}"),
           position:
-              LatLng(currentBallModel.latitude, currentBallModel.longitude),
+          LatLng(currentBallModel.latitude, currentBallModel.longitude),
           icon: mapMarker,
           infoWindow: InfoWindow(
               title: "Bola Numero ${currentBallModel.id.toString()}",
@@ -182,7 +183,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child:
-                      Image(image: AssetImage('assets/images/allBalls.png'))),
+                  Image(image: AssetImage('assets/images/allBalls.png'))),
               onTap: () {
                 NavigationManager(context).openScreenAsNew(ListBallsScreen(
                   listOfBalls: this.ballsList,
@@ -197,21 +198,22 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
   Future<List<BallModel>> getBalls() async {
     String token = await manager.getToken();
-    Map<String, dynamic> balls = await FetchBalls(
-        latitude: 6.17790967, longitude: 16.17790967, token: token);
+
+    // Map<String, dynamic> balls = await FetchBalls(
+    // latitude: 6.17790967, longitude: 16.17790967, token: token);
 
     // List<dynamic> list = balls.values.toList();
     List<BallModel> ballsList =
-        List<BallModel>.generate(balls["body"].length, (int index) {
+    List<BallModel>.generate(balls["body"].length, (int index) {
       Map currentBall = balls["body"][index];
       return BallModel(
           id: currentBall["num"],
           latitude: currentBall["latitude"],
           longitude: currentBall["longitude"],
           pickedDate:
-              currentBall.containsKey("date") ? currentBall["date"] : null,
+          currentBall.containsKey("date") ? currentBall["date"] : null,
           image:
-              currentBall.containsKey("image") ? currentBall["image"] : null);
+          currentBall.containsKey("image") ? currentBall["image"] : null);
     });
     return ballsList;
   }
@@ -223,7 +225,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
       Marker marker = Marker(
           markerId: MarkerId("id-${currentBallModel.id}"),
           position:
-              LatLng(currentBallModel.latitude, currentBallModel.longitude),
+          LatLng(currentBallModel.latitude, currentBallModel.longitude),
           icon: mapMarker,
           infoWindow: InfoWindow(
               title: "Bola Numero ${currentBallModel.id}",

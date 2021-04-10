@@ -15,6 +15,9 @@ class ProfileScreen extends StatelessWidget {
     String email = 'guti@gmail.com';
     String password = 'gutinomola';
     String birthday = '26/08/2001';
+    String profilePic =
+        "https://pbs.twimg.com/profile_images/1208881683115773953/UIiHw_7d.jpg";
+
     void updateName(String newName) {
       name = newName;
       print(name);
@@ -66,7 +69,12 @@ class ProfileScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(70),
                       color: Colors.orange),
-                  child: Image(image: AssetImage('assets/images/mcball.png')),
+                  child: profilePic != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: Image.network(profilePic),
+                        )
+                      : Image(image: AssetImage('assets/images/mcball.png')),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
@@ -173,6 +181,7 @@ class UserDataRow extends StatefulWidget {
   final bool obscureText;
   final Function function;
   final bool isEnabled;
+
   // final TextEditingController controller;
 
   UserDataRow({
