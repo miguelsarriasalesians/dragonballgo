@@ -49,72 +49,52 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
   }
 
-  upload(File imageFile) async {
-    // open a bytestream
-    var stream =
-        new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
-    // get file length
-    var length = await imageFile.length();
-
-    // string to uri
-    var uri = Uri.parse("http://192.168.0.8:3000/upload");
-
-    // create multipart request
-    var request = new http.MultipartRequest("POST", uri);
-
-    // multipart that takes file
-    var multipartFile = new http.MultipartFile('myFile', stream, length,
-        filename: basename(imageFile.path));
-
-    // add file to multipart
-    request.files.add(multipartFile);
-
-    // send
-    var response = await request.send();
-    print(response.statusCode);
-
-    // listen for response
-    response.stream.transform(utf8.decoder).listen((value) {
-      print(value);
-    });
-  }
-
   bool imageSelected = false;
   bool isloaded = false;
 
-  void register(BuildContext ctx) {
-    Register(
-            email: emailController.text,
-            password: passwordController.text,
-            name: nameController.text,
-            birthdate: birthdateController.text)
-        .then((val) async {
-      if (val.statusCode == 200) {
-        await manager.setToken(val.data);
-        changeAuthorizationToken(val.data);
+  void register(BuildContext ctx) async {
+    var result = await Register(
+        email: emailController.text,
+        password: passwordController.text,
+        name: nameController.text,
+        birthdate: birthdateController.text);
 
-        AppRouter.router.navigateTo(ctx, ScreenRoutes.BALLSLIST);
-      } else {
-        String text;
-        switch (val.statusCode) {
-          case 400:
-            text = "invalid_form_data";
-            break;
-          case 401:
-            text = "user_already_exists";
-            break;
-          case 500:
-            text = "internal_error";
-            break;
-          default:
-            text = "Error";
-        }
-        ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
-          content: Text(translate(text)),
-          duration: Duration(seconds: 3),
-        ));
+    if (result.statusCode == 200) {
+      await manager.setToken(result.data);
+      changeAuthorizationToken(result.data);
+
+      await sleep1();
+
+      if (_image != null) {
+        var imageResult = await PostUserImage(image: _image);
+        print(imageResult.statusCode);
       }
-    });
+
+      AppRouter.router.navigateTo(ctx, ScreenRoutes.BALLSLIST);
+    } else {
+      String text;
+      switch (result.statusCode) {
+        case 400:
+          text = "invalid_form_data";
+          break;
+        case 401:
+          text = "user_already_exists";
+          break;
+        case 500:
+          text = "internal_error";
+          break;
+        default:
+          text = "Error";
+      }
+      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+        content: Text(translate(text)),
+        duration: Duration(seconds: 3),
+      ));
+    }
+  }
+
+  Future sleep1() {
+    return new Future.delayed(const Duration(seconds: 1), () => "1");
   }
 
   @override

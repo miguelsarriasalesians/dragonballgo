@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dragonballgo/objects/ball_model.dart';
@@ -23,7 +24,7 @@ Future<Response<dynamic>> Login({String email, String password}) =>
         data: jsonEncode({"email": email.trim(), "password": password.trim()}));
 
 Future<Response<dynamic>> Register(
-    {String email, String password, String name, String birthdate}) =>
+        {String email, String password, String name, String birthdate}) =>
     service.post("/api/auth/register",
         data: jsonEncode({
           "email": email.trim(),
@@ -49,6 +50,13 @@ Future<Response<dynamic>> FetchUserData() => service.get("/api/user/");
 
 Future<Response<dynamic>> PickBall(String code) =>
     service.get("/api/balls/picked/$code");
+
+Future<Response<dynamic>> PostUserImage({File image}) async {
+  var formData =
+      FormData.fromMap({'image': await MultipartFile.fromFile(image.path)});
+
+  return service.post('/api/user/image', data: formData);
+}
 
 class ResponseKeys {
   static const String OK = 'ok';

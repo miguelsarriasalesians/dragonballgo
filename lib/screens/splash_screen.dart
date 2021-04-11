@@ -130,6 +130,8 @@ class LinearProgressIndicatorAppState
   _updateProgress() async {
     const oneSec = const Duration(seconds: 1);
     final token = await this._sm.getToken();
+    changeAuthorizationToken(token);
+
     var result = false;
 
     if (token != null) {
