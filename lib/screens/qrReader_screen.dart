@@ -46,12 +46,17 @@ class _QrPageState extends State<QrScanScreen> {
 
   Future<void> scanQRCode() async {
     try {
-      final qrCode = await FlutterBarcodeScanner.scanBarcode(
+      String qrCode = await FlutterBarcodeScanner.scanBarcode(
         '#ff6666',
         'Cancel',
         true,
         ScanMode.QR,
       );
+      // qrCode = qrCode.toString();
+      // String alternativa =
+      //     '{"iv":"1cd83a854688b8d0df6193b606907bd7","encryptedData":"a882f4b74b4d125af312faeed78edaeff4ca5fc5c59748d878adc6713db6e90bcdd7f41ac9363a4c60dcbfcb5e0aaebbaf100506f7aa1da331ac400b9d0c8f9d"}';
+      //
+      // qrCode = qrCode ?? alternativa;
 
       if (!mounted) return;
 

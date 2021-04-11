@@ -44,5 +44,11 @@
   "statistics_title": "ESTADÍSTICAS",
   "statistics_desc" : "Guardamos todos tus datos del proceso del juego para que puedas revisar tu proceso al paso del tiempo, aquí podras visualizar tus datos de tu día a día como Buscador de Bolas.",
   "profile_title": "PERFIL",
-  "add_button":"Añadir"
+  "add_button":"Añadir",
+  "select_an_image": "Seleccione una imagen",
+  "image_selected": "Súbala ahora!",
+  "text_button_upload": "Subir",
+  "text_button_browse": "Buscar"
+
+
 }

@@ -44,5 +44,11 @@
   "statistics_title": "STATISTICS",
   "statistics_desc" : "We save all your data from the game process so that you can review your process over time, here you can view your day-to-day data as a Ball Finder.",
   "profile_title": "PROFILE",
-  "add_button":"Add"
+  "add_button":"Add",
+  "select_an_image": "Select an image",
+  "image_selected": "Upload it now!",
+  "text_button_upload": "Upload",
+  "text_button_browse": "Browse"
+
+
 }

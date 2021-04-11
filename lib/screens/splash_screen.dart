@@ -5,7 +5,6 @@ import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/screens/listBalls_screen.dart';
 import 'package:dragonballgo/screens/login_screen.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
-import 'package:dragonballgo/utils/router.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
@@ -145,7 +144,7 @@ class LinearProgressIndicatorAppState
       if (_progressValue.toStringAsFixed(1) == '1.0') {
         _loading = false;
         t.cancel();
-        AppRouter.router.pop(context);
+        // AppRouter.router.pop(context);
 
         //Get balls
         if (result) {

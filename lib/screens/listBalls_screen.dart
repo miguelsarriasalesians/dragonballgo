@@ -3,6 +3,7 @@ import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/screens/google_maps_screen.dart';
+import 'package:dragonballgo/screens/profile_screen.dart';
 import 'package:dragonballgo/screens/qrReader_screen.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:dragonballgo/utils/router.dart';
@@ -150,21 +151,31 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
                       Image(
                           width: 80,
                           image: AssetImage('assets/images/mcball.png')),
-                      Text(
-                        'Guti Jedi',
-                        style: TextStyle(fontSize: 20),
-                      )
                     ],
                   ),
                 )),
                 ListTile(
                     leading: Icon(Icons.person),
                     title: Text(translate("profile_lbl")),
-                    onTap: () {
-                      AppRouter.router.pop(context);
-                      AppRouter.router.navigateTo(context, ScreenRoutes.PROFILE,
-                          transition: TransitionType.fadeIn,
-                          transitionDuration: Duration(milliseconds: 600));
+                    onTap: () async {
+                      var result = await FetchUserData();
+                      var userInfo = result.data;
+                      String email, name, birthday, profilePic;
+                      email = userInfo["email"];
+                      name = userInfo["name"];
+                      birthday = userInfo["birthdate"];
+                      birthday = birthday.substring(0, 10);
+                      profilePic = userInfo["profilepic"];
+                      NavigationManager(context).openScreen(ProfileScreen(
+                        name: name,
+                        email: email,
+                        birthday: birthday,
+                        profilePic: profilePic,
+                      ));
+                      // AppRouter.router.pop(context);
+                      // AppRouter.router.navigateTo(context, ScreenRoutes.PROFILE,
+                      //     transition: TransitionType.fadeIn,
+                      //     transitionDuration: Duration(milliseconds: 600));
                     }),
                 ListTile(
                     leading: Icon(Icons.perm_media),

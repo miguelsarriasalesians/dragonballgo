@@ -3,39 +3,56 @@ import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
+  String name;
+  String email;
+  String profilePic;
+  String birthday;
+  String password;
+
+  ProfileScreen(
+      {this.name,
+      this.email,
+      this.profilePic,
+      this.birthday,
+      this.password = "*************"});
+
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  bool providedProfilePic = false;
   @override
   Widget build(BuildContext context) {
+    providedProfilePic = widget.profilePic != null;
     TextEditingController usernameController,
         emailController,
         passwordController,
         birthdayController;
 
-    String name = 'Guti el Jedi';
-    String email = 'guti@gmail.com';
-    String password = 'gutinomola';
-    String birthday = '26/08/2001';
-    String profilePic =
-        "https://pbs.twimg.com/profile_images/1208881683115773953/UIiHw_7d.jpg";
-
+    // String name = 'Guti el Jedi';
+    // String email = 'guti@gmail.com';
+    // String password = 'gutinomola';
+    // String birthday = '26/08/2001';
     void updateName(String newName) {
-      name = newName;
-      print(name);
+      widget.name = newName;
+      print(widget.name);
     }
 
     void updateEmail(String newEmail) {
-      email = newEmail;
-      print(email);
+      widget.email = newEmail;
+      print(widget.email);
     }
 
     void updatePassword(String newPassword) {
-      password = newPassword;
-      print(password);
+      widget.password = newPassword;
+      print(widget.password);
     }
 
     void updateBirthday(String newBirthday) {
-      birthday = newBirthday;
-      print(birthday);
+      widget.birthday = newBirthday;
+      print(widget.birthday);
     }
 
     void updateUserData(
@@ -68,12 +85,9 @@ class ProfileScreen extends StatelessWidget {
                   width: 130,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(70),
-                      color: Colors.orange),
-                  child: profilePic != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image.network(profilePic),
-                        )
+                      color: Colors.transparent),
+                  child: providedProfilePic
+                      ? Image.network(widget.profilePic)
                       : Image(image: AssetImage('assets/images/mcball.png')),
                 ),
                 SizedBox(
@@ -85,35 +99,57 @@ class ProfileScreen extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Text('Username'),
                     ),
+                    SizedBox(
+                      height: 2,
+                    ),
                     UserDataRow(
-                      text: name,
+                      text: widget.name,
                       function: updateName,
+                    ),
+                    SizedBox(
+                      height: 5,
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text('Email'),
                     ),
+                    SizedBox(
+                      height: 2,
+                    ),
                     UserDataRow(
                       isEnabled: false,
                       function: updateEmail,
-                      text: email,
+                      text: widget.email,
+                    ),
+                    SizedBox(
+                      height: 5,
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text('Password'),
                     ),
+                    SizedBox(
+                      height: 2,
+                    ),
                     UserDataRow(
                       isEnabled: false,
                       function: updatePassword,
-                      text: password,
+                      text: widget.password,
                       obscureText: true,
+                    ),
+                    SizedBox(
+                      height: 5,
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text('Birthday'),
                     ),
+                    SizedBox(
+                      height: 2,
+                    ),
                     UserDataRow(
-                      text: birthday,
+                      isDate: true,
+                      text: widget.birthday,
                       function: updateBirthday,
                     ),
                   ],
@@ -151,10 +187,10 @@ class ProfileScreen extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           updateUserData(
-                              username: name,
-                              email: email,
-                              password: password,
-                              birthday: birthday);
+                              username: widget.name,
+                              email: widget.email,
+                              password: widget.password,
+                              birthday: widget.birthday);
                         },
                         child: Container(
                           child: Icon(
@@ -181,10 +217,13 @@ class UserDataRow extends StatefulWidget {
   final bool obscureText;
   final Function function;
   final bool isEnabled;
-
+  final bool isDate;
+  final bool readOnly;
   // final TextEditingController controller;
 
   UserDataRow({
+    this.readOnly,
+    this.isDate,
     this.text,
     this.obscureText = false,
     this.function,
@@ -216,7 +255,45 @@ class _UserDataRowState extends State<UserDataRow> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: TextFormField(
+              readOnly: widget.readOnly == true ? true : false,
+              decoration: InputDecoration(
+                hintStyle: TextStyle(
+                  letterSpacing: 1.5,
+                ),
+                hintText: widget.text,
+                focusColor: Colors.black,
+                fillColor: Colors.black,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                  borderSide: BorderSide(),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide:
+                      const BorderSide(color: Colors.blueAccent, width: 2.0),
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+              ),
               enabled: widget.isEnabled,
+              onTap: () {
+                if (widget.isDate)
+                  showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now())
+                      .then((value) {
+                    if (value != null) {
+                      final str = value.toIso8601String();
+                      final newVal = str.substring(0, str.indexOf("T"));
+                      print(newVal);
+                      controller.value = TextEditingValue(
+                          text: newVal,
+                          selection: TextSelection.fromPosition(
+                            TextPosition(offset: newVal.length),
+                          ));
+                    }
+                  });
+              },
               onChanged: (value) {
                 setState(() {
                   widget.function(value);
@@ -228,7 +305,7 @@ class _UserDataRowState extends State<UserDataRow> {
               },
               obscureText: widget.obscureText,
               controller: controller,
-              decoration: InputDecoration(border: OutlineInputBorder()),
+              // decoration: InputDecoration(border: OutlineInputBorder()),
             ),
           ),
         ),
