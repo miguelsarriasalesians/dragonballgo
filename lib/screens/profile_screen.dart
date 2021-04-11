@@ -93,7 +93,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: InkWell(
                     onTap: updateProfilePic,
                     child: widget.user.profilePic != null
-                        ? Image.network(widget.user.profilePic)
+                        ? FadeInImage.assetNetwork(
+                            placeholder: 'assets/images/mcball.png',
+                            image: widget.user.profilePic,
+                          )
                         : Image(image: AssetImage('assets/images/mcball.png')),
                   ),
                 ),
