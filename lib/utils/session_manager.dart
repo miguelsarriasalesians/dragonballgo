@@ -6,7 +6,7 @@ class SessionManager {
       await SharedPreferences.getInstance();
 
   Future<String> getCountry() async =>
-      await (await getPrefs()).getString(SharedPreferencesConsts.COUNTRY);
+      (await getPrefs()).getString(SharedPreferencesConsts.COUNTRY);
 
   setCountry(String country) async {
     (await getPrefs()).setString(SharedPreferencesConsts.COUNTRY, country);
@@ -14,8 +14,7 @@ class SessionManager {
   }
 
   Future<dynamic> getToken() async {
-    String token =
-        await (await getPrefs()).getString(SharedPreferencesConsts.TOKEN);
+    String token = (await getPrefs()).getString(SharedPreferencesConsts.TOKEN);
     return token != null ? token.replaceAll("\"", "") : null;
   }
 
@@ -29,7 +28,7 @@ class SessionManager {
 
   Future<dynamic> getUserData() async {
     String userData =
-        await (await getPrefs()).getString(SharedPreferencesConsts.USER);
+        (await getPrefs()).getString(SharedPreferencesConsts.USER);
     return userData != null ? userData.replaceAll("\"", "") : null;
   }
 

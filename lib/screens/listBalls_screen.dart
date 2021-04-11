@@ -12,6 +12,7 @@ import 'package:dragonballgo/widgets/row_ball.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:dragonballgo/objects/UserData.dart';
 
 class ListBallsScreen extends StatefulWidget {
   ListBallsScreen({this.title, this.listOfBalls});
@@ -159,18 +160,10 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
                     title: Text(translate("profile_lbl")),
                     onTap: () async {
                       var result = await FetchUserData();
-                      var userInfo = result.data;
-                      String email, name, birthday, profilePic;
-                      email = userInfo["email"];
-                      name = userInfo["name"];
-                      birthday = userInfo["birthdate"];
-                      birthday = birthday.substring(0, 10);
-                      profilePic = userInfo["profilepic"];
+                      var userInfo = UserData.fromJson(result.data);
+
                       NavigationManager(context).openScreen(ProfileScreen(
-                        name: name,
-                        email: email,
-                        birthday: birthday,
-                        profilePic: profilePic,
+                        user: userInfo,
                       ));
                       // AppRouter.router.pop(context);
                       // AppRouter.router.navigateTo(context, ScreenRoutes.PROFILE,

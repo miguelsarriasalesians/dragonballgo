@@ -1,21 +1,16 @@
+import 'package:dragonballgo/objects/UserData.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:dragonballgo/provider/api.dart';
+import 'dart:io';
 
 class ProfileScreen extends StatefulWidget {
-  String name;
-  String email;
-  String profilePic;
-  String birthday;
-  String password;
+  UserData user;
 
-  ProfileScreen(
-      {this.name,
-      this.email,
-      this.profilePic,
-      this.birthday,
-      this.password = "*************"});
+  ProfileScreen({this.user});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -25,40 +20,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool providedProfilePic = false;
   @override
   Widget build(BuildContext context) {
-    providedProfilePic = widget.profilePic != null;
+    providedProfilePic = widget.user.profilePic != null;
     TextEditingController usernameController,
         emailController,
         passwordController,
         birthdayController;
 
-    // String name = 'Guti el Jedi';
-    // String email = 'guti@gmail.com';
-    // String password = 'gutinomola';
-    // String birthday = '26/08/2001';
+    final picker = ImagePicker();
+
     void updateName(String newName) {
-      widget.name = newName;
-      print(widget.name);
+      widget.user.name = newName;
+      print(widget.user.name);
     }
 
     void updateEmail(String newEmail) {
-      widget.email = newEmail;
-      print(widget.email);
+      widget.user.email = newEmail;
+      print(widget.user.email);
     }
 
     void updatePassword(String newPassword) {
-      widget.password = newPassword;
-      print(widget.password);
+      print(newPassword);
     }
 
     void updateBirthday(String newBirthday) {
-      widget.birthday = newBirthday;
-      print(widget.birthday);
+      widget.user.birthdate = DateTime.parse(newBirthday);
+      print(widget.user.birthdate);
     }
 
-    void updateUserData(
-        {String username, String email, String password, String birthday}) {
-      //TODO: Falta que este hecho el put para pasarle estos datos y actualizarlos
+    Future<void> updateProfilePic() async {
+      var file = await picker.getImage(source: ImageSource.gallery);
+      if (file != null) {
+        var image = File(file.path);
+        var imageResult = await PostUserImage(image: image);
+        var user = await FetchUserData();
+        if (user.statusCode == 200) {
+          widget.user = UserData.fromJson(user.data);
+        }
+      }
     }
+
+    // void updateUserData(
+    //     {String username, String email, String password, String birthday}) {
+    //   //TODO: Falta que este hecho el put para pasarle estos datos y actualizarlos
+    // }
 
     return Scaffold(
       backgroundColor: PaletteColors.APP_BACKGROUND,
@@ -86,10 +90,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(70),
                       color: Colors.transparent),
-                  child: providedProfilePic
-                      ? Image.network(widget.profilePic)
-                      : Image(image: AssetImage('assets/images/mcball.png')),
+                  child: InkWell(
+                    onTap: updateProfilePic,
+                    child: widget.user.profilePic != null
+                        ? Image.network(widget.user.profilePic)
+                        : Image(image: AssetImage('assets/images/mcball.png')),
+                  ),
                 ),
+                // child: providedProfilePic
+                //     ? Image.network(widget.user.profilePic)
+                //
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
@@ -103,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 2,
                     ),
                     UserDataRow(
-                      text: widget.name,
+                      text: widget.user.name,
                       function: updateName,
                     ),
                     SizedBox(
@@ -119,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     UserDataRow(
                       isEnabled: false,
                       function: updateEmail,
-                      text: widget.email,
+                      text: widget.user.email,
                     ),
                     SizedBox(
                       height: 5,
@@ -134,7 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     UserDataRow(
                       isEnabled: false,
                       function: updatePassword,
-                      text: widget.password,
+                      text: "*********",
                       obscureText: true,
                     ),
                     SizedBox(
@@ -149,7 +159,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     UserDataRow(
                       isDate: true,
-                      text: widget.birthday,
+                      text: widget.user.birthdate.toString(),
                       function: updateBirthday,
                     ),
                   ],
@@ -186,11 +196,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          updateUserData(
-                              username: widget.name,
-                              email: widget.email,
-                              password: widget.password,
-                              birthday: widget.birthday);
+                          // updateUserData(
+                          //     username: widget.user.name,
+                          //     email: widget.user.email,
+                          //     birthday: DateTime.parse(widget.user.birthdate));
                         },
                         child: Container(
                           child: Icon(

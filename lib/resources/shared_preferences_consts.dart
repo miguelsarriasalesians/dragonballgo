@@ -1,5 +1,5 @@
 class SharedPreferencesConsts {
   static const String COUNTRY = 'country';
-  static String TOKEN = 'authtoken';
-  static String USER = 'userData';
+  static const String TOKEN = 'authtoken';
+  static const String USER = 'userData';
 }
