@@ -58,6 +58,9 @@ Future<Response<dynamic>> PostUserImage({File image}) async {
   return service.post('/api/user/image', data: formData);
 }
 
+Future<Response<dynamic>> UpdateUserData(Map<String, String> args) =>
+    service.put("/api/user/", data: jsonEncode(args));
+
 class ResponseKeys {
   static const String OK = 'ok';
   static const String BODY = 'body';

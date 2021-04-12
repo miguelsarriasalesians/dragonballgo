@@ -23,6 +23,7 @@
   "name": "Name",
   "birthdate": "Birth date",
   "saved_reports": "SAVED REPORTS",
+  "picked_ball_msg": "You picked the ball number {number} on {day} at {hour}!",
   "sent_reports": "SENT REPORTS",
   "information_content": "[Lorem ipsum](B) dolor sit amet, consectetur adipiscing elit. Praesent eu scelerisque quam, nec condimentum quam. Nulla mattis vel odio vel tincidunt. Curabitur molestie, felis ut scelerisque condimentum, ante magna bibendum erat, ut venenatis risus est eget risus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur sit amet venenatis erat. Cras convallis vehicula magna, quis lacinia leo congue quis. Pellentesque non augue sed nibh lobortis efficitur. Cras eget mi ex. Vivamus aliquet ipsum lacus, at pretium leo tincidunt vitae. Fusce dignissim malesuada feugiat. Aenean sodales nisi tortor, at volutpat quam convallis sed. Vivamus vel neque id elit suscipit tempus id a leo. Morbi vestibulum vel leo eu tempor. Nullam convallis quam eu molestie vehicula.\n\nVestibulum lacus elit, condimentum quis bibendum luctus, convallis a ligula. Aliquam erat volutpat. Suspendisse ullamcorper, dolor in placerat blandit, augue urna scelerisque neque, nec sagittis nunc ex at eros. Aliquam lobortis sodales eros vel sodales. Ut placerat velit elit, sit amet sodales elit suscipit eu. Proin elementum mattis eleifend. Ut et dolor eleifend, aliquam sapien sed, consectetur augue. Nulla nec ex at enim vestibulum dapibus et et risus. Etiam consectetur ipsum id erat congue auctor. Integer et ex non nibh vulputate elementum. Nunc sit amet felis augue. Morbi auctor ex sit amet eros interdum, ac pretium ligula egestas. Donec ornare purus urna, eget ornare quam posuere eget. Quisque semper finibus accumsan. Sed egestas tellus vel nisi finibus, ac hendrerit justo sagittis. Duis feugiat arcu id ligula volutpat, at pellentesque turpis bibendum.\n\n[Nulla mollis arcu ex, nec congue leo imperdiet vel.](I) Vivamus nec tellus mauris. Mauris risus metus, finibus eget odio a, mollis posuere velit. Aliquam pharetra vestibulum magna nec faucibus. Aliquam consectetur cursus urna nec sodales. Nullam neque ex, facilisis sed ligula id, pulvinar interdum tellus. Nulla consectetur vulputate mauris eu malesuada.\n\nSed quis ex ex. Etiam dictum est ac sem scelerisque, sed facilisis felis scelerisque. Quisque et elit ut nunc tincidunt gravida ut eget est. Duis dignissim ultrices magna, et rutrum nisl hendrerit sit amet. Quisque gravida, turpis ut vehicula elementum, lectus metus imperdiet nisi, eu placerat tortor nisl eu dui. Phasellus diam massa, imperdiet nec porta ac, imperdiet nec quam. Donec eget porta diam. Sed aliquet tellus eget enim rutrum pretium. Proin fringilla, eros sit amet sodales porttitor, ex elit vestibulum neque, ac feugiat leo mauris sit amet justo. Praesent congue nunc leo, ac viverra augue sollicitudin a. Nullam quis imperdiet augue. Sed pharetra gravida tortor in lobortis. Aenean ultrices tempor orci, in tincidunt elit consequat vitae.\n\nPraesent eget urna commodo, interdum metus ac, malesuada purus. Suspendisse ut interdum odio, vel cursus erat. Sed sit amet [eleifend lacus](BC). Duis a diam dui. Vestibulum et velit vel quam aliquam aliquet et ut dui. Donec luctus ex eu massa maximus ultricies. Nunc sed sem euismod, feugiat augue varius, pretium metus. Aenean sit amet aliquet ligula. Donec vitae fringilla tellus. Nam gravida facilisis ligula, nec porta nisl accumsan in. Sed accumsan ut purus et suscipit. In auctor tellus sed accumsan blandit. Curabitur rhoncus velit eros, sed lacinia neque consectetur eget. Praesent vulputate, magna sit amet tincidunt aliquet, magna augue ullamcorper orci, ut tempus orci ante sit amet nibh. Donec hendrerit mi mollis scelerisque feugiat. Aenean pellentesque turpis nec dui varius maximus.",
   "listBalls_screen_title": "assets/images/yourballs-en.png",
@@ -42,13 +43,11 @@
   "select_lang_desc": "Change the display language of the app. By default, use the language of your device. The language will finish changing when you restart DragonBallGo.",
   "select_lang_title": "APP LANGUAGE",
   "statistics_title": "STATISTICS",
-  "statistics_desc" : "We save all your data from the game process so that you can review your process over time, here you can view your day-to-day data as a Ball Finder.",
+  "statistics_desc": "We save all your data from the game process so that you can review your process over time, here you can view your day-to-day data as a Ball Finder.",
   "profile_title": "PROFILE",
-  "add_button":"Add",
+  "add_button": "Add",
   "select_an_image": "Select an image",
   "image_selected": "Upload it now!",
   "text_button_upload": "Upload",
   "text_button_browse": "Browse"
-
-
 }

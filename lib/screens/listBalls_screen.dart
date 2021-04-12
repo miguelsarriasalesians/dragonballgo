@@ -44,9 +44,15 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
           : "assets/images/unknown_ball.png";
       Color rowColor = currentBall.picked == true ? Colors.orange : Colors.grey;
       String message = currentBall.picked == true
-          ? "Has conseguido la bola $ballId!\nEl dia ${currentBall.pickedDate}"
+          ? translate("picked_ball_msg", args: {
+              "number": ballId,
+              "day":
+                  "${currentBall.pickedDate.day}/${currentBall.pickedDate.month}",
+              "hour": currentBall.pickedDate.hour
+            })
           : translate('information_ball');
 
+      // ? "Has conseguido la bola $ballId!\nEl dia ${currentBall.pickedDate.day}/${currentBall.pickedDate.month} a les ${currentBall.pickedDate.hour}h"
       return RowBall(
         rowColor,
         imageRoute,

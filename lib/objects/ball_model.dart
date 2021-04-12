@@ -27,8 +27,9 @@ class BallModel {
         latitude = json["latitude"],
         longitude = json["longitude"],
         picked = json["picked"],
-        pickedDate =
-            json.containsKey("date") ? DateTime.parse(json["date"]) : null,
+        pickedDate = json.containsKey("pickedDate")
+            ? DateTime.parse(json["pickedDate"])
+            : null,
         image = json.containsKey("image") ? json["image"] : null,
         info = json["info"];
 }
