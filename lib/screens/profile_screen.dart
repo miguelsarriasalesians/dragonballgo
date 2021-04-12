@@ -21,37 +21,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     providedProfilePic = widget.user.profilePic != null;
-    TextEditingController usernameController,
-        emailController,
-        passwordController,
-        birthdayController;
 
     final picker = ImagePicker();
-
-    void updateName(String newName) {
-      widget.user.name = newName;
-      print(widget.user.name);
-    }
-
-    void updateEmail(String newEmail) {
-      widget.user.email = newEmail;
-      print(widget.user.email);
-    }
-
-    void updatePassword(String newPassword) {
-      print(newPassword);
-    }
-
-    void updateBirthday(String newBirthday) {
-      widget.user.birthdate = DateTime.parse(newBirthday);
-      print(widget.user.birthdate);
-    }
 
     Future<void> updateProfilePic() async {
       var file = await picker.getImage(source: ImageSource.gallery);
       if (file != null) {
         var image = File(file.path);
-        var imageResult = await PostUserImage(image: image);
+        await PostUserImage(image: image);
         var user = await FetchUserData();
         if (user.statusCode == 200) {
           widget.user = UserData.fromJson(user.data);
@@ -59,10 +36,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     }
 
-    // void updateUserData(
-    //     {String username, String email, String password, String birthday}) {
-    //   //TODO: Falta que este hecho el put para pasarle estos datos y actualizarlos
-    // }
+    Future<void> updateUserData({String name, DateTime birthdate}) async {
+      var args = {"name": name, "birthdate": birthdate.toIso8601String()};
+      args.forEach((key, value) {
+        if (value == null) args.remove(key);
+      });
+      var updateResult = await UpdateUserData(args);
+      print(updateResult.statusCode);
+      await Future.delayed(const Duration(seconds: 1));
+      var userData = await FetchUserData();
+      widget.user = UserData.fromJson(userData.data);
+    }
 
     return Scaffold(
       backgroundColor: PaletteColors.APP_BACKGROUND,
@@ -117,7 +101,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     UserDataRow(
                       text: widget.user.name,
-                      function: updateName,
+                      onChange: (value) {
+                        updateUserData(name: value);
+                      },
                     ),
                     SizedBox(
                       height: 5,
@@ -131,7 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     UserDataRow(
                       isEnabled: false,
-                      function: updateEmail,
+                      // function: updateEmail,
                       text: widget.user.email,
                     ),
                     SizedBox(
@@ -146,7 +132,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     UserDataRow(
                       isEnabled: false,
-                      function: updatePassword,
+                      // function: updatePassword,
                       text: "*********",
                       obscureText: true,
                     ),
@@ -162,8 +148,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     UserDataRow(
                       isDate: true,
-                      text: widget.user.birthdate.toString(),
-                      function: updateBirthday,
+                      text: widget.user.birthdate,
+                      // function: updateBirthday,
                     ),
                   ],
                 ),
@@ -225,20 +211,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 }
 
 class UserDataRow extends StatefulWidget {
-  final String text;
+  final dynamic text;
   final bool obscureText;
-  final Function function;
+  final Function onChange;
   final bool isEnabled;
   final bool isDate;
   final bool readOnly;
-  // final TextEditingController controller;
 
   UserDataRow({
     this.readOnly,
     this.isDate,
     this.text,
     this.obscureText = false,
-    this.function,
+    this.onChange,
     this.isEnabled = true,
   });
 
@@ -308,12 +293,8 @@ class _UserDataRowState extends State<UserDataRow> {
               },
               onChanged: (value) {
                 setState(() {
-                  widget.function(value);
+                  widget.onChange(value);
                 });
-                // setState(() {
-                //   controller.text = value;
-                //   controller.
-                // });
               },
               obscureText: widget.obscureText,
               controller: controller,
