@@ -1,9 +1,12 @@
 import 'package:dragonballgo/objects/ball_model.dart';
 import 'package:dragonballgo/provider/api.dart';
+import 'package:dragonballgo/screens/choose_image_screen.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
@@ -19,6 +22,7 @@ class GoogleMapScreen extends StatefulWidget {
 }
 
 class _GoogleMapScreenState extends State<GoogleMapScreen> {
+  String _scanBarcode = 'Unknown';
   Set<Marker> _markers = {};
   BitmapDescriptor mapMarker;
   LatLng _initialcameraposition = LatLng(41.39432620402562, 2.1280503535672906);
@@ -41,6 +45,62 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     // });
   }
 
+  startBarcodeScanStream() async {
+    FlutterBarcodeScanner.getBarcodeStreamReceiver(
+            "#ff6666", "Cancel", true, ScanMode.BARCODE)
+        .listen((barcode) => print(barcode));
+  }
+
+  Future<void> scanQR() async {
+    String barcodeScanRes;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          "#ff6666", "Cancel", true, ScanMode.QR);
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _scanBarcode = barcodeScanRes;
+    });
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> scanBarcodeNormal() async {
+    String barcodeScanRes;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          "#ff6666", "Cancel", true, ScanMode.BARCODE);
+      print(barcodeScanRes);
+
+      var resp = await PickBall(barcodeScanRes);
+      if (resp.statusCode == 201) {
+        // Obtain a list of the available cameras on the device.
+
+        NavigationManager(context).openScreen(ImageUpload());
+      } else {}
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _scanBarcode = barcodeScanRes;
+    });
+  }
+
   void setCustomMarker() async {
     mapMarker = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(), 'assets/images/unknown_ball_pk.png');
@@ -61,9 +121,13 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     for (int i = 0; i < ballsList.length; i++) {
       BallModel currentBallModel = ballsList[i];
       Marker marker = Marker(
+          onTap: () {
+            Future.delayed(Duration(milliseconds: 1200))
+                .then((value) => scanBarcodeNormal());
+          },
           markerId: MarkerId("id-${currentBallModel.id.toString()}"),
           position:
-          LatLng(currentBallModel.latitude, currentBallModel.longitude),
+              LatLng(currentBallModel.latitude, currentBallModel.longitude),
           icon: mapMarker,
           infoWindow: InfoWindow(
               title: "Bola Numero ${currentBallModel.id.toString()}",
@@ -183,7 +247,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child:
-                  Image(image: AssetImage('assets/images/allBalls.png'))),
+                      Image(image: AssetImage('assets/images/allBalls.png'))),
               onTap: () {
                 NavigationManager(context).openScreenAsNew(ListBallsScreen(
                   listOfBalls: this.ballsList,
@@ -204,16 +268,16 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
     // List<dynamic> list = balls.values.toList();
     List<BallModel> ballsList =
-    List<BallModel>.generate(balls["body"].length, (int index) {
+        List<BallModel>.generate(balls["body"].length, (int index) {
       Map currentBall = balls["body"][index];
       return BallModel(
           id: currentBall["num"],
           latitude: currentBall["latitude"],
           longitude: currentBall["longitude"],
           pickedDate:
-          currentBall.containsKey("date") ? currentBall["date"] : null,
+              currentBall.containsKey("date") ? currentBall["date"] : null,
           image:
-          currentBall.containsKey("image") ? currentBall["image"] : null);
+              currentBall.containsKey("image") ? currentBall["image"] : null);
     });
     return ballsList;
   }
@@ -225,7 +289,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
       Marker marker = Marker(
           markerId: MarkerId("id-${currentBallModel.id}"),
           position:
-          LatLng(currentBallModel.latitude, currentBallModel.longitude),
+              LatLng(currentBallModel.latitude, currentBallModel.longitude),
           icon: mapMarker,
           infoWindow: InfoWindow(
               title: "Bola Numero ${currentBallModel.id}",
