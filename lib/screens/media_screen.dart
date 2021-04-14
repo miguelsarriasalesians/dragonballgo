@@ -1,23 +1,28 @@
+import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
-class MediaScreen extends StatelessWidget {
-  final List<String> imagesList;
-  MediaScreen({this.imagesList});
+class MediaScreen extends StatefulWidget {
+  @override
+  _MediaScreenState createState() => _MediaScreenState();
+}
+
+class _MediaScreenState extends State<MediaScreen> {
+  List<String> imagesList = [];
+
   @override
   Widget build(BuildContext context) {
-    List<String> imgs = imagesList != null
-        ? imagesList
-        : [
-            "assets/images/mcball.png",
-            "assets/images/mcball.png",
-            "assets/images/mcball.png"
-          ];
+    void initState() {
+      super.initState();
+      GetMedia().then((value) {
+        setState(() {
+          imagesList = value.data;
+        });
+      });
+    }
 
-    List<Image> list = List<Image>.generate(
-        imgs.length, (index) => Image.network(imgs[index]));
     return Scaffold(
       backgroundColor: PaletteColors.APP_BACKGROUND,
       body: SafeArea(
@@ -39,20 +44,10 @@ class MediaScreen extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
                 Column(
-                  children: [
-                    for (var i in imgs)
-                      Column(
-                        children: [
-                          Image.network(i),
-                          Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                i,
-                                style: TextStyle(fontSize: 20),
-                              )),
-                        ],
-                      )
-                  ],
+                  children: this
+                      .imagesList
+                      .map((image) => Image.network(image))
+                      .toList(),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.06,

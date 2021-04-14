@@ -136,21 +136,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       text: "*********",
                       obscureText: true,
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Birthday'),
-                    ),
-                    SizedBox(
-                      height: 2,
-                    ),
-                    UserDataRow(
-                      isDate: true,
-                      text: widget.user.birthdate,
-                      // function: updateBirthday,
-                    ),
+                    // SizedBox(
+                    //   height: 5,
+                    // ),
+                    // Align(
+                    //   alignment: Alignment.centerLeft,
+                    //   child: Text('Birthday'),
+                    // ),
+                    // SizedBox(
+                    //   height: 2,
+                    // ),
+                    // UserDataRow(
+                    //   isDate: true,
+                    //   text: widget.user.birthdate.toLocal(),
+                    //   // function: updateBirthday,
+                    // ),
                   ],
                 ),
                 SizedBox(
