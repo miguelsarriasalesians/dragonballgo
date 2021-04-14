@@ -1,11 +1,12 @@
+import 'dart:io';
+
 import 'package:dragonballgo/objects/UserData.dart';
+import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:dragonballgo/provider/api.dart';
-import 'dart:io';
 
 class ProfileScreen extends StatefulWidget {
   UserData user;
@@ -18,6 +19,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool providedProfilePic = false;
+
   @override
   Widget build(BuildContext context) {
     providedProfilePic = widget.user.profilePic != null;
@@ -136,21 +138,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       text: "*********",
                       obscureText: true,
                     ),
-                    // SizedBox(
-                    //   height: 5,
-                    // ),
-                    // Align(
-                    //   alignment: Alignment.centerLeft,
-                    //   child: Text('Birthday'),
-                    // ),
-                    // SizedBox(
-                    //   height: 2,
-                    // ),
-                    // UserDataRow(
-                    //   isDate: true,
-                    //   text: widget.user.birthdate.toLocal(),
-                    //   // function: updateBirthday,
-                    // ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Birthday'),
+                    ),
+                    SizedBox(
+                      height: 2,
+                    ),
+                    UserDataRow(
+                      isDate: true,
+                      text: widget.user.birthdate.toIso8601String(),
+                      // function: updateBirthday,
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -211,7 +213,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 }
 
 class UserDataRow extends StatefulWidget {
-  final dynamic text;
+  final String text;
   final bool obscureText;
   final Function onChange;
   final bool isEnabled;
