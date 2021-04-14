@@ -6,6 +6,8 @@ class AppButton extends StatelessWidget {
   final Function onPressed;
   final String name;
   final Color color;
+  final Color textColor;
+
   final double verticalPadding;
   final double horitzontalPadding;
 
@@ -15,7 +17,8 @@ class AppButton extends StatelessWidget {
       this.name,
       this.color = PaletteColors.PRIMARY,
       this.verticalPadding = Dimens.PADDING_BASE,
-      this.horitzontalPadding = Dimens.PADDING_LARGE})
+      this.horitzontalPadding = Dimens.PADDING_LARGE,
+      this.textColor})
       : super(key: key);
 
   @override
@@ -35,7 +38,7 @@ class AppButton extends StatelessWidget {
             name.toUpperCase(),
             style: TextStyle(
               fontSize: Dimens.TEXT_BUTTON,
-              color: PaletteColors.TEXT_BUTTON,
+              color: textColor ?? PaletteColors.TEXT_BUTTON,
               fontWeight: Dimens.FONT_WEIGHT_BOLD,
             ),
             textAlign: TextAlign.center,
