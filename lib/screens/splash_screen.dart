@@ -4,10 +4,12 @@ import 'package:dragonballgo/objects/ball_model.dart';
 import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/screens/listBalls_screen.dart';
 import 'package:dragonballgo/screens/login_screen.dart';
+import 'package:dragonballgo/screens/wizard_screen.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoadScreen extends StatelessWidget {
   @override
@@ -148,6 +150,13 @@ class LinearProgressIndicatorAppState
         t.cancel();
         // AppRouter.router.pop(context);
 
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        bool _wizardSeen = (prefs.getBool('wizardSeen') ?? false);
+        bool _termsAccepted = (prefs.getBool('termsAccepted') == null) ||
+                (prefs.getBool('termsAccepted') == false)
+            ? false
+            : true;
+
         //Get balls
         if (result) {
           List<BallModel> balls = await getBalls();
@@ -156,7 +165,11 @@ class LinearProgressIndicatorAppState
             listOfBalls: balls,
           ));
         } else {
-          NavigationManager(context).openScreenAsNew(LoginScreen());
+          if (_wizardSeen && _termsAccepted) {
+            NavigationManager(context).openScreenAsNew(LoginScreen());
+          } else {
+            NavigationManager(context).openScreenAsNew(WizardScreen());
+          }
         }
       }
     });
