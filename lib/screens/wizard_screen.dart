@@ -1,10 +1,14 @@
+import 'package:dragonballgo/screens/terms_of_service_screen.dart';
+import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:dragonballgo/widgets/carousel_wizard.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WizardScreen extends StatefulWidget {
-  WizardScreen({this.screens});
   List<Widget> screens;
+
+  WizardScreen({this.screens});
+
   @override
   _WizardScreenState createState() => _WizardScreenState();
 }
@@ -94,8 +98,13 @@ class _WizardScreenState extends State<WizardScreen> {
                   textAlign: TextAlign.center,
                 ),
                 InkWell(
-                  onTap: () {
-                    //TODO: Implement navigation towards url site
+                  onTap: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    await prefs.setBool('wizardSeen', true);
+
+                    NavigationManager(context)
+                        .openScreenAsNew(TermsOfServiceScreen());
                   },
                   child: Container(
                     child: Center(
@@ -123,10 +132,8 @@ class _WizardScreenState extends State<WizardScreen> {
 
                     await prefs.setBool('wizardSeen', true);
 
-                    // NavigationManager(context)
-                    //     .openScreenAsNew(
-                    //     TermsOfServiceScreen()
-                    // );
+                    NavigationManager(context)
+                        .openScreenAsNew(TermsOfServiceScreen());
                   },
                   child: Stack(
                     alignment: AlignmentDirectional.center,
