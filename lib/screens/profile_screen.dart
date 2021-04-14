@@ -187,10 +187,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          // updateUserData(
-                          //     username: widget.user.name,
-                          //     email: widget.user.email,
-                          //     birthday: DateTime.parse(widget.user.birthdate));
+                          updateUserData(
+                              name: widget.user.name,
+                              birthdate:
+                                  widget.user.birthdate);
                         },
                         child: Container(
                           child: Icon(
@@ -283,12 +283,10 @@ class _UserDataRowState extends State<UserDataRow> {
                       .then((value) {
                     if (value != null) {
                       final str = value.toIso8601String();
-                      final newVal = str.substring(0, str.indexOf("T"));
-                      print(newVal);
                       controller.value = TextEditingValue(
-                          text: newVal,
+                          text: str,
                           selection: TextSelection.fromPosition(
-                            TextPosition(offset: newVal.length),
+                            TextPosition(offset: str.length),
                           ));
                     }
                   });
