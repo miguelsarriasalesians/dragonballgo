@@ -27,48 +27,56 @@ class _MediaScreenState extends State<MediaScreen> {
       backgroundColor: PaletteColors.APP_BACKGROUND,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.03,
-                ),
-                Text(
-                  translate('IMAGENES GUARDADAS'),
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.03,
-                ),
-                Column(
-                  children: widget.imagesList,
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.06,
-                ),
-                InkWell(
-                  child: Container(
-                    height: 30,
-                    width: MediaQuery.of(context).size.height * 0.3,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.orange),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        translate('back_lbl'),
-                        style: TextStyle(fontSize: 17),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                  Text(
+                    translate('IMAGENES GUARDADAS'),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                  Column(
+                    children: widget.imagesList
+                        .map((e) => Container(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              height: MediaQuery.of(context).size.width * 0.8,
+                              child: e,
+                            ))
+                        .toList(),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.06,
+                  ),
+                  InkWell(
+                    child: Container(
+                      height: 30,
+                      width: MediaQuery.of(context).size.height * 0.3,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.orange),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          translate('back_lbl'),
+                          style: TextStyle(fontSize: 17),
+                        ),
                       ),
                     ),
-                  ),
-                  onTap: () {
-                    NavigationManager(context).back();
-                  },
-                )
-              ],
+                    onTap: () {
+                      NavigationManager(context).back();
+                    },
+                  )
+                ],
+              ),
             ),
           ),
         ),
