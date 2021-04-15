@@ -133,7 +133,11 @@ class _ImageUploadState extends State<ImageUpload> {
                       translate("text_button_upload"),
                       style: TextStyle(color: PaletteColors.TEXT, fontSize: 20),
                     ))),
-                onPressed: () => upload(_image),
+                onPressed: () {
+                  //TODO: Pending implementation of api call
+                  if (imageSelected) {
+                  } else {}
+                },
                 style: TextButton.styleFrom(primary: PaletteColors.MAINCOLOR),
               ),
             ],
