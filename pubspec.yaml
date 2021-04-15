@@ -32,6 +32,8 @@ dependencies:
   dio: ^3.0.10
   http_parser: ^3.1.4
   gallery_saver: ^2.0.3
+  carousel_slider: ^3.0.0
+
 
 dev_dependencies:
   flutter_test:
