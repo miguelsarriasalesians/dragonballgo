@@ -76,7 +76,7 @@ class _CarouselWizardState extends State<CarouselWizard> {
                                     shape: BoxShape.circle,
                                     color: _current == 0
                                         ? Colors.transparent
-                                        : Color(0xFF002CCE)),
+                                        : Colors.deepOrange),
                               ),
                               Container(
                                 width: (_current == index) ? 20 : 12,
@@ -86,7 +86,7 @@ class _CarouselWizardState extends State<CarouselWizard> {
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: _current == index
-                                        ? Color(0xFF002CCE)
+                                        ? Colors.deepOrange
                                         : Color(0xFFF7F6F6)),
                               ),
                             ],
