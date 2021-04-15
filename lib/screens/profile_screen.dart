@@ -149,8 +149,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 2,
                     ),
                     UserDataRow(
+                      textLength: 10,
                       isDate: true,
-                      text: widget.user.birthdate.toIso8601String(),
+                      text: widget.user.birthdate
+                          .toIso8601String()
+                          .substring(0, 10),
                       // function: updateBirthday,
                     ),
                   ],
@@ -189,8 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onTap: () {
                           updateUserData(
                               name: widget.user.name,
-                              birthdate:
-                                  widget.user.birthdate);
+                              birthdate: widget.user.birthdate);
                         },
                         child: Container(
                           child: Icon(
@@ -219,15 +221,16 @@ class UserDataRow extends StatefulWidget {
   final bool isEnabled;
   final bool isDate;
   final bool readOnly;
+  final int textLength;
 
-  UserDataRow({
-    this.readOnly,
-    this.isDate,
-    this.text,
-    this.obscureText = false,
-    this.onChange,
-    this.isEnabled = true,
-  });
+  UserDataRow(
+      {this.readOnly,
+      this.isDate,
+      this.text,
+      this.obscureText = false,
+      this.onChange,
+      this.isEnabled = true,
+      this.textLength});
 
   @override
   _UserDataRowState createState() => _UserDataRowState();
@@ -284,7 +287,8 @@ class _UserDataRowState extends State<UserDataRow> {
                     if (value != null) {
                       final str = value.toIso8601String();
                       controller.value = TextEditingValue(
-                          text: str,
+                          text:
+                              str.substring(0, widget.textLength ?? str.length),
                           selection: TextSelection.fromPosition(
                             TextPosition(offset: str.length),
                           ));
