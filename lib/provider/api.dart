@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:dragonballgo/objects/ball_model.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
 
 final _sm = new SessionManager();
@@ -61,7 +60,7 @@ Future<Response<dynamic>> PostUserImage({File image}) async {
 Future<Response<dynamic>> UpdateUserData(Map<String, String> args) =>
     service.put("/api/user", data: jsonEncode(args));
 
-Future<Response<List<String>>> GetMedia() => service.get("/api/balls/media");
+Future<Response<dynamic>> GetMedia() => service.get("/api/balls/media");
 
 class ResponseKeys {
   static const String OK = 'ok';

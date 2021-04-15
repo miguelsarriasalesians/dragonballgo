@@ -1,8 +1,11 @@
+import 'package:dio/dio.dart';
+import 'package:dragonballgo/objects/UserData.dart';
 import 'package:dragonballgo/objects/ball_model.dart';
 import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/resources/routes.dart';
 import 'package:dragonballgo/screens/google_maps_screen.dart';
+import 'package:dragonballgo/screens/media_screen.dart';
 import 'package:dragonballgo/screens/profile_screen.dart';
 import 'package:dragonballgo/screens/qrReader_screen.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
@@ -12,7 +15,6 @@ import 'package:dragonballgo/widgets/row_ball.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:dragonballgo/objects/UserData.dart';
 
 class ListBallsScreen extends StatefulWidget {
   ListBallsScreen({this.title, this.listOfBalls});
@@ -179,11 +181,33 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
                 ListTile(
                     leading: Icon(Icons.perm_media),
                     title: Text(translate("media_lbl")),
-                    onTap: () {
-                      AppRouter.router.pop(context);
-                      AppRouter.router.navigateTo(context, ScreenRoutes.MEDIA,
-                          transition: TransitionType.fadeIn,
-                          transitionDuration: Duration(milliseconds: 600));
+                    onTap: () async {
+                      Response<dynamic> media = await GetMedia();
+                      List mediaList = media.data;
+                      List<Image> imageList = mediaList
+                          .map((image) => Image.network(image))
+                          .toList();
+                      NavigationManager(context).openScreen(MediaScreen(
+                        imagesList: imageList,
+                      ));
+
+                      // GetMedia().then((value) {
+                      //   setState(() {
+                      //     List<String> stringList = value.data;
+                      //     print(stringList);
+                      //     List<Image> imageList = stringList
+                      //         .map((image) => Image.network(image))
+                      //         .toList();
+                      //     NavigationManager(context).openScreen(MediaScreen(
+                      //       imagesList: imageList,
+                      //     ));
+                      //   });
+                      // });
+
+                      // AppRouter.router.pop(context);
+                      // AppRouter.router.navigateTo(context, ScreenRoutes.MEDIA,
+                      //     transition: TransitionType.fadeIn,
+                      //     transitionDuration: Duration(milliseconds: 600));
                     }),
                 ListTile(
                     leading: Icon(Icons.language),

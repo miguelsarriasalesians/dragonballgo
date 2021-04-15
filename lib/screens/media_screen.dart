@@ -1,27 +1,27 @@
-import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
 class MediaScreen extends StatefulWidget {
+  final List<Image> imagesList;
+  MediaScreen({this.imagesList});
   @override
   _MediaScreenState createState() => _MediaScreenState();
 }
 
 class _MediaScreenState extends State<MediaScreen> {
-  List<String> imagesList = [];
-
   @override
   Widget build(BuildContext context) {
-    void initState() {
-      super.initState();
-      GetMedia().then((value) {
-        setState(() {
-          imagesList = value.data;
-        });
-      });
-    }
+    // void initState() {
+    //   super.initState();
+    //   GetMedia().then((value) {
+    //     setState(() {
+    //       imagesList = value.data;
+    //       print(imagesList);
+    //     });
+    //   });
+    // }
 
     return Scaffold(
       backgroundColor: PaletteColors.APP_BACKGROUND,
@@ -44,10 +44,7 @@ class _MediaScreenState extends State<MediaScreen> {
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
                 Column(
-                  children: this
-                      .imagesList
-                      .map((image) => Image.network(image))
-                      .toList(),
+                  children: widget.imagesList,
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.06,
