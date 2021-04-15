@@ -103,7 +103,7 @@ class _TermsOfServiceScreenState extends State<TermsOfServiceScreen> {
                               TextAlign.center),
                         ),
                         Checkbox(
-                          activeColor: PaletteColors.PRIMARY,
+                          activeColor: Colors.deepOrange,
                           value: yesChecked,
                           onChanged: (value) {
                             if (_readTerms) {
@@ -128,7 +128,7 @@ class _TermsOfServiceScreenState extends State<TermsOfServiceScreen> {
                               TextAlign.center),
                         ),
                         Checkbox(
-                          activeColor: PaletteColors.PRIMARY,
+                          activeColor: Colors.deepOrange,
                           value: noChecked,
                           onChanged: (value) {
                             if (_readTerms) {

@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:dragonballgo/screens/terms_of_service_screen.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:dragonballgo/widgets/carousel_wizard.dart';
@@ -125,29 +126,32 @@ class _WizardScreenState extends State<WizardScreen> {
                 NavigationManager(context)
                     .openScreenAsNew(TermsOfServiceScreen());
               },
-              child: Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  Container(
-                      width: 60,
-                      height: 60,
+              child: Bounce(
+                duration: Duration(milliseconds: 3000),
+                child: Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: [
+                    Container(
+                        width: 60,
+                        height: 60,
+                        margin: EdgeInsets.symmetric(vertical: 8),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.deepOrange,
+                        )),
+                    Container(
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.deepOrange,
+                      ),
+                      width: 42,
+                      height: 42,
                       margin: EdgeInsets.symmetric(vertical: 8),
                       decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.deepOrange,
-                      )),
-                  Container(
-                    child: Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.deepOrange,
+                          shape: BoxShape.circle, color: Color(0xffffffff)),
                     ),
-                    width: 42,
-                    height: 42,
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Color(0xffffffff)),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
