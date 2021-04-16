@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dragonballgo/objects/ball_model.dart';
 import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
-import 'package:dragonballgo/utils/router.dart';
+import 'package:dragonballgo/screens/listBalls_screen.dart';
+import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:http/http.dart' as http;
@@ -58,6 +60,12 @@ class _ImageUploadState extends State<ImageUpload> {
     return resp.statusCode == 201;
   }
 
+  Future<List<BallModel>> getBalls() async {
+    var result = await FetchBalls(latitude: 5.123, longitude: 16.12);
+
+    return listToBalls(result.data);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,18 +93,15 @@ class _ImageUploadState extends State<ImageUpload> {
               TextButton(
                 child: Container(
                     height: 100,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.3,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: PaletteColors.MAINCOLOR),
                     child: Center(
                         child: Text(
-                          translate("text_button_browse"),
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ))),
+                      translate("text_button_browse"),
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ))),
                 onPressed: () async {
                   await getImage();
                   setState(() {
@@ -108,23 +113,26 @@ class _ImageUploadState extends State<ImageUpload> {
               TextButton(
                 child: Container(
                     height: 100,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.3,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.orange),
                     child: Center(
                         child: Text(
-                          translate("text_button_upload"),
-                          style: TextStyle(
-                              color: PaletteColors.TEXT, fontSize: 20),
-                        ))),
+                      translate("text_button_upload"),
+                      style: TextStyle(color: PaletteColors.TEXT, fontSize: 20),
+                    ))),
                 onPressed: () async {
                   if (imageSelected) {
                     var res = await MakeUploadCall();
-                    if (res) AppRouter.router.pop(context);
+                    if (res) {
+                      List<BallModel> balls = await getBalls();
+                      print("CHOOSE RES 201");
+                      NavigationManager(context)
+                          .openScreenAsNew(ListBallsScreen(
+                        listOfBalls: balls,
+                      ));
+                    } else {}
                   }
                 },
                 style: TextButton.styleFrom(primary: PaletteColors.MAINCOLOR),

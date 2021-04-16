@@ -51,7 +51,7 @@ Future<Response<dynamic>> PickBall({String code, File image}) async {
   var formData =
       FormData.fromMap({'image': await MultipartFile.fromFile(image.path)});
 
-  service.post("/api/balls/picked/$code", data: formData);
+  return service.post("/api/balls/picked/$code", data: formData);
 }
 
 Future<Response<dynamic>> PostUserImage({File image}) async {
