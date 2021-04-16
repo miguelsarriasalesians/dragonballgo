@@ -18,6 +18,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 
 class ListBallsScreen extends StatefulWidget {
   ListBallsScreen({this.title, this.listOfBalls});
+
   final Widget title;
   final List<BallModel> listOfBalls;
 
@@ -38,6 +39,7 @@ class _ListBallsScreenState extends State<ListBallsScreen> {
     super.initState();
     setState(() {});
     ballsList = widget.listOfBalls;
+    ballsList.sort((a, b) => a.id.compareTo(b.id));
     rowBalls = List.generate(ballsList.length, (index) {
       BallModel currentBall = ballsList[index];
       int ballId = currentBall.id;
