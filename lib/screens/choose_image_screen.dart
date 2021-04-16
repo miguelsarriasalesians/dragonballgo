@@ -2,15 +2,19 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:async/async.dart';
+import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/resources/palette_colors.dart';
+import 'package:dragonballgo/utils/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 
 class ImageUpload extends StatefulWidget {
+  String code;
+
+  ImageUpload(this.code);
+
   @override
   _ImageUploadState createState() => _ImageUploadState();
 }
@@ -35,39 +39,10 @@ class _ImageUploadState extends State<ImageUpload> {
     });
   }
 
-  upload(File imageFile) async {
-    // open a bytestream
-    var stream =
-        new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
-    // get file length
-    var length = await imageFile.length();
-
-    // string to uri
-    var uri = Uri.parse("http://192.168.0.8:3000/upload");
-
-    // create multipart request
-    var request = new http.MultipartRequest("POST", uri);
-
-    // multipart that takes file
-    var multipartFile = new http.MultipartFile('myFile', stream, length,
-        filename: basename(imageFile.path));
-
-    // add file to multipart
-    request.files.add(multipartFile);
-
-    // send
-    var response = await request.send();
-    print(response.statusCode);
-
-    // listen for response
-    response.stream.transform(utf8.decoder).listen((value) {
-      print(value);
-    });
-  }
-
   bool imageSelected = false;
   bool isloaded = false;
   var result;
+
   fetch() async {
     var response = await http.get('http://192.168.0.8:3000/image');
     result = jsonDecode(response.body);
@@ -75,6 +50,12 @@ class _ImageUploadState extends State<ImageUpload> {
     setState(() {
       isloaded = true;
     });
+  }
+
+  Future<bool> MakeUploadCall() async {
+    var resp = await PickBall(code: widget.code, image: _image);
+
+    return resp.statusCode == 201;
   }
 
   @override
@@ -104,15 +85,18 @@ class _ImageUploadState extends State<ImageUpload> {
               TextButton(
                 child: Container(
                     height: 100,
-                    width: MediaQuery.of(context).size.width * 0.3,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.3,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: PaletteColors.MAINCOLOR),
                     child: Center(
                         child: Text(
-                      translate("text_button_browse"),
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ))),
+                          translate("text_button_browse"),
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ))),
                 onPressed: () async {
                   await getImage();
                   setState(() {
@@ -124,19 +108,24 @@ class _ImageUploadState extends State<ImageUpload> {
               TextButton(
                 child: Container(
                     height: 100,
-                    width: MediaQuery.of(context).size.width * 0.3,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.3,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.orange),
                     child: Center(
                         child: Text(
-                      translate("text_button_upload"),
-                      style: TextStyle(color: PaletteColors.TEXT, fontSize: 20),
-                    ))),
-                onPressed: () {
-                  //TODO: Pending implementation of api call
+                          translate("text_button_upload"),
+                          style: TextStyle(
+                              color: PaletteColors.TEXT, fontSize: 20),
+                        ))),
+                onPressed: () async {
                   if (imageSelected) {
-                  } else {}
+                    var res = await MakeUploadCall();
+                    if (res) AppRouter.router.pop(context);
+                  }
                 },
                 style: TextButton.styleFrom(primary: PaletteColors.MAINCOLOR),
               ),

@@ -47,8 +47,12 @@ Future<Response<List<dynamic>>> FetchBalls(
 
 Future<Response<dynamic>> FetchUserData() => service.get("/api/user/");
 
-Future<Response<dynamic>> PickBall(String code) =>
-    service.get("/api/balls/picked/$code");
+Future<Response<dynamic>> PickBall({String code, File image}) async {
+  var formData =
+      FormData.fromMap({'image': await MultipartFile.fromFile(image.path)});
+
+  service.post("/api/balls/picked/$code", data: formData);
+}
 
 Future<Response<dynamic>> PostUserImage({File image}) async {
   var formData =

@@ -1,5 +1,4 @@
 import 'package:dragonballgo/objects/ball_model.dart';
-import 'package:dragonballgo/provider/api.dart';
 import 'package:dragonballgo/screens/choose_image_screen.dart';
 import 'package:dragonballgo/utils/navigation_manager.dart';
 import 'package:dragonballgo/utils/session_manager.dart';
@@ -81,12 +80,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
           "#ff6666", "Cancel", true, ScanMode.BARCODE);
       print(barcodeScanRes);
 
-      var resp = await PickBall(barcodeScanRes);
-      if (resp.statusCode == 201) {
-        // Obtain a list of the available cameras on the device.
-
-        NavigationManager(context).openScreen(ImageUpload());
-      } else {}
+      NavigationManager(context).openScreen(ImageUpload(barcodeScanRes));
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
