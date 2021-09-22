@@ -1,16 +1,16 @@
-# dragonballgo
+# DRAGON BALL GO
 
-A new Flutter application.
+Dragon Ball Go is an application that resembles the popular mobile game Pokemon Go.
 
-## Getting Started
+The objective in this game is to find all the dragon balls. To get all of them you will have to find the QR codes and scan them.
 
-This project is a starting point for a Flutter application.
+This project was developed for Educational Purposes and to explore the possibilities of the Flutter Framework with my colleagues. My teammate worked on the API and I worked on the Frontend making the UI's and widgets.
 
-A few resources to get you started if this is your first Flutter project:
+## Roadmap
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+![image](https://user-images.githubusercontent.com/72877797/134384541-c4121bf8-a0ff-4dbe-b410-5780c914c4f7.png)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+We were able to develop what was planned on time, and we used the extra time to add more functionalities and improve the app.
+
+
+
