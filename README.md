@@ -21,3 +21,4 @@ We were able to develop what was planned on time, and we used the extra time to 
 
 
 
+https://ytcutter.net/watch/fWN6DAGdc/
