@@ -12,13 +12,8 @@ This project was developed for Educational Purposes and to explore the possibili
 
 We were able to develop what was planned on time, and we used the extra time to add more functionalities and improve the app.
 
-## Screens
+## Mockups
 
 <img src="https://user-images.githubusercontent.com/72877797/134386666-40470a5a-c521-4baa-863b-9ba2fa76335d.png" width="240" height="450"> <img src="https://user-images.githubusercontent.com/72877797/134386698-669bf632-6eca-4970-995c-90df4cd629d9.png" width="240" height="450"> <img src="https://user-images.githubusercontent.com/72877797/134386724-8c45cc6e-863a-42b2-9fca-0db072efc693.png" width="240" height="450"> <img src="https://user-images.githubusercontent.com/72877797/134386744-d99392d4-89fa-47ff-8f1f-cbea4d2d3c83.png" width="240" height="450">
 
-
-
-
-
-
-<iframe class="ytcutter-embed" src="https://ytcutter.net/embed/fWN6DAGdc/" frameborder="0" scrolling="no" width="640" height="360" allowfullscreen></iframe>
+<img src="https://user-images.githubusercontent.com/72877797/134388672-8690794b-8259-4695-9229-65188aaf3f35.png" width="240" height="450"> <img src="https://user-images.githubusercontent.com/72877797/134388754-0e6edee9-833d-4ded-80de-4267eea64978.png" width="240" height="450"> <img src="https://user-images.githubusercontent.com/72877797/134388851-50e8062d-c193-4fd4-990d-d1d3bcac9366.png" width="240" height="450"> <img src="https://user-images.githubusercontent.com/72877797/134388923-c6d93f5e-c1f9-4a78-9325-24b99a9c8863.png" width="240" height="450">
